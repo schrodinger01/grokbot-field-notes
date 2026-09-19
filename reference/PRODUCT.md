@@ -1,100 +1,70 @@
 # PRODUCT.md
 
-The parts of Grok Bot that change how you design a bot. Not a feature list;
-the marketplace and xAI's own docs are the source of truth for those. This is
-a snapshot of what was said on stream in September 2026, kept to the things
-that affect memory, isolation, sharing and permissions. Where speakers
-contradicted each other, the resolution is noted.
+Grok Bot 里会改变你如何设计机器人的那些部分。不是功能清单；功能清单以应用市场和 xAI 自己的文档为事实来源。这是 2026 年 9 月直播里说过的快照，只保留影响记忆、隔离、分享和权限的部分。讲者互相矛盾之处，已注明如何取舍。
 
 ---
 
-## The model
+## 基本模型
 
-A bot is a named colleague with one job, not a chat thread. You come back to
-the same bot. It has its own memory, its own context limit, and its own
-computer. Every design rule in this repo follows from those three facts.
+机器人是有名字、一件事的同事，不是一条聊天线程。你反复找同一个机器人。它有自己的记忆、自己的上下文上限、自己的电脑。本仓库每条设计规则都从这三件事推出。
 
 ---
 
-## Memory
+## 记忆
 
-- Per-bot, long-lived, editable. Stored in S3. Nothing is shared between bots
-  unless one messages another.
-- Steering sticks. "Never use my last name" said once is kept forever.
-- You can tell a bot to forget something and it does. Do it: memory it no
-  longer needs costs tokens on every turn.
-- Each bot has its own context limit. That is the reason to split roles rather
-  than grow one bot: a bot switching between too many tasks runs out of
-  context, a narrow one doesn't.
-- Multitasking inside one thread works; a bot holds two asks at once without
-  dropping the first.
+- 按机器人隔离、长期保存、可编辑。存在 S3 里。除非一个给另一个发消息，否则机器人之间不共享任何东西。
+- 导向指令会钉住。说一次「永远不要用我的姓」就永久记住。
+- 你可以让机器人忘掉某件事，它会忘掉。去做：它不再需要的记忆每一轮都耗 token。
+- 每个机器人有自己的上下文上限。这就是拆角色而不是养大一个机器人的原因：在太多任务间切换的机器人会耗尽上下文，窄的不会。
+- 同一线程里多任务可行；机器人可以同时拿着两个请求而不丢掉第一个。
 
 ---
 
-## What transfers, and what doesn't
+## 什么会带过去，什么不会
 
-Three operations sound similar and behave differently.
+三种操作听起来差不多，行为却不同。
 
-| Operation | Instructions | Memory | Skills | Credentials, chat history |
+| 操作 | 指令 | 记忆 | 技能 | 凭证、聊天记录 |
 |---|---|---|---|---|
-| **Duplicate** a bot | copied | **empty** | shared anyway | no |
-| **Share as template** (team or public) | copied | core memory copied, workspace-specific data stripped | copied with first-party plugins | no |
-| **Teach a skill** in any bot | — | — | **available to every bot in the org** | — |
+| **复制**机器人 | 复制 | **空** | 仍然共享 | 否 |
+| **作为模板分享**（团队或公开） | 复制 | 复制核心记忆，剥离工作区特定数据 | 连同官方插件一起复制 | 否 |
+| 在任意机器人里**教授技能** | — | — | **对该组织内每个机器人可用** | — |
 
-Day 1 said sharing copies "memories, context, instructions, first-party
-plugins"; day 3 said it "strips sensitive and workspace-specific info, keeps
-core memory." Both hold: the template carries what the bot knows about its
-job, not what it knows about you.
+第 1 天说分享会复制「记忆、上下文、指令、官方插件」；第 3 天说它「剥离敏感和工作区特定信息，保留核心记忆」。两者都成立：模板带走机器人对其工作的了解，而不是对你的了解。
 
-Consequence: put job knowledge in the description and skills, not in memory
-accumulated through chat. Memory is what you lose on duplicate and what gets
-filtered on share.
+后果：把工作知识放进描述和技能，不要放进聊天积下来的记忆。记忆是复制时丢掉的、分享时被过滤的。
 
 ---
 
-## Isolation
+## 隔离
 
-- Each bot runs on its own Linux VM. One bot cannot touch another bot's
-  computer. Two bots editing different slides of the same deck don't collide.
-- Bots on one account share a file system but not memory or context.
-- Cross-account bot-to-bot messaging did not exist as of the stream.
-- Local execution is a per-account toggle. The team's bias is the cloud VM:
-  parallelism, nothing stealing focus on your laptop, keeps running when the
-  lid is closed.
+- 每个机器人跑在自己的 Linux VM 上。一个机器人碰不到另一个机器人的电脑。两个机器人编辑同一份幻灯片的不同页不会撞车。
+- 同一账户下的机器人共享文件系统，但不共享记忆或上下文。
+- 截至直播时，跨账户机器人对机器人消息还不存在。
+- 本地执行是按账户开关。团队偏向云端 VM：可并行、不抢你笔记本的焦点、合盖也继续跑。
 
 ---
 
-## Permissions
+## 权限
 
-- A built-in classifier rates each action and asks before risky ones. On
-  stream it refused to build a form until it had checked the form wasn't
-  collecting PII.
-- You layer explicit rules on top, per action type: "never send email without
-  asking", "create slides freely", "deploy to production: always ask first."
-- Enterprise admins can whitelist and blacklist sites and MCPs per bot.
-- Credentials go through a secure form or 1Password. The bot never sees the
-  password; neither does xAI. A demoed competitor printed passwords in plain
-  text.
-- You can take over a bot's screen for logins and CAPTCHAs. The recommended
-  answer to CAPTCHAs is to block the site, not to evade the check.
+- 内置分类器给每个动作打分，有风险的会先问。直播中它拒绝建表单，直到确认表单不在收集 PII。
+- 你按动作类型再叠明确规则：「未经询问绝不发邮件」、「可自由做幻灯片」、「部署到生产：始终先问。」
+- 企业管理员可以按机器人给站点和 MCP 加白名单和黑名单。
+- 凭证走安全表单或 1Password。机器人看不到密码；xAI 也看不到。一个演示过的竞品把密码明文打了出来。
+- 登录和 CAPTCHA 可以接管机器人的屏幕。对 CAPTCHA 的建议做法是封掉该站点，而不是绕过检查。
 
 ---
 
-## Description is the system prompt
+## 描述字段就是系统提示词
 
-The description field is the bot's persona and instructions in one. A
-bot-factory bot writes it for new bots and tends to overfit it to the one
-scenario it was created for; correct that early. Labels are cosmetic tags for
-remembering what "Tater" does.
+描述字段是机器人的人设和指令合在一处。「机器人工厂」机器人会给新机器人写它，并容易过拟合到它被创建时的那一个场景；尽早纠正。标签只是外观标记，方便记住 "Tater" 在干什么。
 
 ---
 
-## Limits that bit on stream
+## 直播里踩过的限制
 
-- Linux only. A tool that is neither Linux-compatible nor exposed as an MCP
-  cannot be used at all.
-- Multi-machine bots got confused, acknowledged as being fixed.
-- Voice was transcribe-only on day 1, two-way by day 3.
-- No migration path from other agent tools beyond importing templates and
-  pointing a bot at an existing context.
-- Group chats work but every bot answers every message. See `ECONOMICS.md`.
+- 仅 Linux。既不兼容 Linux、又没有作为 MCP 暴露的工具，完全无法使用。
+- 多机机器人会搞混，已承认在修。
+- 语音第 1 天只能转写，第 3 天已双向。
+- 从其他智能体工具迁过来，除了导入模板、让机器人指向已有上下文，没有迁移路径。
+- 群聊能用，但每个机器人都会回每条消息。见 `ECONOMICS.md`。

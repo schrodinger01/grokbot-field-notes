@@ -1,77 +1,55 @@
-# Agent Pack
+# 智能体套件
 
-Drop-in rules for coding and orchestration agents, distilled from three days of
-the xAI Grok Bot team building and launching a product live on stream.
+一套即插即用的编码与编排智能体规则，提炼自 xAI Grok Bot 团队连续三天在直播中从零构建并上线产品的实践。
 
-Not product documentation. These are the working practices — what they actually
-did under time pressure, including the parts that broke.
+这不是产品文档。这里记录的是他们在时间压力下真正怎么做的——包括那些出了问题的部分。
 
 ---
 
-## What's in here
+## 这里有什么
 
-| File | Use it when |
+| 文件 | 何时使用 |
 |---|---|
-| **`../AGENTS.md`** | Always. The core rules for an agent working in a repo. Start here. It lives in the repo root so agents pick it up automatically. |
-| **`VERIFICATION.md`** | Setting up a project so agents can check their own work. The highest-leverage file in the pack. |
-| **`ORCHESTRATION.md`** | You're designing a *team* of agents, not prompting one. |
-| **`SKILLS-AND-ROUTINES.md`** | You want an agent to stop needing the same instruction twice. |
-| **`PROMPTS.md`** | You want the phrasing that actually worked. Patterns plus a copy-paste library. |
+| **`../AGENTS.md`** | 始终使用。仓库中智能体的核心规则。从这里开始。它放在仓库根目录，智能体会自动读取。 |
+| **`VERIFICATION.md`** | 给项目配好让智能体能自检的方式。本套件里杠杆最高的一份。 |
+| **`ORCHESTRATION.md`** | 你在设计一支智能体*团队*，而不是给单个智能体写提示词。 |
+| **`SKILLS-AND-ROUTINES.md`** | 你希望智能体不要同一条指令听两遍。 |
+| **`PROMPTS.md`** | 你想要真正管用的措辞。模式加上可复制粘贴的提示词库。 |
 
-Pick what you need. `AGENTS.md` stands alone; the files in this folder are the
-references it points at.
-
----
-
-## Install
-
-**Claude Code** — drop `AGENTS.md` (or `CLAUDE.md`) in your repo root. Put this
-folder in `.claude/` or `docs/agents/` and reference it from the core file.
-
-**Cursor** — `AGENTS.md` in the repo root, or split the sections into
-`.cursor/rules/*.mdc`.
-
-**Codex / Copilot / Windsurf / Cline** — `AGENTS.md` in the repo root is read by
-most of them. Check your tool's docs for the exact filename it expects.
-
-**Any agent with a system prompt** — paste `AGENTS.md` in. It's written to be
-read cold, with no other context.
+按需取用。`AGENTS.md` 可独立使用；本目录下的文件是它指向的参考。
 
 ---
 
-## Adapt before you ship it
+## 安装
 
-This pack is opinionated on purpose. Two things to change for your own setup:
+**Claude Code** — 把 `AGENTS.md`（或 `CLAUDE.md`）放到仓库根目录。把本目录放到 `.claude/` 或 `docs/agents/`，并从核心文件引用它。
 
-1. **Set the autonomy level from your blast radius.** The throughput numbers
-   behind these practices came from a 72-hour throwaway project where nobody
-   read the code. The same team reads every PR on their real product. Read
-   `VERIFICATION.md` → *The caveat, stated honestly* before granting
-   auto-merge.
+**Cursor** — 仓库根目录放 `AGENTS.md`，或把各节拆进 `.cursor/rules/*.mdc`。
 
-2. **Fill in your own verification commands.** `VERIFICATION.md` describes the
-   shape of the loop, not your specific CLI. Nothing else in the pack works
-   properly until that exists.
+**Codex / Copilot / Windsurf / Cline** — 大多数工具会读取仓库根目录的 `AGENTS.md`。具体文件名以各工具文档为准。
+
+**任何带系统提示词的智能体** — 把 `AGENTS.md` 贴进去。它写成可单独冷读，不依赖其他上下文。
 
 ---
 
-## The one-paragraph version
+## 上线前先改两处
 
-Give each agent one narrow job and a name. Build a verification loop before you
-build the second agent. Make the agent reproduce a bug before it fixes one, and
-attach proof to everything. When it's wrong, write down the general principle —
-never the specific story. Audit your routines weekly, because frequency is where
-the money goes. Keep a human gate on migrations, deploys, money and permissions,
-however well the loop has been working.
+本套件刻意带立场。换成你自己的环境时，改这两件事：
+
+1. **按影响范围设定自主程度。** 这些实践背后的吞吐数字，来自一个 72 小时的一次性项目，当时没人读代码。同一支团队在真实产品上会读每一份 PR。在授予自动合并之前，先读 `VERIFICATION.md` → *限制，如实说明*。
+
+2. **填入你自己的验证命令。** `VERIFICATION.md` 描述的是闭环的形态，不是你的具体 CLI。在它落地之前，套件里的其余部分都无法真正运转。
 
 ---
 
-## Provenance
+## 一段话版本
 
-Assembled from transcripts of three consecutive livestreams (~24 hours of
-material) in which three people built and shipped a product from an empty repo
-using their own agent platform. Quotes are theirs. Figures were stated live and
-were moving targets on the day.
+给每个智能体一份窄职责和一个名字。先建验证闭环，再造第二个智能体。让智能体先复现 bug 再修复，并且每件事都附上证据。它错了，写下一般原则——不要写下那次具体事件。每周审计例行任务，因为频率才是烧钱的地方。迁移、部署、资金和权限始终留人工门禁，无论闭环近来运转得多好。
 
-The companion PDF in `../guide/` covers the same material as narrative,
-including the case study, the failure log and the economics. Structured extraction notes are in `../notes/`.
+---
+
+## 来源
+
+汇编自连续三场直播的转录（约 24 小时素材）。三个人用自己的智能体平台，从空仓库构建并上线了一款产品。引语出自他们。数字是直播当场报出的，当天就是移动靶。
+
+`../guide/` 中的配套 PDF 以叙事方式覆盖同一批材料，包括案例、故障日志和经济账。结构化摘录在 `../notes/`。

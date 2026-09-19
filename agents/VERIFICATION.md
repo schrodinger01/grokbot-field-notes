@@ -1,140 +1,112 @@
 # VERIFICATION.md
 
-**Use when:** setting up a project so agents can check their own work, or when
-an agent keeps finishing tasks with "you can run it and tell me if it works."
+**何时使用：** 给项目配好让智能体能自检，或当智能体总以「你跑一下，告诉我行不行」收尾。
 
-That sentence is the symptom. This file is the cure.
-
----
-
-## Why this is the first thing to build
-
-Without a verification loop, every task ends in a round trip through you. You
-become the test suite. With one, the agent closes its own loop and you only see
-finished work.
-
-The general test for whether a job is safe to hand to an agent at all:
-
-> **Is the loop verifiable?** Is there a signal, readable by a machine, that
-> says this succeeded or failed?
-
-Coding is the easy case — tests, builds and a running app all produce that
-signal. Anything without one needs a signal invented before autonomy is safe.
+那句话就是症状。本文件是药方。
 
 ---
 
-## What a verification skill actually contains
+## 为什么要先建这个
 
-### 1. A CLI the agents can drive
+没有验证闭环，每项任务都以一次经你中转的往返结束。你变成了测试套件。有了它，智能体自己收口，你只看见做完的活。
 
-Not ad-hoc scripts written fresh each time. Those cost tokens, differ between
-runs, and cannot be reasoned about.
+判断一项工作是否可以交给智能体的通用检验：
 
-> "You want a CLI, or a script, or some tool that allows the bots to reliably
-> and deterministically interact with your application. I'd rather it just have
-> a standard set of tools."
+> **闭环可验证吗？** 有没有机器可读的信号，能说明这次成功还是失败？
 
-Build one command per meaningful action, with stable names and stable output:
+编码是容易的情况——测试、构建和正在运行的应用都会给出这种信号。没有信号的事情，必须先发明信号，自主才安全。
+
+---
+
+## 验证技能实际包含什么
+
+### 1. 智能体能驱动的 CLI
+
+不是每次临时新写的脚本。那些浪费 token、每次运行都不同，也没法拿来推理。
+
+> 「你需要的是 CLI、脚本或某种工具，让机器人能可靠、确定地与应用交互。我更希望它就有一套标准工具。」
+
+每个有意义的动作一条命令，名称稳定、输出稳定：
 
 ```
-./verify seed              # put the app in a known state
-./verify run <flow>        # exercise a named flow end to end
-./verify screenshot <page> # capture proof
-./verify check             # assert invariants, exit non-zero on failure
+./verify seed              # 把应用置于已知状态
+./verify run <flow>        # 端到端跑通一个具名流程
+./verify screenshot <page> # 捕获证据
+./verify check             # 断言不变量，失败时非零退出
 ```
 
-Rules for the CLI:
-- deterministic — same input, same result
-- exits non-zero on failure, always
-- prints what it did, not just whether it passed
-- safe to run repeatedly
+CLI 规则：
+- 确定性——同样输入，同样结果
+- 失败时始终非零退出
+- 打印做了什么，不只是过没过
+- 可反复安全运行
 
-### 2. A feature map
+### 2. 功能地图
 
-A machine-readable description of what the app has and how to get there, so an
-agent navigating it doesn't guess.
+机器可读的描述：应用有什么、怎么走到那里，这样智能体导航时不用猜。
 
 ```yaml
 # feature-map.yaml
 checkout:
   path: /checkout
   requires_auth: true
-  entry: click "Buy" on any product page
+  entry: 在任意商品页点击 "Buy"
   flows:
-    - happy_path: add item -> checkout -> pay -> confirmation
-    - declined_card: add item -> checkout -> pay(declined) -> error state
+    - happy_path: 加购 -> checkout -> 支付 -> 确认
+    - declined_card: 加购 -> checkout -> 支付(declined) -> 错误状态
   invariants:
-    - order total always equals sum of line items
-    - no order is created before payment succeeds
+    - 订单总额始终等于行项目之和
+    - 支付成功前不得创建订单
 ```
 
-Consider also shipping an agent-readable version of your product's own rules —
-a `/rules` page, or an `llms.txt`-style endpoint. If agents are going to use
-your product, document it for them the way you document it for humans.
+也可以考虑提供一份智能体可读的产品规则——`/rules` 页面，或 `llms.txt` 风格的端点。如果智能体要用你的产品，就按给人写文档的方式给它们写。
 
-### 3. Named invocation
+### 3. 具名调用
 
-Give it a name and use the name. Something like `/verify <project>`. Once it
-exists, cite it in every instruction that grants autonomy:
+给它起个名字并用这个名字。例如 `/verify <project>`。一旦存在，凡授予自主权的指令都引用它：
 
-> "...using autopilot. Since we are now live in production, it is critical that
-> we do not break this for everyone. So always rigorously verify with
-> `/verify <project>` before merging."
+> 「……使用自动驾驶。既然已经在生产环境上线，关键是不要把所有人的体验搞坏。所以合并前务必用 `/verify <project>` 严格验证。」
 
 ---
 
-## The three rules to enforce
+## 必须执行的三条规则
 
-1. **Reproduce before you fix.** Only once the agent can reproduce the bug can
-   you trust that it understood the problem. Standing instruction:
+1. **先复现再修复。** 只有智能体能复现这个 bug，你才能相信它理解了问题。常驻指令：
 
-   > *"Before writing any code, run the app, find the exact bug and behaviour,
-   > and then proceed."*
+   > *「写任何代码之前，先跑应用，找到确切的 bug 和表现，然后再动手。」*
 
-2. **Proof goes in the PR.** Screenshots or video for UI. Numbers for backend.
-   The reproduction, then the same steps passing, for bug fixes. Agents that
-   can record their own runs should attach the recording.
+2. **证据放进 PR。** UI 用截图或录像。后端用数字。bug 修复要有复现步骤，再有同样步骤通过。能录制自己运行过程的智能体应附上录像。
 
-3. **Verification is the merge gate.** Not a human reading the diff. That is
-   what makes throughput possible — but see the caveat below.
+3. **验证才是合并门禁。** 不是人读 diff。这才让吞吐成为可能——但见下方限制。
 
 ---
 
-## Fuzzing and swarms
+## 模糊测试与集群
 
-Once the CLI exists, you can point many agents at it in parallel: each runs the
-app, clicks around, and tries to break it. This finds a different class of bug
-than a human does, and costs you nothing but tokens.
+CLI 一旦存在，就可以并行派出大量智能体：各自运行应用、四处点击、试图把它弄坏。这找到的 bug 类别与人不同，成本只是 token。
 
-Two things to know:
-- humans still find bugs the swarm misses, and vice versa — run both
-- a fuzzing run does **real work** against whatever it is pointed at. Point it
-  at a disposable environment, never production
+要知道的两件事：
+- 人仍会发现集群漏掉的 bug，反过来也一样——两边都跑
+- 模糊测试会对所指目标做**真工作**。指向一次性环境，绝不指向生产
 
 ---
 
-## The caveat, stated honestly
+## 限制，如实说明
 
-Auto-merge on green is appropriate in proportion to blast radius.
+绿灯自动合并是否合适，与影响范围成比例。
 
-The team that shipped 433 PRs this way said plainly: *"To be entirely honest, I
-didn't look at the code at all."* That was a 72-hour throwaway game. On the
-actual product, the same team reads every PR and enforces anti-pattern rules by
-hand.
+用这种方式合入 433 份 PR 的团队说得很直白：*「老实说，我完全没看过代码。」* 那是一个 72 小时的一次性游戏。在真正的产品上，同一支团队会读每一份 PR，并亲手执行反模式规则。
 
-Set the autonomy level from the cost of being wrong, not from how well the loop
-has been working lately. And keep a human gate on migrations and deploys
-regardless — an autonomous fix took their production down with a bad SQL query
-mid-stream.
+按做错的代价设定自主程度，而不是按闭环近来运转得多好。迁移和部署无论怎样都留人工门禁——一次自主修复曾用一条糟糕的 SQL 在直播中把生产打挂。
 
 ---
 
-## Checklist
+## 检查清单
 
-- [ ] There is one command that puts the app in a known state
-- [ ] There is one command that exercises each critical flow
-- [ ] Every command exits non-zero on failure
-- [ ] There is a feature map, and it is current
-- [ ] The skill has a name, and instructions cite it by name
-- [ ] Fuzzing runs against a disposable environment
-- [ ] Migrations and deploys still require a human
+- [ ] 有一条命令能把应用置于已知状态
+- [ ] 有一条命令能跑通每条关键流程
+- [ ] 每条命令失败时非零退出
+- [ ] 有功能地图，且是最新的
+- [ ] 技能有名字，指令按名字引用它
+- [ ] 模糊测试对着一次性环境跑
+- [ ] 迁移和部署仍需要人

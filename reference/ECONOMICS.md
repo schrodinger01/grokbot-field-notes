@@ -1,72 +1,65 @@
 # ECONOMICS.md
 
-Every cost and metric quoted on stream, in one place, with the rule each one
-supports. Figures are what speakers said out loud in September 2026; treat
-them as order-of-magnitude, not a price list.
+直播里报过的每一项成本和指标，收在一处，并附上各自支撑的规则。数字是讲者在 2026 年 9 月当场说出口的；当作数量级，不是价目表。
 
 ---
 
-## What work cost
+## 工作花了多少钱
 
-| Work | Cost | Manual equivalent | Source |
+| 工作 | 成本 | 人工对照 | 来源 |
 |---|---|---|---|
-| Full sales case-study slide deck | $20–30 | 4–5 hours | Amrita, day 2 |
-| Mid/complex support ticket resolved | $1–2 | more than that for a human | David, day 2 |
-| Low-complexity billing ticket, after bucketing and batch scripts | ~$0.20 | — | David, day 2 |
-| Comparable support-agent products | $1–10 per ticket | — | David, day 2 |
-| Finding a cheaper PG&E plan | ~60 seconds of attention | ~$1,000/year saved | Matthew Berman, day 2 |
+| 完整销售案例幻灯片 | $20–30 | 4–5 小时 | Amrita，第 2 天 |
+| 已解决的中等/复杂支持工单 | $1–2 | 人做要更多 | David，第 2 天 |
+| 低复杂度账单工单（分桶 + 批处理后） | ~$0.20 | — | David，第 2 天 |
+| 同类支持智能体产品 | 每张工单 $1–10 | — | David，第 2 天 |
+| 找到更便宜的 PG&E 套餐 | 约 60 秒注意力 | 每年省下约 $1,000 | Matthew Berman，第 2 天 |
 
-The support numbers are the useful pair: the same job went from $1–2 to
-$0.20 once low-complexity tickets were sorted into a bucket and handled by a
-script instead of a reasoning pass. Cost is a property of the setup, not of
-the tool.
+支持这一对数字最有用：同样的活从 $1–2 降到 $0.20，只因低复杂度工单被分进桶、用脚本处理，而不是走一遍推理。成本是配置的属性，不是工具的属性。
 
 ---
 
-## What made the bills go up
+## 账单是怎么涨上去的
 
-| Driver | Quoted | Rule |
+| 驱动因素 | 原话 | 规则 |
 |---|---|---|
-| A routine every 15 minutes | "comes out to 100 times a day"; three of those is "hundreds of messages a day" | Once or twice a day is the default. Prefer webhooks and inbound signals to blind polling. |
-| Bots in a group chat | "eager", "love to talk", "speak over each other", get expensive fast | One bot tags two others once. Group chats only when you want a debate. |
-| UI work through the bot's browser | filling a web form by clicking costs more than an API-native path | Use a connector when one exists. The browser is the fallback. |
-| Too many bots | keep the team lean, "not 45 bots" | One chief of staff over 10–20 narrow specialists worked; nobody needed middle managers. |
-| Throwaway verification scripts | rewritten every run, token-costly, non-reproducible | Build one CLI the agents call instead. |
-| Agents that `sleep 300` | four minutes lost per wait on tests that finish in one | Watch running agents; a 5-minute check routine is for this, not for reporting. |
+| 每 15 分钟一条例行任务 | 「相当于一天 100 次」；三条就是「一天几百条消息」 | 默认一天一两次。优先 webhook 和入站信号，不要盲目轮询。 |
+| 群聊里的机器人 | 「积极」、「爱说话」、「互相抢话」，贵得很快 | 一个机器人点一次另外两个。只有想辩论时才开群聊。 |
+| 经机器人浏览器做 UI 工作 | 靠点击填网页表单比走原生 API 更贵 | 有连接器就用连接器。浏览器是退路。 |
+| 机器人太多 | 团队保持精简，「不是 45 个机器人」 | 一名幕僚长管 10–20 个窄域专员就够；没人需要中层管理者。 |
+| 一次性验证脚本 | 每次运行重写，耗 token，不可复现 | 改为建一个智能体调用的 CLI。 |
+| 会 `sleep 300` 的智能体 | 一分钟能跑完的测试，每次等待丢掉四分钟 | 盯着正在运行的智能体；5 分钟检查例行任务是为这个，不是为汇报。 |
 
-Frequency and group chats are where the tokens go. Everything else is second
-order.
+token 花在频率和群聊上。其余都是次要的。
 
 ---
 
-## Throughput
+## 吞吐
 
-| Metric | Number | Source |
+| 指标 | 数字 | 来源 |
 |---|---|---|
-| PStack PRs merged to production in one month | 2,500 (~83/day) | Lauren, day 1 |
-| Share of merged PRs at the company coming through Grok Bot | double-digit percent | PM session, day 1 |
-| First mobile app version, one engineer | 3 weeks | Ling, day 1 |
-| Cloud agents one engineer managed by hand before orchestration | 15 | Ling, day 1 |
-| CI auto-fix: page a human only after | 10 minutes unresolved | day 1 |
-| PRs in the 72-hour build | 433 | day 3 |
-| Commits from one host in three days | 157 | Roshan, day 3 |
-| Bot employees across 7 businesses | 22 | Jenny Co, day 1 |
-| SDR prospects per day | 50, top 5 actioned each morning | Simon, day 2 |
+| 一个月内合并到生产的 PStack PR | 2,500（约 83/天） | Lauren，第 1 天 |
+| 公司已合并 PR 中经由 Grok Bot 的占比 | 两位数百分比 | PM 专场，第 1 天 |
+| 第一个移动应用版本，一名工程师 | 3 周 | Ling，第 1 天 |
+| 编排之前一名工程师手工管理的云端智能体 | 15 | Ling，第 1 天 |
+| CI 自动修复：超过此时长未解决才呼叫人工 | 10 分钟未解决 | 第 1 天 |
+| 72 小时构建中的 PR | 433 | 第 3 天 |
+| 三天内一名主持人的提交 | 157 | Roshan，第 3 天 |
+| 7 家业务中的机器人员工 | 22 | Jenny Co，第 1 天 |
+| 每天的 SDR 潜客 | 50，每天早上跟进前 5 个 | Simon，第 2 天 |
 
 ---
 
-## Launch day, for scale
+## 上线日，看规模
 
-Thursday Arena went live at ~10:00 AM Pacific from one X post.
+周四，Arena 于太平洋时间约上午 10:00 随一条 X 帖上线。
 
-| When | Number |
+| 时间 | 数字 |
 |---|---|
-| Launch hour | 1,908 games — the best hour of the day |
-| Sustained afternoon | 400–500 games/hour |
-| End of day | ~4,000 games, 6,000+ public matches, ~30,000 page views, ~2,000 users |
-| Practice → X sign-in conversion | ~8% |
-| Feedback mix | 71% bugs, 16% praise |
-| Revenue | $0 (one theoretical $1 test bid on a broken ad auction) |
+| 上线第一个小时 | 1,908 局游戏 — 当天最好的一小时 |
+| 下午稳态 | 400–500 局/小时 |
+| 当天结束 | 约 4,000 局游戏，6,000+ 公开对局，约 30,000 次页面浏览，约 2,000 用户 |
+| 练习模式 → X 登录转化 | 约 8% |
+| 反馈构成 | 71% bug，16% 表扬 |
+| 收入 | $0（一次理论上的 $1 测试出价，广告拍卖还是坏的） |
 
-Traffic: roughly 50/50 mobile and desktop, 44% iOS, referrals almost all from
-X. Eight people came from Bing.
+流量：大约 50/50 移动端和桌面端，44% iOS，引荐几乎全部来自 X。8 个人来自 Bing。
