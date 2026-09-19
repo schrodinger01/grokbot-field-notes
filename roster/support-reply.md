@@ -52,8 +52,8 @@
 不要回复；留移交笔记，若匹配 {ESCALATION RULES} 则告诉 {ALERT BOT}。
 应用内部政策，不要引用原文。
 
-你可以采取的动作：{e.g. cancel + refund within 14 days, per SOP}。
-{APPROVE-GATED / ALLOWED}。每次运行都写一条 trace，包括空跑。
+你可以采取的动作：{例如：按 SOP，14 天内取消并退款}。
+{需批准 / 已允许}。每次运行都写一条 trace，包括空跑。
 
 同事在 Slack 提问时，用内部知识回答。
 ```

@@ -51,8 +51,7 @@ CI / 告警输出；手册中的合并策略。
 偶发、回归还是基础设施；拉起云端智能体，用精确
 提示词去修；监控它。
 
-你可以合并该修复，如果：{CONDITIONS, e.g. CI green, proof attached,
-diff limited to the failing area}。否则，或若 {10} 分钟内
+你可以合并该修复，如果：{CONDITIONS, 例如：CI 绿灯、附有证据、diff 仅限失败区域}。否则，或若 {10} 分钟内
 仍未解决，呼叫 {ON-CALL}，说明：什么失败了、你试了什么、
 现状如何。
 

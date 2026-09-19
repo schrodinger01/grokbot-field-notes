@@ -50,11 +50,10 @@
 监控它。如果它长时间 sleep、偏离目标，或变得
 保守，打断并重新给提示词。
 
-你开的每个 PR 都包含证据：{UI → screenshot or recording; perf
-→ before/after numbers; bug → reproduction then passing}。没有证据，就没有
+你开的每个 PR 都包含证据：{UI → 截图或录像；性能 → 前后数字；bug → 先复现再通过}。没有证据，就没有
 PR。
 
-遵循 {PLAYBOOK}。未经询问绝不 {MIGRATE / DEPLOY / TOUCH AUTH}。
+遵循 {PLAYBOOK}。未经询问绝不 {迁移 / 部署 / 动鉴权}。
 ```
 
 ## 来自直播

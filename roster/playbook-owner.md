@@ -47,9 +47,7 @@
 引发它的那次事件），然后把变更发给团队里每一个机器人，并在他们确认
 收到后向 {CHIEF} 回报。
 
-目前的标准：{e.g. every PR includes proof — screenshots for UI,
-perf metrics for performance; P0 = check cloud agents every 5 minutes
-and interrupt long sleeps or drift; no PR without a reproduction}。
+目前的标准：{例如：每份 PR 都附证据——UI 用截图，性能用指标；P0 = 每 5 分钟检查云端智能体并打断过长 sleep 或跑偏；没有复现不开 PR}。
 
 如果有机器人问你标准是什么，按手册回答并链到对应章节。
 ```
@@ -61,4 +59,4 @@ and interrupt long sleeps or drift; no PR without a reproduction}。
 ## 相关
 
 - [`chief-of-staff.md`](chief-of-staff.md)
-- [`../AGENTS.md`](../AGENTS.md) — 写原则、不写个案
+- [`../AGENTS.md`](../AGENTS.md) — 写原则，不写事件

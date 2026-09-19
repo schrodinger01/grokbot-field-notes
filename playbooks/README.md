@@ -2,7 +2,7 @@
 
 三天里按角色做的九场工作坊，一场一份文件。每场都是 xAI 员工现场演示他们自己真正在跑的机器人，演示对象是一家演示公司。每份手册结构相同：
 
-**团队**（谁负责什么、接了什么）→ **直播里实际跑过的工作流** → **提示词（转录允许时尽量原文）** → **例行任务与节奏** → **数字** → **他们说自己学到了什么** → **照这个做**（一份搭建清单）。
+**团队**（谁负责什么、接了什么）→ **直播里实际跑过的工作流** → **提示词（已译成中文，便于直接使用）** → **例行任务与节奏** → **数字** → **他们说自己学到了什么** → **照这个做**（一份搭建清单）。
 
 这是仓库里最能直接照抄的部分。指南把其中六场各压成三段；这里给完整版。
 
@@ -57,13 +57,13 @@
 | Simon-bot, Shakespeare, Web Search, Simon soldiers, Customer, PLG, Ample Market, Company research, Inbox manager | sdr | 幕僚长、邮件声音、调研、军团、VoC、用量、富集、技术栈/组织、分诊 |
 | Build, Reply, Alert, Tune | customer-support | infra、工单、升级、自我改进 |
 | Gus, Frankie, Wally, Trudy, Scout, Franny, Harbor/Northwind/Brightline | post-sales | 幕僚长、跟进、声音、事实来源、雷达、表单、按客户 |
-| market researcher, product marketer, website ops, performance marketer, marketing analyst, project manager | marketing | 活动团队 |
+| 市场研究员、产品营销、网站运营、效果营销、营销分析师、项目经理 | marketing | 活动团队 |
 
 ---
 
 ## 注意事项
 
 - **Flylo、XAir、Northwind、Harbor、Brightline、Craft** 是演示公司和账户。那些演示里的价格、指标和工单内容是为舞台编的。
-- 标成原文的提示词，是自动字幕听到的样子；口述的提示词做了轻度重新标点。从讲述里还原的提示词会标成转述。
+- 手册里的提示词已译成中文，便于直接粘贴使用。若需对照直播原话，见 [`../notes/`](../notes/)。口述提示词做了轻度重新标点；从讲述里还原的会标成转述。
 - 字幕里的产品名被听乱了（GrokBot / Rockbot / Brockbot / Grock-Bot；「SpaceX AI」）。这里已归一。
 - 每个数字都是现场说的，当天就是移动靶。

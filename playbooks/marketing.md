@@ -15,12 +15,12 @@
 
 | 机器人 | 工作 | 权限 |
 |---|---|---|
-| **Market researcher** | 研究产品和市场，找竞品，读他们的站点，点出缺口 | Web / 自己的浏览器 |
-| **Product marketer** | 定位简报、一句话卖点、包装、价值陈述、落地页大纲、广告文案变体 | Google Docs、Google Sheets（MCP） |
-| **Website ops** | 把落地页作为 PR 发出并推到 prod | 市场站点仓库（写权限）；底层是 Cursor 云端智能体 |
-| **Performance marketer** | 建活动壳并投放文案 | Google Ads 账号 |
-| **Marketing analyst** | 拉结果、分析、给建议 | Google Ads API |
-| **Project manager** | 研究另外五个以及人的介入，然后作为唯一对接点把活动端到端跑起来 | 一切，经由其他人 |
+| **市场研究员** | 研究产品和市场，找竞品，读他们的站点，点出缺口 | Web / 自己的浏览器 |
+| **产品营销** | 定位简报、一句话卖点、包装、价值陈述、落地页大纲、广告文案变体 | Google Docs、Google Sheets（MCP） |
+| **网站运营** | 把落地页作为 PR 发出并推到 prod | 市场站点仓库（写权限）；底层是 Cursor 云端智能体 |
+| **效果营销** | 建活动壳并投放文案 | Google Ads 账号 |
+| **营销分析师** | 拉结果、分析、给建议 | Google Ads API |
+| **项目经理** | 研究另外五个以及人的介入，然后作为唯一对接点把活动端到端跑起来 | 一切，经由其他人 |
 
 ---
 
