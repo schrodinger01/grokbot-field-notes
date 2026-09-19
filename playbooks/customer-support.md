@@ -1,213 +1,145 @@
-# Customer Support
+# 客户支持
 
-**Session:** GrokBot for Customer Support — day 2
-**Ran by:** David, software engineer in xAI's user-ops org.
+**场次：** GrokBot for Customer Support — 第 2 天
+**主讲：** David，xAI 用户运营组织的软件工程师。
 
-Demo-heavy and the most operational of the nine: a ticketing system, a
-knowledge base with public and internal sections, an SOP, Stripe, Slack, and
-four bots working real tickets end to end — including executing a refund.
+演示很重，也是九场里最偏运营的一场：一套工单系统、一份带公开和内部分区的知识库、一份 SOP、Stripe、Slack，以及四个机器人把真实工单端到端做完——包括执行退款。
 
-His caveat, twice: "The whole product is still so new. I don't think there's
-one meta or one clear playbook. Make the bots fit into how you work, not vice
-versa."
+他的免责声明说了两遍：「整个产品还这么新。我不觉得有一种通解或一份清楚的手册。让机器人迁就你怎么工作，而不是反过来。」
 
 ---
 
-## The team
+## 团队
 
-He is explicit that you should **not** start with four bots. Start with one
-bot with a generic name, teach it one workflow, and split when scope grows or
-you need two running at once. This is where he ended up:
+他明确说你**不该**从四个机器人开始。从一个泛名的机器人开始，教它一条工作流，范围长大或需要两个同时跑时再拆。这是他最后落到的：
 
-| Bot | Job | Connected to |
+| 机器人 | 工作 | 接到 |
 |---|---|---|
-| **Build** | Setup and infrastructure. Installs connectors, creates the evals and traces tables | Plane, Notion, Supabase (Postgres), Slack |
-| **Reply** | Answers tickets in the ticketing system and questions in Slack, following a written process | Plane, Notion, Stripe, Slack |
-| **Alert** | Pinged by Reply when something needs a human now. Posts in a Slack alerts channel and tags him | Slack |
-| **Tune** | Self-improvement. Updates the knowledge base (with approval). Reviews last week's tickets for what could have gone better | Notion, traces |
+| **Build** | 搭建和基础设施。安装连接器，创建 evals 和 traces 表 | Plane、Notion、Supabase（Postgres）、Slack |
+| **Reply** | 按书面流程回答工单系统里的工单和 Slack 里的问题 | Plane、Notion、Stripe、Slack |
+| **Alert** | Reply 在需要人立刻介入时 ping 它。发到 Slack 告警频道并 @ 他 | Slack |
+| **Tune** | 自我改进。更新知识库（需批准）。回顾上周工单，看哪些可以更好 | Notion、traces |
 
-Demo company: Flylo again. One SKU to keep it simple: an in-flight Wi-Fi
-subscription, $20/month, billed monthly.
-
----
-
-## The knowledge base (Notion, for the demo)
-
-Three sections, and the split matters:
-
-1. **Public docs** — what a user could find by searching: product, auth,
-   billing, FAQ. Reply may quote these.
-2. **Internal policies** — what a human billing agent should know but the
-   public shouldn't see. The refund SOP: *subscribed ≤ 14 days → approve,
-   cancel, refund. > 14 days → deny.*
-3. **The agent's process** — the loop Reply runs on every ticket, which he
-   told it to re-read every time so edits take effect immediately:
-
-   > Read the ticket → look for the knowledge → decide: reply or hand off →
-   > act → leave a note.
-
-Add a step 7 to the process doc and it's live on the next ticket.
+演示公司：还是 Flylo。为保持简单只有一个 SKU：机上 Wi-Fi 订阅，$20/月，按月计费。
 
 ---
 
-## The crawl → walk → run ladder
+## 知识库（演示用 Notion）
 
-"It can be scary to let an agent reply to your customers. Build up to it."
+三个分区，怎么拆很要紧：
 
-1. **Crawl** — read tickets only. Summarise, name the root issue, maybe draft
-   a response *for you.*
-2. **Walk** — add the draft as an **internal note** on the ticket. You see it
-   before anything goes out.
-3. **Run** — reply to the user, and take real actions (Stripe).
+1. **公开文档** ——用户搜索能找到的：产品、鉴权、账单、FAQ。Reply 可以引用这些。
+2. **内部政策** ——人工账单智能体该知道、但公众不该看到的。退款 SOP：*订阅 ≤ 14 天 → 批准、取消、退款。> 14 天 → 拒绝。*
+3. **智能体自己的流程** ——Reply 对每张工单跑的闭环，他让它每次都重读，这样编辑立刻生效：
 
-Orthogonal to that: **read-only first, writes later, and per-bot
-permissions.** One bot may post to Slack automatically; another must ask.
-The knowledge base is the thing he keeps human-gated even at "run": if a
-wrong entry goes out and 100 people ask the same thing, that's an incident.
+   > 读工单 → 找知识 → 决定：回复还是转交 → 行动 → 留备注。
+
+在流程文档里加第 7 步，下一张工单就生效。
 
 ---
 
-## The four tickets, as run
+## 爬→走→跑 阶梯
 
-**Alex — "I forgot my password."** Basic.
+「让智能体回复你的客户会吓人。一点点建起来。」
 
-> Hi, can you reply to Alex in Plane?
+1. **爬** ——只读工单。摘要、点出根因，也许*给你*起草一份回复。
+2. **走** ——把草稿加成工单上的**内部备注**。任何东西发出去之前你都能看到。
+3. **跑** ——回复用户，并采取真实行动（Stripe）。
 
-Reply followed the loop and left a **thinking note** on the ticket: *can
-reply with high confidence; root issue; source referenced* — then replied
-with the exact steps from Public → Auth → Forgot your password.
-
-**Ben — SSO / Okta.** Not in the toy knowledge base.
-
-> Try replying to Ben in Plane.
-
-*No public docs or internal policy → low confidence → hand off.* It left the
-note **and messaged Alert**, because he'd set a rule: an enterprise customer
-who looks locked out gets escalated. Alert posted to the Slack alerts
-channel and tagged him. Real-time visibility on the tickets that matter,
-without reading every ticket.
-
-**Carter and Damon — refunds.** Two users; Carter subscribed today (renews in
-a month), Damon renews in ~10 days (so ~20 days in). Per the SOP: approve
-Carter, deny Damon.
-
-> Now try to answer Carter and Damon. [customer IDs pasted]
-
-Both replies went out. **Carter: cancelled and refunded — verified in Stripe
-(active → cancelled, payment refunded).** Damon: refund denied, *without
-quoting the internal 14-day rule* — kept vague, and offered to schedule a
-cancellation at period end so he isn't billed again. Stripe unchanged for
-Damon. Stripe actions can be approve-gated or not; "you can let it run
-loose."
-
-**Elena — "can I share my Wi-Fi pass?"** Not in the KB.
-
-Reply classified the root issue (pass sharing), searched, couldn't answer,
-left a hand-off note, and **recommended asking Tune to add it to the
-knowledge base** — it asked rather than editing. He approved:
-
-> Add pass-sharing to the FAQ. Say this is not allowed. Do it in green.
-
-Tune added it. Then:
-
-> Can you try again now that the information is added?
-
-Reply answered with high confidence and linked the new section.
-
-**Internal Q&A in Slack.** A teammate on billing asks the same bot:
-
-> What is the refund SOP?
-
-It answers with the *internal* policy, because the asker is internal. Same
-KB, same bot, different audience. "Other support agents are focused on
-customer replies; using the KB you already built to answer your own team is
-surprisingly cumbersome." Use cases: GTM prepping for a call on today's
-release; a manager checking how the refund policy changed over time.
-
-Side note from the run: the bot asked permission to post in Slack. He set
-"always allow." Also, "it was even more protective than I wanted at the end —
-that's probably better for writes."
+与此正交：**先只读，后写入，以及按机器人设权限。** 一个机器人可以自动发 Slack；另一个必须先问。即使到了「跑」，知识库仍是他保持人工把关的东西：一条错误条目发出去、100 个人问同一件事，那就是事故。
 
 ---
 
-## Alerting as a use case
+## 四张工单，按跑过的来
 
-Anyone on the team with a bot connected to the ticketing system can say:
+**Alex —「我忘了密码。」** 基础。
 
-> Create a routine that looks through tickets every hour, classifies whether
-> a user is threatening to churn and has been a customer for six months or
-> more, and sends an alert to this Slack channel.
+> 嗨，你能在 Plane 里回复 Alex 吗？
 
-No engineer needed.
+Reply 走完闭环，在工单上留了**思考备注**：*高置信可以回复；根因；引用的来源* ——然后按 公开 → 鉴权 → 忘了密码 里的准确步骤回复。
 
----
+**Ben — SSO / Okta。** 不在玩具知识库里。
 
-## Evals and traces — how you debug it
+> 试着在 Plane 里回复 Ben。
 
-Set up with a Supabase connector on Build:
+*没有公开文档或内部政策 → 低置信 → 转交。* 它留了备注，并**给 Alert 发了消息**，因为他设过一条规则：看起来被锁在外面的企业客户要升级。Alert 发到 Slack 告警频道并 @ 他。真正要紧的工单有实时可见性，而不用读每一张工单。
 
-> You have access to Postgres now. Create a traces table and an evals table.
-> Write to those tables every time I ask you to run an eval or create a new
-> eval, and every time you run a trace or answer a ticket — internal,
-> external, even a dry run, even if you're only leaving a note.
+**Carter 和 Damon — 退款。** 两个用户；Carter 今天订阅（一个月后续订），Damon 约 10 天后续订（所以大约已用 20 天）。按 SOP：批准 Carter，拒绝 Damon。
 
-Per run: how long it took, which files it looked at, which files it ended up
-using (usually a filtered-down list). From that you can see where it went
-wrong. Evals are the things you want to re-test every time you change
-something. And Tune reads the traces to find improvements — "a big unlock."
+> 现在试着回答 Carter 和 Damon。[贴上客户 ID]
 
----
+两封回复都发出去了。**Carter：已取消并退款——在 Stripe 里验证过（active → cancelled，付款已退）。** Damon：退款被拒，*没有引用内部 14 天规则*——说得含糊，并提议在账期结束时安排取消，这样他不会再被扣款。Damon 的 Stripe 未改。Stripe 动作可以卡在批准上，也可以不卡；「你可以让它放开跑。」
 
-## Numbers
+**Elena —「我能分享我的 Wi-Fi 通行证吗？」** 不在 KB 里。
 
-- **$1–2 per ticket** for medium-to-complex tickets, the way he runs it
-  (classifiers before every ticket, traces and evals written).
-- **~$0.20 per ticket** for low-complexity billing tickets ("user just asks
-  for a refund," "user asks about an email they got") once you bucket them:
-  run a script to find them first, then reply to the bucket at once.
-- Competing support-agent products charge per resolution, "$1 to $10, order
-  of magnitude." Humans: noticeably higher.
-- "That's with half a day of trying to improve it."
+Reply 把根因分类成通行证分享，搜了，答不了，留了转交备注，并**建议让 Tune 把它加进知识库**——它问了，而不是自己改。他批准了：
 
----
+> 把通行证分享加进 FAQ。说这不允许。用绿色做。
 
-## Q&A worth keeping
+Tune 加上了。然后：
 
-- **Non-technical users writing to production?** Whoever sets it up first
-  (slightly more technical, or just architecture-aware) gives others a
-  **template** with the guardrails baked in — e.g. "you can't update the
-  knowledge base yourself." Stronger: put the KB in **GitHub** instead of
-  Notion. You get branches, PRs, code owners. The self-improvement bot must
-  open a PR, a bug bot reviews it, it pings the owner, **evals run against
-  the PR branch** before approval. Same building blocks, real gates.
-- **Is it cheaper to batch?** Yes, and be specific. "Reply to Alex" makes it
-  list all open tickets, string-search for Alex, then read. Give it ticket
-  IDs. "More hard details it can look up easily."
-- **Phone support?** He hasn't; Matt on the stream had given a bot a phone
-  number (see the day-3 voice-agent feedback line in
-  [`../notes/day-3-notes.md`](../notes/day-3-notes.md)).
-- **Where to start, for the stream's new company?** 80/20: 20% of use cases
-  create 80% of ticket volume. Identify those, get them into the KB with
-  SOPs, run evals until it handles them, *then* put the bot in front of
-  tickets.
-- **Missing connector?** Have GrokBot spin up a cloud agent and build it. Don't
-  wait on a roadmap or a vendor.
+> 信息已经加上了，你能再试一次吗？
+
+Reply 以高置信回答，并链到新分区。
+
+**Slack 里的内部问答。** 账单上的同事问同一个机器人：
+
+> 退款 SOP 是什么？
+
+它按*内部*政策回答，因为提问者是内部的。同一份 KB，同一个机器人，不同受众。「其他支持智能体忙着回复客户；用你已经建好的 KB 回答自己团队，出奇地别扭。」用例：GTM 为今天的发版准备通话；经理查看退款政策随时间怎么变。
+
+这次跑的边注：机器人问能不能在 Slack 发帖。他设了「始终允许」。另外，「最后它比我想要的还更保护——对写入来说大概更好。」
 
 ---
 
-## Copy this
+## 告警作为一个用例
 
-1. One bot, one workflow, then split.
-2. KB with three sections: public, internal, and the agent's own process.
-   Make it re-read the process every run.
-3. Crawl → walk → run. Read-only → notes → replies → actions.
-4. An alert rule for the tickets that actually need a human, into a shared
-   channel.
-5. Human gate on KB edits. If your KB can live in git, put it there and use
-   PRs as the gate.
-6. Traces on every run from day one; evals for every change.
-7. Bucket the cheap tickets and batch them.
-8. Point the same bot at your team's internal questions.
+团队里任何把机器人接到工单系统的人都可以说：
 
-Related: [`../agents/VERIFICATION.md`](../agents/VERIFICATION.md) — the
-traces/evals idea is the support-shaped version of the verification loop.
+> 创建一条例行任务，每小时扫一遍工单，判断用户是否在威胁流失且已成为客户六个月或以上，并把告警发到这个 Slack 频道。
+
+不需要工程师。
+
+---
+
+## Evals 和 traces — 你怎么调试它
+
+用 Build 上的 Supabase 连接器搭起来：
+
+> 你现在有 Postgres 权限了。建一张 traces 表和一张 evals 表。每次我让你跑 eval 或创建新 eval，以及每次你跑 trace 或回答工单——内部、外部、哪怕空跑、哪怕你只是留备注——都写进这些表。
+
+每次跑：花了多久、看了哪些文件、最后用了哪些文件（通常是筛过的更短清单）。从这里你能看到它哪里走错了。Evals 是你每次改东西都想重新测的那些。Tune 读 traces 找改进——「一个很大的解锁。」
+
+---
+
+## 数字
+
+- **每张工单 $1–2**，中等到复杂工单，按他跑的方式（每张工单前先跑分类器，写 traces 和 evals）。
+- **每张工单约 $0.20**，低复杂度账单工单（「用户就是要退款」「用户问收到的那封邮件」），一旦你把它们分桶：先跑脚本找出它们，再一次性回复这一桶。
+- 竞品支持智能体产品按解决收费，「$1 到 $10，一个数量级。」人：明显更高。
+- 「那是花了半天试着改进之后的数字。」
+
+---
+
+## 值得保留的问答
+
+- **非技术用户写到生产？** 谁先搭（稍微更技术，或只是有架构意识）给其他人一份**模板**，护栏烤进去——例如「你不能自己更新知识库。」更强：把 KB 放进 **GitHub** 而不是 Notion。你有分支、PR、code owners。自我改进机器人必须开 PR，缺陷机器人审它，它 ping 负责人，**evals 对着 PR 分支跑**再批准。同样的积木，真正的闸门。
+- **批量更便宜吗？** 是，而且要具体。「回复 Alex」会让它列出所有未关工单，字符串搜索 Alex，然后再读。给它工单 ID。「它能轻易查找的硬细节越多越好。」
+- **电话支持？** 他还没有；直播里的 Matt 给过一个机器人电话号码（见 [`../notes/day-3-notes.md`](../notes/day-3-notes.md) 里第 3 天语音智能体反馈那一行）。
+- **从哪开始，给直播里的新公司？** 80/20：20% 的用例制造 80% 的工单量。识别那些，把它们带 SOP 放进 KB，跑 evals 直到它能处理，*然后*把机器人放到工单前面。
+- **缺连接器？** 让 GrokBot 拉起云端智能体去造。不要等路线图或供应商。
+
+---
+
+## 照这个做
+
+1. 一个机器人，一条工作流，然后再拆。
+2. KB 分三个区：公开、内部、以及智能体自己的流程。每次跑都让它重读流程。
+3. 爬→走→跑。只读 → 备注 → 回复 → 行动。
+4. 给真正需要人的工单一条告警规则，进共享频道。
+5. KB 编辑设人工把关。如果 KB 能住在 git 里，放进去，用 PR 做闸。
+6. 从第一天起每次跑都写 traces；每次变更都做 evals。
+7. 把便宜工单分桶并批量处理。
+8. 把同一个机器人指向团队的内部问题。
+
+相关：[`../agents/VERIFICATION.md`](../agents/VERIFICATION.md) —— traces/evals 这个想法是验证闭环的支持形态。

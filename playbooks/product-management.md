@@ -1,191 +1,130 @@
-# Product Management
+# 产品管理
 
-**Session:** GrokBot for Product Managers — day 1
-**Ran by:** Kevin De Parco and Roshan, xAI product team.
+**场次：** GrokBot for Product Managers — 第 1 天
+**主讲：** Kevin De Parco 和 Roshan，xAI 产品团队。
 
-The framing is DHH's line, *software is product management*: what should it
-do, who for, how, what does it look like, what are the priorities. Now that
-building is cheap, every builder has to answer those. The session is "how we
-build GrokBot with GrokBot" from the product org.
+框架是 DHH 那句：*软件就是产品管理*——该做什么、给谁、怎么做、长什么样、优先级是什么。现在构建变便宜了，每个构建者都得回答这些问题。这场是产品组织视角的「我们怎么用 GrokBot 做 GrokBot」。
 
-The stat they opened with: GrokBot accounts for a **double-digit percentage of
-merged PRs** internally, and lets product people ship PRs to production
-themselves.
+开场的数据：对内，GrokBot 占**两位数百分比的已合并 PR**，并让产品人自己把 PR 发到生产。
 
 ---
 
-## The four properties of a colleague (the design brief)
+## 好同事的四个属性（设计简报）
 
-They built the product around what a good colleague does, and it's also how
-they expect you to use it:
+他们按好同事会做什么来做产品，这也是他们期望你使用它的方式：
 
-1. **Ties multiple tools together.** Linear/Jira, Salesforce, Notion, Figma —
-   colleagues work across them, not inside one.
-2. **Long-running context.** They learn on the job. Start with little context,
-   get taught tasks, take feedback, get better.
-3. **Independence.** They complete tasks on their own with their own access.
-   Hence: every bot has its own computer.
-4. **Messaging, not turn-taking.** Rapid-fire, interrupt-driven, threaded.
-   You jump in and steer mid-task.
+1. **把多种工具串起来。** Linear/Jira、Salesforce、Notion、Figma——同事是跨着它们工作的，不是困在一个里面。
+2. **长期上下文。** 他们在岗上学。起步上下文很少，被教会任务，接收反馈，变得更好。
+3. **独立性。** 他们用自己的权限自己把任务做完。因此：每个机器人有自己的电脑。
+4. **即时消息，而不是轮流对话。** 连发、可打断、有线程。你可以中途插进来掌舵。
 
-The two things to take away: bots you give **real work** to that come back
-with **results**, not questions; and they **finish jobs** and come back when
-they need approval.
+要带走的两件事：你给机器人的是**真活**，它们带回来的是**结果**而不是问题；它们**把活做完**，需要批准时再回来。
 
 ---
 
-## The team
+## 团队
 
-Demo company: **Flylo**, a fictional boutique airline.
+演示公司：**Flylo**，一家虚构的精品航司。
 
-| Bot | Role | Notes |
+| 机器人 | 职责 | 备注 |
 |---|---|---|
-| **Cora** | Chief of staff | Has email, calendar, listens on Slack. Builds a model of how you actually work. Grooms the inbox and only surfaces what matters. |
-| **Emily** | Engineering manager | **Coached not to write code.** Manages five engineer bots. Takes a large chunk of work, deconstructs it, delegates, and runs the verification loops on what comes back. |
-| Einstein, Igor, Nova, Larry, Eileen | IC engineers | Each spins up cloud agents with a copy of the repo when it's time to change code. |
-| **Ashley** | Data science / analytics | Connected to the data warehouse (Databricks, Snowflake — "pick your favourite"). Writes and runs the SQL, returns numbers and charts. |
-| **PMP** / "Pete" | Product assistant | Drafts PRDs, synthesises customer insight. Has a PRD skill: crisp P0/P1/P2 requirements, optimised for getting to code fast rather than document longevity. |
-| **Pixel** | Designer | Loaded with "how to be an S-tier AI designer" material plus the company design system (in Figma) and reference files: fonts, colours, patterns, and no-no's learned over time ("never put X buttons in the left corner"). |
-| **Ray** | Recruiter | Sourcing and pipeline. Not demoed. |
+| **Cora** | 幕僚长 | 有邮箱、日历，听 Slack。建模你实际怎么工作。打理收件箱，只把真正重要的浮上来。 |
+| **Emily** | 工程经理 | **被明确要求不要写代码。** 管五个工程师机器人。接一大块工作，拆开，委派，并对回来的东西跑验证闭环。 |
+| Einstein, Igor, Nova, Larry, Eileen | IC 工程师 | 到改代码的时候，各自拉起带仓库副本的云端智能体。 |
+| **Ashley** | 数据科学 / 分析 | 接到数仓（Databricks、Snowflake——「挑你喜欢的」）。写并跑 SQL，返回数字和图表。 |
+| **PMP** / 「Pete」 | 产品助理 | 起草 PRD，综合客户洞察。有一条 PRD 技能：利落的 P0/P1/P2 需求，优化目标是尽快落到代码，而不是文档长寿。 |
+| **Pixel** | 设计师 | 装了「如何成为 S 级 AI 设计师」的材料，加上公司设计系统（在 Figma 里）和参考文件：字体、颜色、模式，以及时间里学到的禁忌（「永远别把 X 按钮放在左上角」）。 |
+| **Ray** | 招聘 | 寻源和招聘漏斗。没有演示。 |
 
-Sidebar groups: *Leadership* (pinned), *Engineering team*, and group chats
-**EngPod** (run a standup on a project), **EPD** (eng/product/design
-triumvirate), **War room** (incident triage).
+侧边栏分组：*Leadership*（置顶）、*Engineering team*，以及群聊 **EngPod**（给一个项目开站会）、**EPD**（工程/产品/设计铁三角）、**War room**（事故分诊）。
 
-Connected tools in the demo: Notion, Slack, Figma MCP, Gmail. The S-tier
-design skill is stored alongside.
+演示里接上的工具：Notion、Slack、Figma MCP、Gmail。S 级设计技能存在旁边。
 
 ---
 
-## Three PM use cases they named
+## 他们点名的三个 PM 用例
 
-1. **The attention list.** What have you been paying attention to this
-   morning / week / month, diffed against your priority list. Cora does this
-   by watching how you work.
-2. **Research and customer context.** Data questions on demand instead of
-   writing SQL and hunting for the trusted table.
-3. **Shipping.** "You cannot be a PM in 2026 if you're not focused on
-   delivering software to your customers."
+1. **注意力清单。** 今早 / 这周 / 这个月你在关注什么，对照优先级清单的差异。Cora 靠观察你怎么工作来做这件事。
+2. **调研与客户上下文。** 数据问题随问随答，而不是自己写 SQL、去找那张可信的表。
+3. **交付。** 「2026 年你当不了 PM，除非你把软件交到客户手里。」
 
 ---
 
-## The workflow, as run on stream
+## 工作流，按直播里跑过的来
 
-The whole loop went from a data question to a cloud agent opening a PR.
+整条闭环从一条数据问题走到一个云端智能体开出 PR。
 
-**1. Ask the data bot a question.**
+**1. 问数据机器人一个问题。**
 
-> How many people purchased tickets yesterday on mobile versus web?
+> 昨天有多少人在移动端买票，对比 Web？
 
-Ashley: 1,400 tickets, ~58% web / 42% mobile.
+Ashley：1,400 张票，约 58% Web / 42% 移动端。
 
-> How many families were flying? Help us visualise these with charts.
+> 有多少是家庭出行？帮我们用图表可视化这些。
 
-Ashley returns charts of solo / couple / family / group, and that 25% of
-flyers are families. Roshan's note: "I now get data queries and charts on
-demand" is his favourite daily use. Make it a routine:
+Ashley 返回独自 / 情侣 / 家庭 / 团体的图表，以及 25% 的旅客是家庭。Roshan 的备注：「我现在能随要随得数据和图表」是他最爱的日常用法。做成例行任务：
 
-> Send me this as an update every morning at 6:00 a.m.
+> 每天早上 6:00 把这个作为更新发给我。
 
-For major launches they've asked for **hourly reports** from the data store.
+重大上线时，他们会向数据存储要**每小时报告**。
 
-**2. Spot the problem in a funnel — and get corrected.**
+**2. 在漏斗里发现问题——并被纠正。**
 
-Looking at a mobile purchase funnel Ashley had pulled earlier, they read it as
-"big fall-off at seat selection." They replied in the thread:
+看着 Ashley 先前拉出的移动端购买漏斗，他们读成「选座环节掉得很厉害。」他们在线程里回复：
 
-> Looks like a big fall off when people are choosing seats on mobile. Work
-> with @PMP to generate a product spec to optimize our mobile funnel.
+> 看起来人们在移动端选座时掉得很厉害。跟 @PMP 一起出一份产品规格，优化我们的移动端漏斗。
 
-Ashley messaged PMP — and **corrected the humans**: the big leak is
-*search → fare selection*, not seat selection. They'd misread the chart. The
-bot caught it before the spec was written.
+Ashley 给 PMP 发了消息——并且**纠正了人**：大漏洞在 *搜索 → 票价选择*，不是选座。他们读错了图。规格还没写，机器人就抓住了。
 
-**3. PRD.** PMP produced a Notion PRD with P0s and P1s: mobile fare results
-need a redesign, faster compare section, honest fare proof on the card.
+**3. PRD。** PMP 产出一份带 P0 和 P1 的 Notion PRD：移动端票价结果需要重设计、更快的对比区、卡片上诚实的票价证据。
 
-They one-shot it for the demo, but said plainly: normally there's human
-review and iteration here. You can leave comments in Notion (or Google Docs)
-and tag the bot — bots read the comments. "That number feels off" as a
-comment is a real instruction.
+演示里一次出稿，但他们说得很直白：正常情况这里会有人审、会迭代。你可以在 Notion（或 Google Docs）里留评论并 @ 机器人——机器人会读评论。「这个数字感觉不对」作为评论就是一条真指令。
 
-**4. Hand off to design and engineering in parallel.**
+**4. 并行交给设计和工程。**
 
-> Hand the PRD to Emily and have the engineering team prototype these ideas.
-> Also get Pixel to design each of the P0s.
+> 把 PRD 交给 Emily，让工程团队把这些想法做成原型。也让 Pixel 给每一个 P0 出设计。
 
-Two handoffs fire. Pixel comes back with Option A and Option B. Room votes A.
+两次交接同时发出。Pixel 带回方案 A 和方案 B。房间投了 A。
 
-> Hand the first mock over to Emily to update the prototype.
+> 把第一份设计稿交给 Emily，去更新原型。
 
-**5. Engineering manager decomposes.** Emily split the priorities into scoped
-work per engineer and had **direct conversations with each one**, adding
-context. Their observation: "agents are really good at prompting — often
-better than we are at figuring out what context to give an agent." Give the
-team the goal and let them work out the context and decomposition.
+**5. 工程经理拆解。** Emily 把优先级拆成每个工程师范围内的工作，并**跟每一个人直接对话**，补上下文。他们的观察：「智能体非常擅长写提示词——在搞清楚该给智能体什么上下文这件事上，常常比我们强。」把目标给团队，让他们自己想上下文和拆解。
 
-**6. Cloud agents.** Nova asked whether to create a PR; they said yes. Nova
-launched a cloud agent on a local copy of the repo (setup scripts included so
-it's runnable and testable) and monitors it.
+**6. 云端智能体。** Nova 问要不要开 PR；他们说要。Nova 在仓库的本地副本上拉起云端智能体（带安装脚本，所以能跑、能测），并盯着它。
 
-**7. Verification loop.** The IC engineer reviews the cloud agent's output,
-then hands to QA or to Emily for a second layer of checks against the
-original goal.
+**7. 验证闭环。** IC 工程师审云端智能体的产出，再交给 QA 或 Emily，相对原始目标做第二层检查。
 
-**How much human to put in the loop:** choose by stakes. A docs-site change
-or resizing something in the app — let it run. Implementing a design as
-spec'd — jump in and ask for a demo or prototype. Two things that help:
-giving agents an environment to verify their own output, *and* giving them
-the tools to help you verify it (screenshots, recordings).
+**闭环里放多少人：** 按利害来选。文档站点改动或 App 里改个尺寸——让它跑。按规格实现设计——插进去，要演示或原型。两件有帮助的事：给智能体一个环境去验证自己的产出，*以及*给他们帮你验证的工具（截图、录屏）。
 
 ---
 
-## Alternative team shapes they suggested
+## 他们建议的其他团队形态
 
-The Flylo team is one example. Others they've seen:
+Flylo 团队只是一个例子。他们见过的还有：
 
-- A team whose job is keeping a **knowledge base of requirements** up to date
-  and feeding it into the product — for complex systems where each small
-  requirement has knock-on effects.
-- A team that keeps **many repos in sync** in a convoluted codebase.
-- A single **builder bot** that is eng + product + design in one. It works;
-  they separate roles for the complex cases.
+- 一个团队的工作是把**需求知识库**保持更新，并喂进产品——适用于每个小需求都会牵一发而动全身的复杂系统。
+- 一个团队在盘根错节的代码库里让**多个仓库保持同步**。
+- 一个把工程 + 产品 + 设计揉在一起的**构建者机器人**。能用；复杂场景他们才拆角色。
 
 ---
 
-## Hard-learned lessons (their list)
+## 交过学费的教训（他们的清单）
 
-1. **Named agents with separate memory, learning on the job.** They are not
-   great on day zero. There's an onboarding phase where you give them skills,
-   context, and teaching. Over time they take on more.
-2. **Reduce noise.** When you set up a routine, tell the agent: *if this is a
-   no-op — nothing important or urgent — handle it yourself or don't update
-   me.* Cora grooms the inbox and only escalates.
-3. **Agents all the way down.** Managers of agents. Agents coordinating cloud
-   agents. Don't feel you have to be the one holding it together.
+1. **具名智能体、分开的记忆、在岗上学。** 第零天他们并不强。有一段接入期：给技能、上下文、教学。时间久了他们扛得更多。
+2. **降噪。** 设例行任务时告诉智能体：*如果这是空转——没什么重要或紧急的——自己处理，或者别更新我。* Cora 打理收件箱，只升级该升级的。
+3. **智能体一路到底。** 智能体的经理。智能体协调云端智能体。别觉得必须是你把它捏在一起。
 
-Also from Q&A: each bot has its **own memory pool**, plus a **shared memory
-pool** bots write to when something is worth the whole team remembering. The
-role-based split gives you strong memories per role ("how to be a really
-good engineer over time"); group chats bring them together when needed. And
-the goal is that you stop doing the "what does this agent know, do I need to
-compact" mental work entirely.
+Q&A 里还有：每个机器人有**自己的记忆池**，外加一个**共享记忆池**，值得全队记住的东西机器人会写进去。按角色拆分给你按角色的强记忆（「时间久了如何成为很好的工程师」）；需要时群聊把他们聚到一起。目标是你彻底不再做「这个智能体知道什么、我要不要压缩上下文」这种心智劳动。
 
 ---
 
-## Copy this
+## 照这个做
 
-1. A data bot on your warehouse. Ask it questions in plain English; make the
-   good ones morning routines.
-2. A spec bot with one skill: crisp P0/P1/P2, short, optimised for getting to
-   code.
-3. A designer bot loaded with your design system and your accumulated
-   no-no's.
-4. An EM bot that does not code. It decomposes, delegates, and verifies.
-5. Thread your feedback: reply to the data message with the ask, tag the
-   next bot, let them talk.
-6. Tell every routine what to do on a no-op: nothing.
+1. 数仓上一个数据机器人。用白话问它问题；好的那些做成早间例行任务。
+2. 一个规格机器人，一条技能：利落的 P0/P1/P2，短，优化目标是落到代码。
+3. 一个设计师机器人，装上你的设计系统和你攒下来的禁忌。
+4. 一个不写代码的 EM 机器人。它拆解、委派、验证。
+5. 把反馈串在线程里：回复那条数据消息提出要求，@ 下一个机器人，让他们自己聊。
+6. 告诉每条例行任务空转时做什么：什么都不做。
 
-Related: [`founders.md`](founders.md) for the founder's version of ProdBot
-and feedback → PR; [`engineering.md`](engineering.md) for the other end of
-the same pipeline.
+相关：创始人版的 ProdBot 以及反馈 → PR 见 [`founders.md`](founders.md)；同一条流水线的另一头见 [`engineering.md`](engineering.md)。
