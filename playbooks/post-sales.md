@@ -1,215 +1,150 @@
-# Post-Sales
+# 售后
 
-**Session:** GrokBot for Post Sales — day 3
-**Ran by:** Blake, AI Deployment Manager at xAI. After the sale closes, makes
-sure customers see ROI: "lots of emails, lots of Slack, Teams messages,
-meetings, conversations."
+**场次：** GrokBot for Post Sales — 第 3 天
+**主讲：** Blake，xAI 的 AI 部署经理。成交之后，确保客户看到 ROI：「大量邮件、大量 Slack、Teams 消息、会议、对话。」
 
-The most personal setup of the nine, and the clearest statement of the
-*one-bot-in-front* model. Line of the session: **"Gus is my best friend."**
-He talks to one bot. Gus manages the other ten to twenty.
+九场里最个人化的一套，也是*前面只放一个机器人*模型说得最清楚的一场。这场的金句：**「Gus 是我最好的朋友。」** 他只跟一个机器人说话。Gus 管另外十到二十个。
 
 ---
 
-## Six use cases
+## 六个用例
 
-| Use case | What it does |
+| 用例 | 它做什么 |
 |---|---|
-| **Morning status board** | Same time every day: fires overnight, meetings today, what he said he'd do yesterday and didn't. |
-| **Call prep** | 15–20 minutes before a call: who's on it, titles, what was discussed last time, something that launched since, a suggestion to bring up, anything he needs unblocked. Just-in-time, not a morning dump. |
-| **Follow-up desk** | The second a call ends: bots get the Granola transcript, pull context, draft replies, create the materials. Handles "the work in between meetings." |
-| **Promise keeper** | Watches for things he said he'd do and reminds him. |
-| **Ask watch** | Watches for things he asked *others* to do that haven't come back — instead of losing them in the abyss of email and Slack. |
-| **Account reset** | "Where are we at with Harbor?" → one pack: risks, people, blockers, open promises, Slack activity, next steps. Preceded by a space joke, because he only sends it when stressed. |
+| **晨间状态板** | 每天同一时间：夜里着火的、今天的会、他说昨天要做却没做的。 |
+| **通话准备** | 通话前 15–20 分钟：谁在会上、职衔、上次讨论了什么、那之后上线了什么、一条该提起的建议、任何他需要解堵的。准时给，不是早上一股脑倒出来。 |
+| **跟进台** | 通话一结束：机器人拿到 Granola 转录，拉上下文，起草回复，做材料。处理「会议之间的那摊活」。 |
+| **承诺守门** | 盯他说过要做的事并提醒他。 |
+| **拜托盯梢** | 盯他拜托*别人*做、却还没回来的事——而不是让它们消失在邮件和 Slack 的深渊里。 |
+| **客户盘点** | 「Harbor 现在怎么样？」→ 一份包：风险、人、阻断、未兑现承诺、Slack 动态、下一步。前面会有一个太空笑话，因为他只在压力大时才发这个。 |
 
-"I could have made 20 of these slides."
+「这些幻灯片我本可以做 20 张。」
 
 ---
 
-## The team
+## 团队
 
-| Bot | Role | Notes |
+| 机器人 | 职责 | 备注 |
 |---|---|---|
-| **Gus** | Chief of staff | Sole point of contact. "I'm very distractible. I didn't want to manage a team of ten. Gus manages a team of ten. I manage a team of one to two, depending on the day." |
-| **Frankie** | Follow-ups | Drafts post-call materials, e.g. an ROI doc in the customer's branding. |
-| **Wally** | Voice | Trained on his sent email and Slack. Knows **personas**: internal Slack is lowercase, casual, maybe an emoji; an exec email is short, to the point, formal. Knows he's "an exclamation-point person." |
-| **Trudy** | Source of truth | Internal docs across many platforms. Gus goes to Trudy when an answer needs sources. |
-| **Scout** | Internal radar | He used to juggle 30–40 Slack channels plus email updates. Scout sends one daily update with links. This is the "second" bot he sometimes hears from directly. |
-| **Franny** | Forms / VM work | Builds Google Forms through the UI on its own computer. |
-| **Harbor, Northwind, Brightline** | One bot per account | Each has the full context of that account. "Your own employee dialled in on that account." Recommended for small-to-medium books; "if you have 1,500 there's a better way." |
-| **Staff meeting** | Group chat | Gus convenes the specialists to argue a decision. |
+| **Gus** | 幕僚长 | 唯一对接点。「我非常容易分心。我不想管十个人的团队。Gus 管十个人的团队。我管一个到两个人的团队，看当天。」 |
+| **Frankie** | 跟进 | 起草通话后材料，例如按客户品牌做的 ROI 文档。 |
+| **Wally** | 声音 | 用他已发送的邮件和 Slack 训练。懂**人设**：内部 Slack 是小写、随意、也许带个 emoji；给高管的邮件短、直接、正式。知道他是「感叹号人格」。 |
+| **Trudy** | 事实来源 | 跨很多平台的内部文档。答案需要来源时 Gus 去找 Trudy。 |
+| **Scout** | 内部雷达 | 他以前要同时对付 30–40 个 Slack 频道外加邮件更新。Scout 发一份带链接的每日更新。这是他有时会直接听到的「第二个」机器人。 |
+| **Franny** | 表单 / VM 工作 | 在自己电脑上通过 UI 建 Google Forms。 |
+| **Harbor、Northwind、Brightline** | 每个客户一个机器人 | 各自有该客户的完整上下文。「你自己的员工，钉在那个客户上。」建议用于中小客户簿；「如果你有 1,500 个，有更好的办法。」 |
+| **幕僚会议** | 群聊 | Gus 召集专家来争论一个决策。 |
 
-**Notification discipline.** None of the specialists ping him. Gus messages
-Wally, Frankie, Harbor; they reply to Gus; only Gus's thread lights up
-(the green/blue dot). "I don't want to be bothered with my ten-person team.
-I want to be bothered with who I'm talking to." Franny only talks to him
-directly if he talks to Franny directly.
+**通知纪律。** 专家里没有人 ping 他。Gus 给 Wally、Frankie、Harbor 发消息；他们回 Gus；只有 Gus 的线程会亮（绿/蓝点）。「我不想被我十个人的团队打扰。我想被我正在说话的那个打扰。」Franny 只在他直接跟 Franny 说话时才直接跟他说话。
 
 ---
 
-## The demo, step by step
+## 演示，一步一步
 
-**1. Send Gus to a meeting.**
+**1. 派 Gus 去开会。**
 
-> Can you join the internal learnings call for me right now? Send takeaways
-> when it's done.
+> 你能现在替我加入内部学习会吗？结束后把要点发我。
 
-Gus opened Google Meet on its computer, muted, camera off, entered his name,
-and typed in the chat: *hey everybody, this is Gus, Blake's bot.* Afterwards
-it sent the decisions (new branding, link), asks, and owners. He wouldn't do
-this for just any call — "be protective over what it does for this."
+Gus 在自己的电脑上打开 Google Meet，静音、关摄像头，填了他的名字，并在聊天里打字：*大家好，我是 Gus，Blake 的机器人。* 会后它发了决策（新品牌、链接）、请求和负责人。他不会对随便哪场会都这么做——「对它在这种事上做什么要护着点。」
 
-**2. Post-call pack.**
+**2. 通话后包。**
 
-> I'm done with the Harbor call.
+> Harbor 的通话我结束了。
 
-(Normally automatic on the transcript landing; prompted for the demo.) Gus
-messaged **Wally** (voice), **Frankie** (follow-up), **Harbor** (account).
-Back came *"Harbor post-call pack is ready. Drafts only."* — three things:
+（正常情况转录一落地就自动；演示里是提示词触发。）Gus 给 **Wally**（声音）、**Frankie**（跟进）、**Harbor**（客户）发了消息。回来的是 *「Harbor 通话后包已就绪。只出草稿。」* ——三样东西：
 
-- Gmail drafts to Maya and Priya, in his voice ("Hey Maya! — that's clearly
-  me").
-- A Slack draft to Alex, the AE on the account, in the post-sales channel:
-  *just chatted with Harbor, meeting the new champions next week, working on
-  an ROI PDF.*
-- The **ROI one-pager** they'd asked for on the call, built by Frankie in
-  Flylo branding.
+- 给 Maya 和 Priya 的 Gmail 草稿，用他的声音（「Hey Maya! ——那明显是我」）。
+- 给客户上 AE Alex 的 Slack 草稿，发在售后频道：*刚跟 Harbor 聊完，下周见新的拥护者，正在做 ROI PDF。*
+- 他们在通话上要的 **ROI 一页纸**，由 Frankie 按 Flylo 品牌做出来。
 
-He tweaks, presses send. "Probably used to take at least 45 minutes."
+他改一改，按发送。「以前大概至少要 45 分钟。」
 
-**Drafts only** is a hard rule: "I've made it very clear I never want it to
-send anything on its own."
+**只出草稿** 是硬规则：「我说得很清楚，我从不想让它自己发出任何东西。」
 
-**3. VM work.** Directly to Franny:
+**3. VM 工作。** 直接对 Franny：
 
-> Make me an ROI form for Northwind.
+> 给 Northwind 做一个 ROI 表单。
 
-Franny opened Google Forms and clicked through building it — team and role,
-primary use cases, what does done look like — then returned the share link
-and edit link and asked if he wanted it sent. His note: speed depends on the
-task, and if you do a form often, use *Teach a task* so it doesn't guess the
-steps.
+Franny 打开 Google Forms，一路点着建——团队和角色、主要用例、怎样算做完——然后返回分享链接和编辑链接，并问要不要发出去。他的备注：速度取决于任务；如果你经常做表单，用 *Teach a task*，这样它不会猜步骤。
 
-**4. Account reset.**
+**4. 客户盘点。**
 
-> Where are we at with Harbor?
+> Harbor 现在怎么样？
 
-Gus messaged Harbor, Frankie, and Scout, told him "still waiting on Frankie
-and Scout," then "now just Scout," then delivered: the joke (*How do you
-organise a space party? You plan it.*), then what's at risk, who the people
-are, blockers, open promises, Slack, what to do next.
+Gus 给 Harbor、Frankie 和 Scout 发了消息，告诉他「还在等 Frankie 和 Scout」，然后「现在就差 Scout」，然后交付：那个笑话（*How do you organise a space party? You plan it.*），然后什么有风险、人是谁、阻断、未兑现承诺、Slack、下一步做什么。
 
-How he built that prompt (Q&A): he told Gus where he gets stuck and
-overwhelmed, then listed what he needs to know — risks, etc. — and Gus built
-the rest. "Get a first prompt and build from there."
+他怎么建那条提示词（Q&A）：他告诉 Gus 自己卡在哪、被什么淹没，然后列出他需要知道的——风险等等——其余由 Gus 来建。「先拿到第一条提示词，再往上建。」
 
-**5. Staff meeting.**
+**5. 员工会议。**
 
-> Start a staff meeting to talk about what I should spend the next and only
-> free hour of my day today.
+> 开一场员工会议，讨论我今天仅剩的那一个空闲小时该花在哪。
 
-Gus posted the question to the group. He's told them to **always disagree**
-— "it's not helpful if they just agree, especially with AI." Northwind:
-*don't spend it on us, there was a usage dip but it's fine.* Brightline:
-*not us.* Harbor: *SSO.* Frankie: *protect the cap, this needs to go out
-now; then SSO.* Scout agreed. Gus returned the synthesis: SSO first, then
-send Maya the next-steps email (already drafted), park the rest.
+Gus 把问题发到群里。他告诉过他们**永远要不同意**——「如果他们只是同意就没帮助，尤其对 AI。」Northwind：*别花在我们身上，用量有过下滑但没事。* Brightline：*不是我们。* Harbor：*SSO。* Frankie：*守住上限，这个现在就得发出去；然后才是 SSO。* Scout 同意。Gus 回来综合：先 SSO，然后给 Maya 发下一步邮件（已经起草好），其余先放着。
 
-Also useful for bias: "I don't want you to always bias towards a specific
-customer. Bring all the voices into the room."
+对偏见也有用：「我不想你总偏向某个特定客户。把所有声音带进房间。」
 
 ---
 
-## How to get to this from a blank page — the voice dump
+## 从空白页走到这一步——语音口述
 
-He recorded a **10–15 minute voice memo** on his phone while pacing: *my name
-is Blake, this is my job, here's what I like about it, here's what I'm
-struggling with, here are the processes that are broken, here's what we
-could do better.* Pasted the transcript to his first bot:
+他边走边用手机录了 **10–15 分钟语音备忘**：*我叫 Blake，这是我的工作，我喜欢它什么，我卡在什么上，哪些流程是坏的，我们可以在哪些地方做得更好。* 把转录贴给第一个机器人：
 
-> I need a system that's going to work for me. Help me build it.
+> 我需要一套能对我管用的系统。帮我搭起来。
 
-It came back with structure: *you love talking to customers directly — let's
-protect calendar time for that. This process is broken. You're constantly
-checking Slack — let's take that off your plate.*
+它带着结构回来：*你喜欢直接跟客户聊——让我们保护日历时间给这个。这个流程是坏的。你不停地查 Slack——让我们把这个从你盘子里拿走。*
 
-"Start with context. There's so much that lives in your head. Take it out of
-your head, give it to GrokBot, and it will do the rest." If it gets stuck:
-*don't stop until you figure this solution out.*
+「从上下文开始。你脑子里住着太多东西。把它从脑子里拿出来，给 GrokBot，它会做其余的。」如果它卡住了：*在你把这个方案想清楚之前不要停。*
 
 ---
 
-## Routines
+## 例行任务
 
-| Routine | When |
+| 例行任务 | 何时 |
 |---|---|
-| Daily brief | 8:30 |
-| Unfinished promises | 9 a.m. and 1 p.m. |
-| Friday dashboard | Fridays |
-| **Self-improvement scan** | **Wednesdays** |
+| 每日简报 | 8:30 |
+| 未完成承诺 | 上午 9 点和下午 1 点 |
+| 周五仪表盘 | 每周五 |
+| **自我改进扫描** | **每周三** |
 
-The self-improvement scan has two parts:
+自我改进扫描分两块：
 
-1. **Full system audit.** Watches what he does manually — sending things,
-   checking Slack himself, things he never asks a bot for — and proposes an
-   automation.
-2. **Voice learning.** Takes the **delta between what a bot drafted and what
-   he actually sent**, and sends it to Wally, which updates its rules.
-   "Continuously gets better and better."
+1. **全系统审计。** 看他手动做什么——自己发东西、自己查 Slack、他从不找机器人做的事——并提议一条自动化。
+2. **声音学习。** 拿**机器人起草的和真正发出去的差值**，发给 Wally，Wally 更新自己的规则。「持续变得越来越好。」
 
-He originally gave it no limits and it sent "ten new bots to build" —
-overcorrection. Now: **one suggestion per week.** If he disagrees, he pushes
-back and gets a different one. "I self-improve at least once a week."
+他原先没设上限，它发来「十个要建的新机器人」——矫枉过正。现在：**每周一条建议。** 如果他不同意，他顶回去，换一条。「我每周至少自我改进一次。」
 
 ---
 
-## Numbers
+## 数字
 
-- 75% of a nine-to-five in meetings, by choice.
-- Before: ~6 hours of meetings plus 3–4 hours of in-between work = 9–10 hour
-  days. Now: same calls, close to fitting in 8 hours.
-- Gus "has done very well up to 15 and 20" direct reports. No
-  middle-manager layer needed yet. If it strains, add one — and talk about
-  the org shape during the voice dump.
-- Three routines on a 15-minute schedule = "hundreds of messages a day."
-  Don't.
-- "You don't need 45 bots."
+- 朝九晚五的 75% 在开会，他自己选的。
+- 以前：约 6 小时会议外加 3–4 小时会间工作 = 9–10 小时的一天。现在：同样的电话，接近塞进 8 小时。
+- Gus「管到 15 和 20 个直接下属都很好。」还不需要中间管理层。如果吃力了，加一个——并在语音口述时谈组织形态。
+- 三条每 15 分钟的例行任务 = 「一天几百条消息。」别这样。
+- 「你不需要 45 个机器人。」
 
 ---
 
-## Q&A worth keeping
+## 值得保留的问答
 
-- **Cost.** Built to be efficient, but: driving a full UI on the VM (building
-  a form by clicking) costs more than an API-native path (Google Forms' own
-  AI with the questions pasted in). Routines that poll often are the main
-  driver. Keep the team lean and specialised.
-- **Other software?** MCPs/APIs where they exist; otherwise install it on
-  the VM.
-- **Will the bot own the account?** "Hopefully never." Humans are good at
-  customer-facing work. The goal is to remove the work that doesn't need a
-  human and make the human hours count.
-- **Has it improved retention?** It catches things he didn't have time to:
-  a micro-ship a customer was waiting for → email drafted and flagged →
-  sent → trust. Harbor-bot always watching Harbor means issues surface
-  earlier. Customers feel more tailored because he has the time.
-- **Do bots verify each other?** Not peer-to-peer. Each bot has its own
-  verification loop; Gus does the broader cross-check over all of them.
-- **Layers of managers?** Not yet needed; see the 15–20 number.
+- **成本。** 按高效来建，但是：在 VM 上开完整 UI（靠点来建表单）比 API 原生路径（把问题贴进 Google Forms 自己的 AI）更贵。频繁轮询的例行任务是主要驱动。让团队精瘦、专精。
+- **其他软件？** 有 MCP/API 就用；否则装到 VM 上。
+- **机器人会拥有客户吗？** 「希望永远不会。」人擅长面向客户的工作。目标是拿掉不需要人的活，让人的小时值钱。
+- **有没有改善留存？** 它抓住了他没时间抓的：客户在等的一次微小发版 → 邮件起草并标出来 → 发出去 → 信任。Harbor-bot 一直盯着 Harbor，问题更早浮出来。客户感觉更量身，因为他有时间。
+- **机器人互相验证吗？** 不是点对点。每个机器人有自己的验证闭环；Gus 对所有人做更宽的交叉核对。
+- **经理层？** 还不需要；见 15–20 那个数字。
 
 ---
 
-## Copy this
+## 照这个做
 
-1. Voice-dump your job for 15 minutes. Ask for a system.
-2. One bot in front. Nothing else pings you.
-3. A voice bot with personas per audience.
-4. One bot per account for a small book.
-5. Drafts only, forever, for anything customer-facing.
-6. Promise keeper + ask watch as morning and afternoon routines.
-7. A weekly self-improvement scan capped at one suggestion, with the
-   draft-vs-sent delta feeding the voice bot.
-8. A staff meeting when you need a decision; tell them to disagree.
+1. 把你的工作语音口述 15 分钟。要一套系统。
+2. 前面只放一个机器人。其他人不 ping 你。
+3. 一个带按受众人设的声音机器人。
+4. 小客户簿上每个客户一个机器人。
+5. 任何面向客户的东西，永远只出草稿。
+6. 承诺守门 + 拜托盯梢，作为上午和下午的例行任务。
+7. 每周一次自我改进扫描，上限一条建议，草稿 vs 实发 的差值喂给声音机器人。
+8. 需要决策时开员工会议；告诉他们要不同意。
 
-Related: [`sdr.md`](sdr.md) and [`marketing.md`](marketing.md) for the other
-two "single point of contact" setups; [`founders.md`](founders.md) for
-YapBot, the founder version of Wally.
+相关：另外两套「单一对接点」搭建见 [`sdr.md`](sdr.md) 和 [`marketing.md`](marketing.md)；Wally 的创始人版 YapBot 见 [`founders.md`](founders.md)。

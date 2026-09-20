@@ -1,224 +1,150 @@
-# Sales Engineering
+# 销售工程
 
-**Session:** GrokBot for Sales Engineers — day 2
-**Ran by:** Amrita, field engineer at xAI. Also ran the day-1 GrokBot 101 demo.
+**场次：** GrokBot for Sales Engineers — 第 2 天
+**主讲：** Amrita，xAI 现场工程师。第 1 天的 GrokBot 101 演示也是她跑的。
 
-Three bots she uses day to day. Two live in the demo project (Flylo, the
-fictional airline), one is her real slide bot. The recurring line: **"Finished
-work is the best part."** You come back to a done thing, not a queue of
-decisions.
+她日常用三个机器人。两个住在演示项目里（Flylo，虚构航司），一个是她真正的幻灯片机器人。反复出现的那句：**「做完的活才是最好的部分。」** 你回来面对的是一件做完的事，而不是一堆待做的决策。
 
 ---
 
-## The team
+## 团队
 
-| Bot | Job | Access |
+| 机器人 | 工作 | 权限 |
 |---|---|---|
-| **Mimi** | Slide and customer-proof-point curator | A master Google Slides deck on her computer. Case studies, benchmarks, everything in one place. |
-| **Sherlock** | Technical expert | The product repos (booking backend, booking frontend). Uses Cursor cloud agents under the hood. Steered to **never release IP** and to phrase answers for a non-technical customer. |
-| **Serena Williams** | Competitive intel | Her own computer. Signs up for and uses competitor products. Named for a tennis player famous for studying opponents. |
-| *Echo* (Krista's, shown in the Sales session) | Live deck curation during a call | See [`sales.md`](sales.md). |
+| **Mimi** | 幻灯片与客户证据点策展 | 她电脑上的一份主 Google Slides 演示文稿。案例、基准、所有东西在一处。 |
+| **Sherlock** | 技术专家 | 产品仓库（booking backend、booking frontend）。底层用 Cursor 云端智能体。被导向**永不泄露 IP**，并用非技术客户听得懂的话来回答。 |
+| **Serena Williams** | 竞争情报 | 她自己的电脑。注册并使用竞品。以一位以研究对手著称的网球选手命名。 |
+| *Echo*（Krista 的，在销售场次里展示） | 通话中现场策展演示文稿 | 见 [`sales.md`](sales.md)。 |
 
-Plus three bots that **Sherlock spun up on its own** when asked (below).
-
----
-
-## Mimi — case-study slides from a blog post
-
-Her case-study slides all share one template: **logo, then problem →
-solution → impact → quote.** She gives Mimi a customer blog post (or notes
-from a call) and says:
-
-> I just want you to do your job for Jellyfish, and here is the blog post.
-
-Live, with a Salesforce post ("cut legacy code coverage time by 85%"):
-
-> Can you create another one of these slides for Salesforce for me? Blog post
-> here: [link]
-
-Mimi reads the post, extracts the four parts, **goes to the company's brand
-page to get the right logo**, builds the slide on her own computer (you can
-watch her cursor moving in Slides), inserts it into the deck, and sends
-screenshots back. 10–15 minutes. Then:
-
-> Great work. Can you do one for Grab?
-
-Things she does with Mimi:
-
-- Batch: "do Salesforce, do Grab, do this other one" in one message; Mimi
-  works through them while the laptop is closed.
-- Before a call: "hide the case studies that wouldn't be relevant for this
-  customer" — Uber cares about Grab, not Salesforce.
-- As a routine: *have there been any customer posts recently about us that
-  would be good to highlight? If so, create a slide.* Companies publish
-  these posts without telling you.
-
-Why a template: "I don't want it to come up with anything too sloppy or too
-wordy. I know exactly how I want my slide organised." The bot's job is the
-content, not the layout. She makes slides for 15–20 customers a week.
-
-Live incident: Mimi lost her Google login mid-demo (there'd been an outage
-earlier). Fix: take over the bot's computer, log in, hand it back.
+外加三个 **Sherlock 被问及时自己拉起的**机器人（见下）。
 
 ---
 
-## Sherlock — answering technical questions without pinging an engineer
+## Mimi — 从一篇博客做出案例幻灯片
 
-Description she gave it: *You're a technical expert on Flylo and you support
-the website flyloair.com.* Repos attached. *If there's a customer issue, I
-want you to investigate and communicate what could be wrong to a customer.*
+她的案例幻灯片共用一个模板：**logo，然后 问题 → 方案 → 影响 → 引用。** 她给 Mimi 一篇客户博客（或通话笔记）并说：
 
-Example question the day before:
+> 我就要你为 Jellyfish 做你的本职工作，博客在这里。
 
-> How do we handle a race condition — two people booking the same flight or
-> the same seat at the same time?
+现场，用一篇 Salesforce 的帖子（「把遗留代码覆盖时间砍掉 85%」）：
 
-Sherlock launched cloud agents in the backend and frontend repos and came
-back with: the protection is in Postgres; two customers can't confirm the
-same last cabin; and, separately, **what to tell the customer** — *we hold
-the last remaining cabin space for 10 minutes when you start checkout; if
-someone else started first you'll get a message.* From there: "draft this in
-an email and send it to this customer," with send gated on her approval.
+> 你能再为 Salesforce 做一张这样的幻灯片吗？博客在这里：[link]
 
----
+Mimi 读帖子，抽出四块，**去公司品牌页拿正确的 logo**，在自己的电脑上做幻灯片（你能看着她的光标在 Slides 里动），插入演示文稿，把截图发回来。10–15 分钟。然后：
 
-## Serena — competitive intel with hands on the product
+> 很好。能再给 Grab 做一张吗？
 
-She gave Serena only a description, no walkthrough. First prompt:
+她拿 Mimi 做的事：
 
-> What are some competitor products that you think are worth testing against
-> Flylo?
+- 批量：「做 Salesforce、做 Grab、做另一个」写在一条消息里；笔记本合上时 Mimi 继续做。
+- 通话前：「把跟这个客户不相关的案例藏起来」——Uber 在乎 Grab，不在乎 Salesforce。
+- 作为例行任务：*最近有没有客户发了关于我们、值得拿出来讲的帖子？有的话，做一张幻灯片。* 公司发这些帖子时不会告诉你。
 
-Serena listed options and, unprompted, **messaged Sherlock** for a baseline:
-"what can the current Flylo booking codebase support today — search, fare
-selection, seats, bags, known gaps?" Sherlock pulled it from the code and
-replied. Then:
+为什么要模板：「我不想它搞出太松垮或太啰嗦的东西。我清楚自己想要幻灯片怎么组织。」机器人的工作是内容，不是版式。她一周给 15–20 个客户做幻灯片。
 
-> Let's go with Southwest and Spirit. Let's see how those booking experiences
-> compare to Flylo.
-
-Serena started running the Southwest booking flow on her own computer
-(visible top-right). Mid-task, Amrita steered:
-
-> Can you see if there are any AI travel agent capabilities in any of the
-> competitor tools that we should be aware of?
-
-Serena incorporated the second ask **without abandoning the first** — she
-answered the AI-agent question while still clicking through Southwest. That
-multitasking inside one thread is the point: "other tools forget the first
-question the minute you ask the second."
-
-Routine she suggested: *every week, summarise what's happened on the Expedia
-and Skyscanner technical blogs and tell me if they shipped anything I should
-know about.*
+现场事故：演示中途 Mimi 丢了 Google 登录（早些时候有过一次故障）。处理：接管机器人的电脑，登录，交回去。
 
 ---
 
-## Group chat: get the two of them to agree on the roadmap
+## Sherlock — 回答技术问题，不用 ping 工程师
 
-She put Sherlock and Serena in a group chat (visible in one place instead of
-clicking between threads) and asked:
+她给它的描述：*你是 Flylo 的技术专家，支持网站 flyloair.com。* 仓库已挂上。*如果有客户问题，我要你调查，并把可能出了什么问题传达给客户。*
 
-> What have you found is the key differentiator in our competitors that
-> would be significantly low effort to build in the product?
+前一天的示例问题：
 
-They argued it out with their respective context:
+> 我们怎么处理竞态——两个人同时订同一航班或同一个座位？
 
-- Sherlock: managed booking (view/change trips) is table stakes everywhere —
-  easy fix. And **a flexible-date calendar is already wired in the frontend
-  but never called** — classic differentiator, very easy.
-- Serena: round trip and bags look big but aren't low effort; asked Sherlock
-  which of managed booking vs. calendar felt most painful to users.
-
-Sherlock `@`-tagged Serena on its own to ask for something specific. Bots do
-that unprompted once they know who holds what. From here: connect Google Docs
-/ Confluence / whatever and have them write the product doc, or open a PR.
+Sherlock 在 backend 和 frontend 仓库里拉起云端智能体，回来的是：保护在 Postgres 里；两个客户无法确认同一间最后客舱；以及，另外，**该告诉客户什么**——*你开始结账时，我们会把最后剩余客舱位保留 10 分钟；如果别人先开始，你会收到一条消息。* 从这里：「把这个起草成邮件发给这个客户」，发送卡在她的批准上。
 
 ---
 
-## Teach a task — recorded live
+## Serena — 把手放在产品上的竞争情报
 
-She took over Sherlock's screen, hit **Teach a task**, and recorded herself:
-Google → "expedia technical blog post" → their Medium → scan for AI-related
-posts → open one → scroll. Pause, done. Then a voice note over the recording:
+她只给 Serena 一段描述，没有走一遍。第一条提示词：
 
-> Notice that I specifically looked for AI-related blog posts in my
-> competitor products, and I wanted to make sure that we are staying on top
-> of our AI tooling inside of our own product. I'm going to try and apply
-> this to as many competitors as possible.
+> 你觉得有哪些竞品值得拿来跟 Flylo 对测？
 
-Then: *do the same for Southwest, Spirit, Skyscanner, Google Flights.*
-Skills are shared across all bots regardless of where you taught them.
-"One of the biggest-leverage ways to use GrokBot."
+Serena 列了选项，并且没人要求就**给 Sherlock 发了消息**要基线：「当前 Flylo 预订代码库今天能支撑什么——搜索、票价选择、座位、行李、已知缺口？」Sherlock 从代码里拉出来并回复。然后：
 
----
+> 就 Southwest 和 Spirit。看看那些预订体验跟 Flylo 比怎么样。
 
-## Bots spinning up bots
+Serena 开始在自己的电脑上跑 Southwest 预订流程（右上角可见）。任务中途，Amrita 掌舵：
 
-> Based on the work that you and @Serena are doing, what bots would be
-> helpful for you to continue doing great work, specifically around
-> competitive differentiation and sales engineering? Go ahead and spin up
-> those bots for me.
+> 你能看看竞品工具里有没有我们应该知道的 AI 旅行智能体能力吗？
 
-Sherlock created three, with descriptions:
+Serena 把第二个要求**接进来，同时没有丢掉第一个**——她一边回答 AI 智能体问题，一边继续点 Southwest。一个线程里这种多任务才是重点：「别的工具你一问第二个问题，就把第一个忘了。」
 
-- **Battle Card Blair** — "combines Serena's hands-on competitor product
-  findings with Sherlock's Flylo codebase to produce short SE-ready battle
-  cards: competitor claims, Flylo reality."
-- **Demo Drake** — "sales engineering demo and talk-track specialist. Build
-  confident, no-hallucination demo scripts and call talk tracks that map
-  customer pain to the Flylo live flow. Ground every claim in Sherlock."
-- **AI Radar** — "track competitor AI tooling from public tech blogs." Reuses
-  the skill she'd just taught. Always uses Sherlock as source of truth; hands
-  testing and user flows to Serena.
-
-Her verdict: keep Blair and Drake; AI Radar overlaps Serena and "doesn't have
-a cute alliterative name." The useful thing isn't the three bots, it's that
-each one **knows who is the source of truth for what.**
-
-If you're starting cold: *I need to build a demo for a POC with my AE in a
-couple of weeks for this customer. Spin up three bots you think would be
-useful.* "GrokBot is not here to give you extra managerial
-responsibilities."
+她建议的例行任务：*每周汇总 Expedia 和 Skyscanner 技术博客上发生了什么，告诉我他们有没有发出我该知道的东西。*
 
 ---
 
-## Numbers
+## 群聊：让他们两个在路线图上达成一致
 
-- 15–20 customer decks a week — Mimi's workload.
-- 10–15 minutes — one case-study slide from a blog post, logo included.
-- $20–30 — a whole sales case-study deck, vs. 4–5 hours by hand (her figure
-  from the day's Q&A).
-- 10 minutes — the cabin hold Sherlock found in the code.
+她把 Sherlock 和 Serena 放进一个群聊（在一个地方看得见，不用在线程间点来点去）并问：
 
----
+> 你们发现竞品里哪个关键差异点，是我们可以很低成本做进产品的？
 
-## Q&A worth keeping
+他们带着各自的上下文争论起来：
 
-- **Will sites ban the bot?** CAPTCHAs and bot detection can block it on
-  some sites; no guaranteed workaround. Enterprise rule of thumb: "if you
-  shouldn't be accessing Facebook, block it on the bot's computer" rather
-  than try to evade detection.
-- **MCP vs. computer use.** MCPs are "APIs for agents" — faster, easier to
-  whitelist/blacklist. Computer use is the fallback when there's no MCP
-  (Power BI, MongoDB were the examples). A tool with no MCP is not a blocker.
-- **Tokens.** Adjust the bot's verbosity to control spend; computer-use
-  compute itself isn't user-tunable.
-- **Non-Linux tools with no MCP?** Can't be used right now. Straight "no."
+- Sherlock：托管预订（查看/改签行程）到处都是入场券——好修。而且**弹性日期日历已经在 frontend 接好线，却从未被调用**——典型差异点，非常容易。
+- Serena：往返和行李看起来大，但不是低成本；问 Sherlock 托管预订 vs 日历哪件对用户更痛。
+
+Sherlock 自己 `@` 了 Serena，去要一件具体的东西。机器人一旦知道谁手里有什么，就会主动这么做。从这里：接上 Google Docs / Confluence / 随便什么，让他们写产品文档，或开一个 PR。
 
 ---
 
-## Copy this
+## 教一个任务 — 现场录制
 
-1. A slide bot with your template baked in. Feed it sources, not
-   instructions.
-2. A technical-expert bot on your repos, steered to never leak IP and to
-   answer in customer language. Ask it the question the customer asked you.
-3. A competitor bot that uses the products, not just reads about them. Let
-   it talk to the expert bot for a baseline.
-4. Group chat the two when you need a roadmap opinion.
-5. Record one workflow you do by hand. Say out loud what mattered.
-6. Ask your bots what bots they need.
+她接管 Sherlock 的屏幕，点 **Teach a task**，录下自己：Google → 「expedia technical blog post」→ 他们的 Medium → 扫 AI 相关帖子 → 打开一篇 → 滚动。暂停，完成。然后在录屏上叠一条语音：
 
-Related: [`sales.md`](sales.md), [`founders.md`](founders.md) (StockBot is the
-founder-side competitor bot).
+> 注意我特意在竞品里找 AI 相关的博客，我想确保我们自己产品里的 AI 工具跟得上。我会尽量把这个应用到尽可能多的竞品上。
+
+然后：*对 Southwest、Spirit、Skyscanner、Google Flights 做同样的事。*
+技能跨所有机器人共享，不论你在哪里教的。「用 GrokBot 杠杆最大的方式之一。」
+
+---
+
+## 机器人拉起机器人
+
+> 基于你和 @Serena 正在做的工作，哪些机器人能帮你们继续把竞品差异和销售工程做好？直接帮我把那些机器人拉起来。
+
+Sherlock 建了三个，带描述：
+
+- **Battle Card Blair** — 「把 Serena 上手竞品的发现和 Sherlock 的 Flylo 代码库合在一起，产出短小、SE 能直接用的作战卡片：竞品声称、Flylo 现实。」
+- **Demo Drake** — 「销售工程演示和话术专家。做有把握、不幻觉的演示脚本和通话话术，把客户痛点映射到 Flylo 现场流程。每一条声称都锚定在 Sherlock。」
+- **AI Radar** — 「从公开技术博客追踪竞品 AI 工具。」复用她刚教的技能。始终把 Sherlock 当事实来源；把测试和用户流程交给 Serena。
+
+她的判定：留 Blair 和 Drake；AI Radar 和 Serena 重叠，而且「没有一个可爱的头韵名字」。有用的不是这三个机器人本身，而是每一个都**知道什么事情谁是事实来源。**
+
+如果从零开始：*我需要在几周内跟我的 AE 给这个客户做一场 POC 演示。拉起三个你觉得有用的机器人。* 「GrokBot 不是来给你加管理职责的。」
+
+---
+
+## 数字
+
+- 一周 15–20 份客户演示文稿 — Mimi 的工作量。
+- 10–15 分钟 — 从一篇博客做出一张含 logo 的案例幻灯片。
+- $20–30 — 一整份销售案例演示文稿，对比手做 4–5 小时（当天 Q&A 里她给的数字）。
+- 10 分钟 — Sherlock 在代码里找到的客舱保留时间。
+
+---
+
+## 值得保留的问答
+
+- **网站会封机器人吗？** CAPTCHA 和机器人检测会在某些站点拦住它；没有保证能绕过的办法。企业经验法则：「如果你不该访问 Facebook，就在机器人的电脑上挡住它」，而不是试图躲检测。
+- **MCP vs. computer use。** MCP 是「给智能体的 API」——更快，更容易白名单/黑名单。没有 MCP 时 computer use 是后备（例子是 Power BI、MongoDB）。没有 MCP 的工具不是阻断项。
+- **Token。** 调机器人的啰嗦程度来控花费；computer-use 的算力本身用户调不了。
+- **没有 MCP 的非 Linux 工具？** 现在用不了。直接「不行。」
+
+---
+
+## 照这个做
+
+1. 一个幻灯片机器人，模板烤进去。喂它来源，不是指令。
+2. 一个挂在你仓库上的技术专家机器人，被导向永不泄露 IP，并用客户语言回答。把客户问你的问题拿去问它。
+3. 一个使用产品、而不只是读关于产品的东西的竞品机器人。让它跟专家机器人聊，拿基线。
+4. 需要路线图意见时把这两个放进群聊。
+5. 把你手做的一条工作流录下来。大声说出什么是要紧的。
+6. 问你的机器人他们需要哪些机器人。
+
+相关：[`sales.md`](sales.md)，[`founders.md`](founders.md)（StockBot 是创始人侧的竞品机器人）。

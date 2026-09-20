@@ -1,209 +1,121 @@
-# Marketing
+# 市场
 
-**Session:** GrokBot for Marketing — day 3
-**Ran by:** Josh Kim, xAI marketing.
+**场次：** GrokBot for Marketing — 第 3 天
+**主讲：** Josh Kim，xAI 市场。
 
-One campaign, from market research to a landing page in production to an
-ads readout, run across six bots — and then a seventh bot told to study how
-the human orchestrated it and take over the orchestration. "The context
-management, the coordination, the trafficking of a campaign — that's truly
-where the craft of the work happens, and it's the crux of our job." So that's
-what gets delegated last.
+一场活动，从市场调研到落地页上生产再到广告效果汇报，六个机器人跑完——然后第七个机器人被要求研究人是怎么编排的，并接手编排。「上下文管理、协同、一场活动的流转——那才是工作的手艺所在，也是我们工作的关键。」所以那是最后才委派的。
 
-His mental-model correction for marketers: chatbots are **thought partners**;
-these are **doing partners**. "They'll do it the way that you do it."
+他对市场人的心智模型纠正：聊天机器人是**思考搭档**；这些是**执行搭档**。「它们会按你做的方式去做。」
 
 ---
 
-## The team
+## 团队
 
-Crowdsourced across the xAI team and the marketplace ("who has the best
-positioning bot, who has the best ads bot"), then consolidated. Demo product:
-**XAir**, a fictional airline with a landing page, route search, and some
-existing positioning.
+在 xAI 团队和市场里众包（「谁有最好的定位机器人，谁有最好的广告机器人」），然后合并。演示产品：**XAir**，一家虚构航司，有落地页、航线搜索，以及一些已有定位。
 
-| Bot | Job | Access |
+| 机器人 | 工作 | 权限 |
 |---|---|---|
-| **Market researcher** | Studies the product and market, finds competitors, reads their sites, names the gaps | Web / own browser |
-| **Product marketer** | Positioning brief, one-liners, packaging, value statements, landing-page outline, ad copy variants | Google Docs, Google Sheets (MCP) |
-| **Website ops** | Ships the landing page as a PR and pushes to prod | The marketing-site repo (write access); Cursor cloud agents underneath |
-| **Performance marketer** | Builds the campaign shell and traffics copy | Google Ads account |
-| **Marketing analyst** | Pulls results, analyses, recommends | Google Ads API |
-| **Project manager** | Studies the other five and the human's interventions, then runs campaigns end to end as the only point of contact | Everything, via the others |
+| **市场研究员** | 研究产品和市场，找竞品，读他们的站点，点出缺口 | Web / 自己的浏览器 |
+| **产品营销** | 定位简报、一句话卖点、包装、价值陈述、落地页大纲、广告文案变体 | Google Docs、Google Sheets（MCP） |
+| **网站运营** | 把落地页作为 PR 发出并推到 prod | 市场站点仓库（写权限）；底层是 Cursor 云端智能体 |
+| **效果营销** | 建活动壳并投放文案 | Google Ads 账号 |
+| **营销分析师** | 拉结果、分析、给建议 | Google Ads API |
+| **项目经理** | 研究另外五个以及人的介入，然后作为唯一对接点把活动端到端跑起来 | 一切，经由其他人 |
 
 ---
 
-## The campaign, step by step
+## 这场活动，一步一步
 
-**1. Market research** (dictated):
+**1. 市场调研**（口述）：
 
-> Hey, market researcher. Study the XAir website, get a deeper understanding
-> of what the product is and what market we're operating in. Then go do a
-> competitive analysis: identify and deeply understand our competitors, look
-> at their marketing websites, understand their positioning, and —
-> importantly — identify the gaps and opportunities we have to strategically
-> position against them within our marketing strategy.
+> 嘿，market researcher。研究 XAir 网站，更深入地理解产品是什么、我们在哪个市场里。然后做竞品分析：识别并深入理解我们的竞品，看他们的市场网站，理解他们的定位，并且——重要的是——找出我们可以在市场策略里针对他们做战略定位的缺口和机会。
 
-It scraped the site (showing a screenshot from its own browser as a progress
-update), found the competitors (real airlines), and returned the gaps:
-**useful time, day design, long hauls** — and a recommendation to lead
-every message with *useful time.*
+它爬了站点（用自己浏览器的截图作为进度更新），找到竞品（真实航司），并返回缺口：**有用的时间、一天的设计、长航线**——并建议每条信息都以 *有用的时间* 打头。
 
-**2. Positioning brief — with a handoff.**
+**2. 定位简报——带一次交接。**
 
-> Product marketer: go to the market researcher bot and do a handoff of the
-> analysis it just performed. Draft a positioning brief: how we should go to
-> market, our one-liners, positioning and packaging, value statements, and
-> examples of how this comes to life across two or three marketing surfaces.
+> Product marketer：去找 market researcher 机器人，把它刚做完的分析交接过来。起草一份定位简报：我们该怎么 GTM、我们的一句话卖点、定位和包装、价值陈述，以及这套东西在两到三个市场表面上落地的例子。
 
-The bot messaged the researcher for the context ("I exchanged a few
-messages with the market researcher"), then wrote the brief in a **Google
-Doc**: research handoff, target audience (*long-haul travellers who want
-useful time back*), positioning, GTM notes, one-liners by angle, value
-statements, a drafted paid landing page. Over time, he says, bots start doing
-this handoff proactively; early on, you tell them to.
+机器人给调研员发消息要上下文（「我和 market researcher 交换了几条消息」），然后把简报写进一份 **Google Doc**：调研交接、目标受众（*想把时间真正拿回来的长途旅客*）、定位、GTM 备注、按角度的一句话卖点、价值陈述、一份起草好的付费落地页。他说，时间久了机器人会主动做这种交接；早期你要告诉他们去做。
 
-**3. Feedback the way you'd give it to a person.** He left comments in the
-doc (*"this is great, lean into this"*) and then:
+**3. 像给人反馈那样给反馈。** 他在文档里留评论（*「这个很好，往这边靠」*）然后：
 
-> I've just left some comments inside the Google Doc. Go through them, take
-> the feedback, incorporate it into an updated draft. While you're at it,
-> build out a full outline of the landing page. And ideate and draft some
-> Google search campaigns to do variant testing between the copy angles you
-> drafted.
+> 我刚在 Google Doc 里留了一些评论。把它们过一遍，吸收反馈，纳入更新后的草稿。顺便把落地页的完整大纲做出来。再构思并起草一些 Google 搜索广告活动，在你起草的文案角度之间做变体测试。
 
-Result: comments resolved, fuller landing-page outline, and a **sheet of ad
-variants** — variant name, hypothesis, ad group, URLs, copy — "because
-that's how performance marketers work."
+结果：评论已处理，落地页大纲更完整，以及一张 **广告变体表**——变体名、假设、广告组、URL、文案——「因为效果市场就是这么干活的。」
 
-**4. Campaign shell, in parallel.**
+**4. 活动壳，并行。**
 
-> Performance marketer: start creating a shell campaign inside Google Ads.
-> Build it to optimise for clicks, because we're going to do copy and
-> messaging testing that the product marketer is drafting right now.
+> Performance marketer：开始在 Google Ads 里建一个活动壳。按点击优化来建，因为我们要做 product marketer 正在起草的文案和信息测试。
 
-Bot had been connected to the Google Ads account beforehand. It found the
-drafted copy and built the shell, sending screenshots of the platform as it
-clicked.
+机器人事先已接到 Google Ads 账号。它找到起草好的文案并建了壳，一边点一边发平台截图。
 
-**5. Ship the landing page.**
+**5. 把落地页发出去。**
 
-> Website ops: take the landing page from the latest brief the product
-> marketer drafted and spin up a PR to push it as a new landing page on the
-> website. Send me screenshots as you're working so I can monitor progress.
+> Website ops：从 product marketer 起草的最新简报里拿落地页，拉起一个 PR，把它作为新落地页推到网站上。你干活时把截图发我，好让我盯进度。
 
-Pulled the brief, opened the PR, showed progress screenshots, then the
-preview, then **pushed to prod** and returned the URL. "All from the one
-place where all the work is happening."
+拉了简报，开了 PR，展示进度截图，然后预览，然后**推到 prod** 并返回 URL。「全部来自所有工作正在发生的那一个地方。」
 
-**6. Analysis.** He didn't launch the new campaign live (that needs budget
-and a card); he'd run one earlier in the week.
+**6. 分析。** 他没有把新活动真正投出去（那需要预算和卡）；他这周早些时候跑过一场。
 
-> Marketing analyst: go into Google Ads, pull down the data from our last
-> messaging experiment, analyse it, tell me the TL;DR of the insights, and
-> give me recommendations on how to incorporate it into our marketing
-> strategy and update the other assets you've seen.
+> Marketing analyst：进 Google Ads，把我们上次信息实验的数据拉下来，分析它，告诉我洞察的 TL;DR，并给我建议：怎么把它纳入我们的市场策略，以及更新你见过的其他资产。
 
-Returned: a clear winner across variants (brand, customer promise, hours in
-between, cost per day…), the key metrics (spend, CTR, CVR), and
-recommendations. "There's some debate about how much liberty you give the
-agent to make those decisions. In this case it recommends; the team
-discusses."
+返回：各变体里有一个明显赢家（品牌、客户承诺、中间的小时数、每天成本……）、关键指标（花费、CTR、CVR），以及建议。「关于给智能体多少做这些决策的自由度，有一些争论。这个例子里它建议；团队讨论。」
 
-**7. Hand over the orchestration.** "You might have noticed that during
-this entire demo, I've been the one orchestrating. That's the tax."
+**7. 交出编排。** 「你可能注意到，整场演示里编排的人是我。那就是税。」
 
-> Project manager: study and talk to each of the bots on my team and
-> understand each of their roles in bringing a campaign to life. Look at our
-> conversations and see where I had to interject, give guidance, or give
-> feedback, and weave that into how you work with them. Then kick this off
-> and automate it completely with three new campaigns. Send me screenshots
-> and progress updates so I can stay in the loop. And most importantly: be
-> my point of contact. I don't want to talk to any of the other bots. I only
-> want to talk to you, to save myself the context switching.
+> Project manager：研究和我团队里的每一个机器人说话，理解他们各自在把一场活动做活这件事上的角色。看我们的对话，找出我不得不插入、给指导、或给反馈的地方，并把那些织进你和他们共事的方式。然后启动这个，用三场新活动完全自动化。把截图和进度更新发我，好让我跟得上。最重要的：做我的对接点。我不想跟其他任何机器人说话。我只想跟你说话，好省掉上下文切换。
 
-It studied the five specialists, listed the three campaigns (research →
-positioning → landing page → …) and queued them. "You no longer have to be
-bombarded with five different messages from five bots."
+它研究了五个专家，列出三场活动（调研 → 定位 → 落地页 → …）并排上队。「你不再被五个机器人的五条不同消息轰炸。」
 
 ---
 
-## Share as a template
+## 分享成模板
 
-> Create a template of yourself that I can share with someone else.
+> 创建一个我可以分享给别人的你自己的模板。
 
-Snapshots the bot — context, memory, routines — into something a teammate
-(or anyone) pastes into their own instance. "They have access to literally
-the way you work." This is how the six bots were assembled in the first
-place, and he said the refined versions would go to the marketplace.
+把机器人——上下文、记忆、例行任务——快照成队友（或任何人）可以贴进自己实例的东西。「他们拿到的就是你工作的方式。」六个机器人最初就是这样拼起来的，他说打磨后的版本会进市场。
 
 ---
 
-## Composing a bot from several sources (Q&A)
+## 从多个来源拼一个机器人（Q&A）
 
-How he built the product-positioning bot, "a product of being lazy":
+他怎么建产品定位机器人，「懒的产物」：
 
-1. Dictated a couple of minutes of how he wants it to think.
-2. Had it pull tone and voice from the existing website.
-3. Found two or three marketplace bots he liked, **gave it their URLs**, and
-   said: *scrape all that context and memory and replicate it into how you
-   work.*
-4. Connected it to **SuperMe** (an expert marketplace with a plugin) and
-   said: *in lieu of scaled qualitative research, vet everything you do with
-   experts there.*
+1. 口述几分钟他希望它怎么想。
+2. 让它从现有网站拉语气和声音。
+3. 找到两三个他喜欢的市场机器人，**把他们的 URL 给它**，并说：*把那些上下文和记忆全爬过来，复制进你工作的方式。*
+4. 接到 **SuperMe**（带插件的专家市场）并说：*在没有规模化定性调研的情况下，用那里的专家审核你做的一切。*
 
 ---
 
-## What we learned (his three)
+## 我们学到了什么（他的三条）
 
-1. **Scope your bots properly.** It's like writing a job description: a new
-   teammate, clear swim lanes, tightly scoped so they're specialised. "That's
-   how you squeeze the most efficiency out of a team of bots."
-2. **Trust your bots.** They're ambitious, proactive, hungry. Give them
-   access: hook up Slack and email first and ask, *study all the context and
-   tell me what you can do for me. Take a job off my plate.*
-3. **Invest in your bots.** Bot-to-bot collaboration gets more organic as you
-   prompt it; feedback, context and memory compound.
+1. **把机器人的范围划对。** 像写岗位说明书：一个新同事、清楚的泳道、收得很紧所以他们专精。「这就是你从一队机器人里挤出最多效率的方式。」
+2. **信你的机器人。** 他们有野心、主动、饿。给权限：先接 Slack 和邮件，然后问，*研究所有上下文，告诉我你能为我做什么。从我盘子里拿走一份工作。*
+3. **对机器人做投入。** 机器人对机器人的协作在你提示它时变得更自然；反馈、上下文和记忆会复利。
 
 ---
 
-## Q&A worth keeping
+## 值得保留的问答
 
-- **Where to keep a human in the loop?** Same as onboarding a junior: don't
-  hand over the keys on day one. One simple task, one or two tools, watch it
-  deliver, expand. You can tell it "always allow" for a permission once
-  you're comfortable. End state exists: xAI engineers with "armies of bots
-  pushing code to prod." Start small and low-risk.
-- **Biggest blocker for marketers?** The mental model. If you treat it like
-  search or another LLM you get nothing. Hook it to Slack and let it be the
-  first line of triage: *message Josh when it's important, reply to the
-  person otherwise.*
-- **Roles or initiatives?** Roles are always-on and keep learning;
-  initiatives start and stop. Put role bots in a **group chat per
-  initiative** — a "tiger team" on website conversion.
-- **Personality?** Each bot has its own memory: tell the PM bot to talk like
-  Harry Potter and call you a wizard if you want. Avatars can be regenerated
-  and animated from a word. You can point a bot at an agent you built
-  elsewhere and say *replicate this.*
-- **EU data / training?** Opt-in/opt-out data-privacy modes; enterprise
-  security case by case with a dedicated team.
-- **Existing coding-tool context?** Point the bot at your existing work; it
-  uses it as the harness. Website ops is Cursor cloud agents underneath.
+- **人该留在回路的哪里？** 跟接入一个初级一样：第一天别把钥匙交出去。一个简单任务，一两个工具，看它交付，再扩大。你舒服了可以告诉它某个权限「始终允许」。终态存在：xAI 工程师带着「把代码推到 prod 的机器人军团。」从小的、低风险的开始。
+- **市场人最大的阻断？** 心智模型。如果你把它当搜索或另一个 LLM，你什么都得不到。接到 Slack，让它做第一道分诊：*重要时给 Josh 发消息，否则回复那个人。*
+- **角色还是专项？** 角色是常开的，持续学习；专项有始有终。把角色机器人放进**每个专项一个群聊**——一个盯网站转化的「突击小组」。
+- **个性？** 每个机器人有自己的记忆：如果你想，告诉 PM 机器人像 Harry Potter 那样说话、叫你巫师。头像可以从一个词重新生成并做成动画。你可以把机器人指向你在别处建的智能体，说 *复制这个。*
+- **欧盟数据 / 训练？** 可选择加入/退出的数据隐私模式；企业安全一事一议，有专门团队。
+- **已有的编码工具上下文？** 把机器人指向你已有的工作；它把它当运行框架用。Website ops 底层是 Cursor 云端智能体。
 
 ---
 
-## Copy this
+## 照这个做
 
-1. Six roles: research, positioning, web, performance, analysis, PM. Borrow
-   the ones that exist.
-2. Chain them by telling each to go get the handoff from the previous one.
-3. Give feedback in the document, then tell the bot to go read it.
-4. Parallelise: campaign shell while copy is still being written.
-5. Screenshots as progress updates for anything that touches a live system.
-6. When the loop works, ask a PM bot to learn where you intervened and take
-   over.
-7. Share the result as a template.
+1. 六个角色：调研、定位、web、效果、分析、PM。能借的就借。
+2. 靠告诉每一个去从上一个拿交接来把他们串起来。
+3. 在文档里给反馈，然后告诉机器人去读。
+4. 并行：文案还在写时就建活动壳。
+5. 任何碰到线上系统的东西，用截图做进度更新。
+6. 闭环能跑之后，让一个 PM 机器人学习你在哪里介入并接手。
+7. 把结果分享成模板。
 
-Related: [`post-sales.md`](post-sales.md) and [`sdr.md`](sdr.md) for the
-other single-point-of-contact setups; [`product-management.md`](product-management.md)
-for the same data → spec → design → ship chain on the product side.
+相关：另外两套单一对接点搭建见 [`post-sales.md`](post-sales.md) 和 [`sdr.md`](sdr.md)；产品侧同一条 数据 → 规格 → 设计 → 发出 的链见 [`product-management.md`](product-management.md)。

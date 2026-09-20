@@ -1,262 +1,183 @@
-# Engineering
+# 工程
 
-**Session:** GrokBot for Engineers — day 1
-**Ran by:** Ling Shi, software engineer at xAI. Built the first version of the
-GrokBot mobile app solo in three weeks. Before GrokBot existed as an
-orchestration layer, was managing 15 Cursor cloud agents by hand.
+**场次：** GrokBot for Engineers — 第 1 天
+**主讲：** Ling Shi，xAI 软件工程师。三周内独自做出 GrokBot 移动端第一版。在 GrokBot 还没有编排层之前，他是用手管着 15 个 Cursor 云端智能体。
 
-The premise: agentic coding is already good. The bottleneck moved to the human
-who writes the prompts, watches the transcripts, nudges the agent when it
-drifts, and re-explains the same standard to every new agent. The whole
-session is about pushing that layer down to bots too.
+前提：智能体写代码已经够好了。瓶颈挪到了人这边——写提示词、盯转录、智能体跑偏了去推一把、每来一个新智能体就把同一套标准再讲一遍。整场都在讲：把这一层也压给机器人。
 
 ---
 
-## The team
+## 团队
 
-| Bot | Role | What it holds |
+| 机器人 | 职责 | 它手里有什么 |
 |---|---|---|
-| **Craig** (also "Ling Xixi") | Chief of staff / head of engineering | Who is working on what. Routes every request. Onboards new bots agent-to-agent. Does *not* hold engineering workflow details — that's Jenny's job. |
-| **Cray** | UI engineer | Everything ever said about UI work, persisted in its own memory. |
-| **Steve** | DevX engineer | Onboarded live from the marketplace template *Nightly audit engineer*, then renamed. Runs the nightly cleanup. |
-| **Hogan1QR** | Infra engineer | Infra instructions, persisted in its own memory. |
-| **Jenny** | Head of operations | **Owns the playbook** in Notion. Other engineer bots may read it, not edit it. Announces every change to every engineer bot. |
-| **Fleet DB** (Notion database, not a bot) | Task ledger | Every task plus the stage it's at. A bot managing 20 cloud agents checks this instead of holding 20 agents in its context. |
+| **Craig**（也称「Ling Xixi」） | 幕僚长 / 工程负责人 | 谁在做什么。分流每一个请求。由智能体对接智能体来接入新机器人。*不*持有工程工作流细节——那是 Jenny 的活。 |
+| **Cray** | UI 工程师 | 关于 UI 工作说过的一切，持久化在自己的记忆里。 |
+| **Steve** | DevX 工程师 | 从市场模板 *Nightly audit engineer* 现场接入，然后改名。跑夜间清理。 |
+| **Hogan1QR** | Infra 工程师 | Infra 指令，持久化在自己的记忆里。 |
+| **Jenny** | 运营负责人 | **在 Notion 里拥有手册**。其他工程师机器人可以读，不能改。每次变更都向每一位工程师机器人广播。 |
+| **Fleet DB**（Notion 数据库，不是机器人） | 任务台账 | 每项任务及其所处阶段。一个管着 20 个云端智能体的机器人查这张表，而不是把 20 个智能体塞进自己的上下文。 |
 
-**Why three engineer bots on the same model instead of one.** Any of them
-could do any task. The split is about context, not capability: each bot has
-its own context limit and its own memory. What you tell Hogan stays in Hogan
-and is applied next time Hogan starts a task, without re-pulling
-instructions. Switching one bot between too many kinds of task blows its
-context. And you mostly never talk to the engineers directly — you talk to
-Craig.
+**为什么同一模型上要三个工程师机器人，而不是一个。** 他们谁都能干任何任务。拆开是为了上下文，不是为了能力：每个机器人有自己的上下文上限和自己的记忆。你告诉 Hogan 的东西留在 Hogan 里，下次 Hogan 开始任务时会直接用上，不用重新拉指令。一个机器人在太多类任务之间来回切，会撑爆上下文。而且你多半从不直接跟工程师说话——你跟 Craig 说。
 
 ---
 
-## Workflows, as run on stream
+## 工作流，按直播里跑过的来
 
-### 1. Unblock a teammate while you're asleep or on a flight
+### 1. 你在睡觉或飞机上时，给同事解堵
 
-You're the only code owner on a service. A teammate pings you in Slack.
+你是某个服务唯一的代码负责人。同事在 Slack 里 ping 你。
 
-1. Bot monitors Slack for pings at you.
-2. Reads the message, decides whether it's a review case.
-3. Checks the PR against **your stated review criteria** — e.g. "must have a
-   screenshot attached", "tests must not be fake tests".
-4. Kicks off a code-scan / code-research skill, run inside a cloud agent in
-   the repo.
-5. Acknowledges back in Slack.
+1. 机器人监控 Slack 里对你的 ping。
+2. 读消息，判断是不是评审场景。
+3. 按**你说过的评审标准**核对 PR——例如「必须附截图」「测试不能是假测试」。
+4. 拉起 code-scan / code-research 技能，在仓库里的云端智能体中跑。
+5. 在 Slack 里回复确认。
 
-If it actually needs you, you look on your phone and reply to your bot:
-*"this looks good, approve it."* The bot sends the approval and notifies the
-sender. Human touches it once, from a phone.
+真需要你时，你看手机，回复你的机器人：*「看起来没问题，批准吧。」* 机器人发出批准并通知发送方。人只碰一次，而且是从手机上。
 
-### 2. Bug reports on X → PR
+### 2. X 上的缺陷报告 → PR
 
-Bug reports about the product get posted on X. A bot watches (via the Slack
-sync of the X feed), and for each report: checks whether the reproducer is
-still valid on `main`; if it is, fixes it and sends a PR. Same shape for
-security reviews and "find the right reviewer" requests. "Bots contacting
-bots; humans only contact humans when absolutely needed."
+关于产品的缺陷报告发在 X 上。机器人盯着（经由 X 动态的 Slack 同步），对每条报告：检查复现是否在 `main` 上仍然成立；如果成立，修好并开 PR。安全评审和「找对的评审人」请求是同一套路。「机器人联系机器人；人只在绝对必要时联系人。」
 
-### 3. Nightly code cleanup — 3 a.m.
+### 3. 夜间代码清理 — 凌晨 3 点
 
-Available as a marketplace template ("Nightly audit engineer").
+市场模板可用（「Nightly audit engineer」）。
 
-- Every night at 3 a.m. (Ling says 4 a.m. in one place — either works), the
-  bot starts a research cloud agent that reviews the whole monorepo surface.
-- It looks for: code quality, things that should be modularised and aren't,
-  comments that should be condensed, security audit items ("things we forgot
-  are very important to prevent someone else stealing something").
-- It opens PRs. Cloud agents may merge them **only if the PR includes a clear
-  end-to-end proof.** Otherwise they wait.
-- You wake up to a set of PRs.
+- 每晚凌晨 3 点（Ling 有一处说成凌晨 4 点——都行），机器人拉起一个调研用云端智能体，审整个 monorepo 表面。
+- 它找的是：代码质量、该模块化却没模块化的东西、该压缩的注释、安全审计项（「我们忘了、但对防止别人偷东西非常重要的那些」）。
+- 它开 PR。云端智能体**只有在 PR 带有清晰的端到端证据时才可以合并。** 否则就等着。
+- 你醒来面对一批 PR。
 
-Why nightly: nobody is shipping, so conflicts are unlikely, and the changes
-are low-risk slop removal.
+为什么放夜里：没人在发版，冲突概率低，改动是低风险的去水分。
 
-### 4. Internal tooling via a Slack mention instead of a dashboard
+### 4. 用 Slack @ 提内部工具，而不是做仪表盘
 
-Problem: adding people to TestFlight by email. The old answer: build a
-dashboard, add auth, add a DB, deploy behind a login, distribute. Takes an
-hour or two with agents, which is fast — but why?
+问题：按邮箱把人加进 TestFlight。老办法：做仪表盘、加鉴权、加 DB、部署到登录后面、再分发。用智能体也只要一两个小时，已经很快——可为什么还要做？
 
-The new answer: anyone in the org `@mentions` the bot in Slack with the email
-address. A routine (or webhook on the Slack signal) adds them to TestFlight.
-The only setup: give the bot safe access to TestFlight, and one prompt
-describing what to do.
+新办法：组织里任何人在 Slack 里 `@mention` 机器人并带上邮箱。一条例行任务（或 Slack 信号上的 webhook）把他们加进 TestFlight。唯一要配的：给机器人安全的 TestFlight 访问，再加一条描述该做什么的提示词。
 
-### 5. Auto-fix everything: CI, deploys, alerts
+### 5. 自动修一切：CI、部署、告警
 
-- CI goes red → bot examines what's red → spins a cloud agent to fix → uses
-  your instructions to decide whether it may merge → merges.
-- Same hook for deployment errors, flaky tests, anything with a signal.
-- **On-call is only paged if it's unresolved after 10 minutes.** "Most of the
-  time GrokBot can get it done within 10 minutes."
+- CI 变红 → 机器人看红了什么 → 拉起云端智能体去修 → 按你的指令决定能不能合并 → 合并。
+- 部署错误、不稳定测试、任何带信号的东西，同一挂钩。
+- **值班只在 10 分钟仍未解决时才被叫起来。** 「大多数时候 GrokBot 能在 10 分钟内搞定。」
 
-### 6. Verify the product on its own computer
+### 6. 在自己的电脑上验证产品
 
-A user reports they can't see previously booked flights on flyloair.com (the
-fictional demo airline). Craig navigates the site on its own VM, clicks
-through, and reports back: `/trips` is a stub while navigation still links
-there. Confirmed before any code is touched.
+有用户报告在 flyloair.com（虚构的演示航司）上看不到以前订过的航班。Craig 在自己的 VM 上打开站点、一路点进去，然后回报：`/trips` 是个空壳，导航却还链到那里。在动任何代码之前就确认了。
 
-### 7. P0 escalation, defined once
+### 7. P0 升级，只定义一次
 
-Telling an agent "urgent" repeatedly is counter-productive: it starts
-skipping steps and guessing to finish faster. Instead, define a standing P0
-policy:
+反复跟智能体说「紧急」会适得其反：它开始跳步骤、靠猜来赶时间。改成定义一条常驻 P0 策略：
 
-> A routine checks the cloud agents every five minutes. If an agent is off
-> track — running a long sleep like `sleep 300`, drifting from the goal,
-> being too conservative — interrupt it and nudge it immediately.
+> 一条例行任务每五分钟检查一次云端智能体。如果某个智能体跑偏了——在跑很长的 sleep，比如 `sleep 300`、偏离目标、过于保守——立刻打断并推一把。
 
-You never write a prompt to the cloud agent yourself after that. The bot
-writes the follow-ups.
+之后你再也不自己给云端智能体写提示词。跟进由机器人来写。
 
-### 8. Broadcast a standard once — the playbook chain
+### 8. 标准只广播一次——手册链路
 
-1. Tell **Craig** the new rule.
-2. Craig tells **Jenny**.
-3. Jenny writes it into the Notion playbook and **announces it to every
-   engineer bot.**
+1. 把新规则告诉 **Craig**。
+2. Craig 告诉 **Jenny**。
+3. Jenny 写进 Notion 手册，并**向每一位工程师机器人宣布。**
 
-Next time you add a workflow ("do this step before you trigger a deploy"),
-same chain. You think about it once. "Very similar to how a human
-organization is shaped, at agent scale."
+下次你加一条工作流（「触发部署前先做这一步」），同一条链路。你只想一次。「非常像人类组织的形态，只是按智能体的尺度。」
 
-### 9. Proof on every PR
+### 9. 每个 PR 都要有证据
 
-Told to Craig once, baked into the playbook by Jenny:
+跟 Craig 说一次，由 Jenny 写进手册：
 
-> Every single PR comes with proofs — screenshots for UI changes, perf metrics
-> for performance improvements.
+> 每一个 PR 都要带证据——UI 改动附截图，性能改进附性能指标。
 
-Ling doesn't watch the cloud agents any more. He checks results and proof.
-Cloud agents attach screenshots (and can attach a video of their run) to the
-PR description. Bug-bot and security-comment features run on the PR on top.
+Ling 不再盯云端智能体。他看结果和证据。云端智能体把截图（也可以附上自己跑过的视频）贴进 PR 描述。缺陷机器人和安全评论功能再叠在 PR 上跑。
 
 ---
 
-## Prompts that were used
+## 用过的提示词
 
-Onboarding a new bot through an existing one:
+通过已有机器人接入一个新的：
 
-> Hello, I have a new member in the team called Nightly. Rename them to Steve
-> and tell them how the engineering workflows are enforced.
+> 你好，团队里有一位新成员叫 Nightly。请把他改名为 Steve，并告诉他工程工作流是如何被执行的。
 
-Craig then messages Steve with: how the Notion board works, the definition of
-clean, how work ladders through the stages. Steve acknowledges and absorbs
-into memory. You don't copy-paste anything between bots.
+Craig 随后给 Steve 发消息：Notion 看板怎么运作、什么叫干净、工作如何按阶段往上走。Steve 确认并吸收进记忆。你不用在机器人之间复制粘贴任何东西。
 
-Investigate before fixing:
+先调查再修：
 
-> I think there is an issue with flyloair.com that users cannot check their
-> previously booked flight. Can you check if it's true?
+> 我觉得 flyloair.com 有个问题：用户查不到自己之前预订的航班。你能核实一下是不是真的吗？
 
-The P0 definition (near verbatim):
+P0 定义（接近原文）：
 
-> You need to set up a routine that checks cloud agents every five minutes.
-> Check if they are off the track, such as running a sleep, running a long
-> sleep like sleep 300, or going off our goal, being too conservative. We
-> sometimes just need things moving a little faster. Interrupt and nudge them
-> at the time you find them going off.
+> 你需要设一条例行任务，每五分钟检查一次云端智能体。看它们是不是跑偏了，比如在跑 sleep、跑很长的 sleep 像 sleep 300，或者偏离我们的目标、过于保守。我们有时就是需要事情再快一点。发现它们跑偏的当时就打断并推一把。
 
-Then, replying to the confirmed bug (reply-quoting so the bot has the
-context):
+然后，回复已确认的缺陷（引用回复，好让机器人带着上下文）：
 
-> Fix this issue urgently. Treat it as a P0.
+> 紧急修复这个问题。按 P0 处理。
 
-Creating the playbook owner:
+创建手册负责人：
 
-> Onboard a new member called Jenny, head of operations. Jenny needs to
-> manage a playbook for my engineering team, own the playbook, and avoid other
-> engineers updating it.
+> 接入一位新成员叫 Jenny，运营负责人。Jenny 需要为我的工程团队管理一份手册，拥有这份手册，并避免其他工程师去改它。
 
-Adding a standard:
+加一条标准：
 
-> Another requirement for the playbook is to make sure every single PR comes
-> with proofs, like screenshots for UI changes and perf metrics for
-> performance improvements.
+> 手册还有一条要求：确保每一个 PR 都带证据，比如 UI 改动附截图，性能改进附性能指标。
 
-Teaching the bot to say no (paraphrased from the talk): bots accept every
-bug report and feature request by default. Tell them *why* something doesn't
-belong in the product, what should not be done, and the reasoning. It's
-stored in memory; you don't repeat "I don't want this, this is not simple
-enough, we need to simplify."
+教机器人说不（从讲述转述）：机器人默认接受每一条缺陷报告和功能请求。告诉它们*为什么*某件事不该进产品、什么不该做、以及理由。存在记忆里；你不用反复说「我不要这个，这个不够简单，我们需要简化。」
 
 ---
 
-## Routines and cadences
+## 例行任务与节奏
 
-| Routine | Cadence |
+| 例行任务 | 节奏 |
 |---|---|
-| Nightly audit / cleanup | 3 a.m. daily |
-| P0 cloud-agent check | every 5 minutes, while a P0 is open |
-| CI / deploy auto-fix | on signal (red CI, failed deploy, alert) |
-| On-call page | only if auto-fix hasn't resolved it in 10 minutes |
-| Slack-mention tooling | on webhook / Slack signal |
-| Scheduled deploy | "deploy 6 a.m. tomorrow" — the bot knows the time and calls the tools then |
+| 夜间审计 / 清理 | 每天凌晨 3 点 |
+| P0 云端智能体检查 | 每 5 分钟，在有 P0 未关闭时 |
+| CI / 部署自动修复 | 随信号（CI 变红、部署失败、告警） |
+| 值班呼叫 | 仅当自动修复 10 分钟内没有解决 |
+| Slack @ 工具 | 随 webhook / Slack 信号 |
+| 定时部署 | 「明天早上 6 点部署」——机器人知道时间，到点再调工具 |
 
 ---
 
-## Numbers
+## 数字
 
-- 15 — cloud agents Ling managed manually before an orchestration bot existed.
-- 3 weeks — first GrokBot mobile app, built solo.
-- 10 minutes — grace period before a human is paged for red CI.
-- 5 minutes — P0 polling interval.
-- 10–20 — the bot-count at which copy-pasting a standard into every bot
-  stops scaling (hence the playbook chain).
-- 20 — cloud agents one bot can manage without holding them in context, using
-  the fleet DB.
+- 15 — 还没有编排机器人时，Ling 用手管着的云端智能体数量。
+- 3 周 — 第一版 GrokBot 移动应用，独自完成。
+- 10 分钟 — CI 变红后，叫人之前的宽限期。
+- 5 分钟 — P0 轮询间隔。
+- 10–20 — 把标准复制进每一个机器人开始撑不住的机器人数量（所以才有手册链路）。
+- 20 — 一个机器人在不把它们放进上下文、改用 Fleet DB 的情况下能管的云端智能体数量。
 
 ---
 
-## What still needs a human
+## 仍然需要人的地方
 
-Stated explicitly, because "where is the human?" was the obvious question:
+说得很明确，因为「人在哪？」是显而易见的问题：
 
-- Product direction.
-- Design details.
-- Hard things bots couldn't finish: performance issues, the architecture of
-  the next version "so we won't get sloppy code along the horizon."
-- Teaching the bot how to say no.
-- Making sure the bot is never blocked on auth — every auth step in the chain
-  needs a smooth "human unblocks the bot" path.
+- 产品方向。
+- 设计细节。
+- 机器人做不完的硬活：性能问题、下一版的架构，「这样地平线上才不会堆出松垮代码。」
+- 教机器人怎么说不。
+- 确保机器人从不卡在鉴权上——链路里每一步鉴权都需要一条顺畅的「人给机器人解堵」路径。
 
 ---
 
-## The three takeaways, in Ling's words
+## 三条收获，用 Ling 的原话
 
-1. **Treat them like interns.** When you're struggling to communicate, don't
-   reach for skills and formal invocation. Chat with them like a talented
-   intern who doesn't know what to do yet but will be extremely capable once
-   told.
-2. **Sink one level further rather than fix the sink.** If you've typed the
-   same prompt ten times, that's a waste. Work out what actually needs to be
-   done and extract it — into a playbook, or into a bot that nudges another
-   bot at the right time.
-3. **Have a complete feedback loop.** Any engineering task needs a signal for
-   success versus failure, or the agent can't know when to push further and
-   when to stop and merge. The easiest loop is letting the agent drive the
-   website via computer use. Hardware has its own signals.
+1. **把它们当实习生。** 沟通卡住时，别急着上技能和正式调用。像跟一个还不知道该干什么、但一旦被告知就会非常能干的优秀实习生聊天那样跟它们聊。
+2. **往下沉一层，而不是只修水槽。** 同一条提示词你打了十遍，那就是浪费。想清楚真正要做的是什么，抽出来——写进手册，或做成一个在对的时间去推另一个机器人的机器人。
+3. **要有完整的反馈闭环。** 任何工程任务都需要成功 vs 失败的信号，否则智能体不知道何时再推一把、何时停下来合并。最简单的闭环是让智能体用 computer use 自己操作网站。硬件有自己的信号。
 
 ---
 
-## Copy this
+## 照这个做
 
-1. One chief-of-staff bot. Talk to it, not to the engineers.
-2. One engineer bot per domain (UI / DevX / infra). Their memories stay
-   separate on purpose.
-3. One ops bot that owns a playbook document the others can read but not
-   edit. New standards go to the chief → ops → broadcast.
-4. A task ledger outside any bot's context.
-5. Define P0 once. Define proof requirements once. Define merge conditions
-   once.
-6. Nightly cleanup with a proof-gated auto-merge.
-7. Hook every signal you have (CI, deploys, alerts, Slack mentions) to a bot
-   first, a human second, with a timeout.
+1. 一个幕僚长机器人。跟它说话，不要跟工程师说话。
+2. 每个领域一个工程师机器人（UI / DevX / infra）。他们的记忆故意分开。
+3. 一个运营机器人，拥有一份其他人能读不能改的手册文档。新标准走 幕僚长 → 运营 → 广播。
+4. 一份在任何机器人上下文之外的任务台账。
+5. P0 定义一次。证据要求定义一次。合并条件定义一次。
+6. 夜间清理，带证据才自动合并。
+7. 你有的每个信号（CI、部署、告警、Slack @）先挂机器人，再挂人，并设超时。
 
-Related: [`../agents/VERIFICATION.md`](../agents/VERIFICATION.md),
-[`../agents/ORCHESTRATION.md`](../agents/ORCHESTRATION.md).
+相关：[`../agents/VERIFICATION.md`](../agents/VERIFICATION.md)，
+[`../agents/ORCHESTRATION.md`](../agents/ORCHESTRATION.md)。

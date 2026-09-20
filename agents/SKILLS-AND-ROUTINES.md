@@ -1,151 +1,122 @@
 # SKILLS-AND-ROUTINES.md
 
-**Use when:** you want an agent to stop needing the same instruction twice.
+**何时使用：** 你希望智能体不要同一条指令听两遍。
 
-Two building blocks. A **skill** captures *how* something is done. A **routine**
-decides *when* it happens. Always in that order, and never before the work has
-been done by hand at least once.
+两块积木。**技能**抓住*怎么*做。**例行任务**决定*何时*发生。永远是这个顺序，而且至少亲手做过一遍之前不要上。
 
 ```
-Do it by hand  →  Get a reliable result  →  Save it as a skill  →  Give it a routine
+先亲手做一遍  →  得到可靠结果  →  存成技能  →  配上例行任务
 ```
 
-Skipping straight to automation encodes a process nobody has validated.
+直接跳到自动化，等于把没人验证过的流程写死。
 
 ---
 
-## Three ways a skill gets made
+## 技能的三种做法
 
-### 1. By demonstration
+### 1. 靠演示
 
-Record yourself doing the task once; the agent turns the recording into a
-reusable skill.
+把自己做任务录一遍；智能体把录像变成可复用技能。
 
-Works well for: UI-heavy workflows, anything in a tool with no API, "click here
-then here then export."
+适合：偏 UI 的工作流、没有 API 的工具、「点这里再点那里然后导出。」
 
-**One demonstration is not enough on its own.** It captures the happy path and
-nothing else. After the recording, add by hand:
-- the decision logic (what to do when the case differs)
-- error handling (what to do when the step fails)
-- approval checkpoints (what requires a human before proceeding)
+**一次演示本身不够。** 它只抓住主路径，别的都没有。录像之后，亲手补上：
+- 决策逻辑（情况不同时怎么做）
+- 错误处理（这一步失败时怎么做）
+- 批准检查点（继续前哪些需要人）
 
-### 2. By correction — the highest-value source
+### 2. 靠纠偏——价值最高的来源
 
-> "Any time you see the agent think incorrectly, that's probably a good
-> opportunity to build a skill to fix it."
+> 「只要看见智能体想错了，多半就是做一条技能来修好它的好时机。」
 
-Not re-prompt around it. Not silently fix it yourself — that loses the loop
-entirely. The compounding only happens if the correction lands somewhere
-permanent.
+不要绕开再提示一遍。不要自己默默修好——那会把闭环整个丢掉。只有纠偏落到永久的地方，复利才会发生。
 
-> "If you do that over and over, you actually get agents that compound and get
-> better over time — versus 'I'll just fix it,' where you lose the feedback
-> loop."
+> 「如果你一遍遍这样做，智能体就会复利、越来越好——而不是『我自己改一下』，那样反馈环就断了。」
 
-### 3. By writing it
+### 3. 靠写下来
 
-When the process is mostly judgment, write it directly. Reading an agent's
-reasoning is a good source of material: *"a lot of the skills I made were
-inspired by just looking through these thinking blocks."*
+当过程主要靠判断，直接写。读智能体的推理是很好的素材来源：*「我做的很多技能，灵感就是翻这些思考块。」*
 
 ---
 
-## The overfitting trap
+## 过拟合陷阱
 
-This is the single most common way a skill goes bad, and it happens precisely
-*because* you wrote it at the right moment — right after something went wrong.
+这是技能变坏最常见的方式，而且恰恰发生在你*写得正是时候*——刚出完事。
 
-> "Whenever that rule or skill change comes from a problem that happened in that
-> chat session, agents tend to put all the details of that session in the rule.
-> Then it makes the skill less feasible, because it's overfitted."
+> 「一旦那条规则或技能改动来自某次聊天里出过的问题，智能体往往会把那次会话的所有细节写进规则。技能就更难用了，因为过拟合了。」
 
-**Write the principle. Delete the story.**
+**写下原则。删掉故事。**
 
-| Overfit | General |
+| 过拟合 | 一般原则 |
 |---|---|
-| "When the invoice export fails with error 502 on the March batch, retry twice then email Dana." | "On a transient upstream failure, retry with backoff; escalate to the named owner after the retry budget." |
-| "Don't put the banner above the buy button on the product page." | "After any layout change, verify no interactive element is covered." |
-| "Use the v3 endpoint because v2 broke last Tuesday." | "Use the current documented endpoint; check the docs before assuming a version." |
+| 「三月批次发票导出失败报 502 时，重试两次然后邮件给 Dana。」 | 「上游瞬时失败时，退避重试；用尽重试预算后升级给具名负责人。」 |
+| 「不要把横幅放在商品页购买按钮上面。」 | 「任何布局改动之后，验证没有交互元素被挡住。」 |
+| 「用 v3 端点，因为上周二 v2 坏了。」 | 「使用当前文档中的端点；先查文档再假定版本。」 |
 
-A useful test: **would this rule still make sense to someone who wasn't there?**
-If it only makes sense with the backstory, it is overfit.
-
----
-
-## What a good skill describes
-
-- when the skill applies — and when it does *not*
-- the inputs and system access it needs
-- the sequence of steps
-- how the result gets checked
-- the expected output format
-- which actions require approval
+一条有用的检验：**这条规则对当时不在场的人还能讲得通吗？** 如果只有背景故事才讲得通，就是过拟合。
 
 ---
 
-## Routines
+## 好技能会写明
 
-### What a routine needs defined
-
-- which agent owns it
-- the schedule and time zone — **or an event trigger, preferred**
-- where its input comes from
-- the expected output format
-- approval boundaries
-- what happens on failure
-- **what to do when there is nothing to report**
-
-That last one is underrated. Tell the routine that on a no-op it should handle
-it silently or stay quiet. Otherwise you train yourself to ignore it, and then
-you ignore it on the day it matters.
-
-### Frequency is a budget
-
-The dominant cost driver in every practitioner's setup. Three routines at every
-15 minutes is hundreds of runs a day.
-
-- Prefer an **event or webhook trigger** over a schedule, always
-- Once or twice a day is enough for most reporting
-- Five-minute polling is for actively supervising running work, not for watching
-  for something that happens twice a week
-- **Audit them on a schedule.** Put a recurring reminder in your own calendar to
-  look at the list and kill what isn't earning its keep
-
-### Connector or browser
-
-A connector (an MCP, an API plugin) is faster than the bot driving a browser,
-cheaper per task, and easier to whitelist or blacklist. Filling a web form by
-clicking through it costs more than the same form's own API. Use a connector
-when one exists; the browser is the fallback for anything that has no
-connector, not the default.
-
-### Test on safe data
-
-A test run performs real work. It can change real files and hit real sites.
-Point it somewhere disposable the first time.
+- 技能何时适用——以及何时*不适用*
+- 需要的输入和系统权限
+- 步骤顺序
+- 结果如何被检查
+- 期望的输出格式
+- 哪些动作需要批准
 
 ---
 
-## Self-improvement routines
+## 例行任务
 
-A weekly routine where an agent audits its own operation:
+### 例行任务需要定义什么
 
-1. **System audit** — what manual work happened this week that could have been
-   automated?
-2. **Voice/style learning** — diff what you edited against what the agent
-   produced, and feed the delta back so the next draft is closer.
+- 由哪个智能体负责
+- 日程和时区——**或事件触发，优先**
+- 输入从哪来
+- 期望的输出格式
+- 批准边界
+- 失败时怎么办
+- **无事可报时怎么办**
 
-**Cap the output at one suggestion per week.** Unbounded self-improvement
-suggestions feel like spam and get ignored, which defeats the point.
+最后一条被低估了。告诉例行任务：空跑时静默处理或保持安静。否则你会训练自己忽略它，然后在真正要紧的那天也忽略它。
+
+### 频率就是预算
+
+每个实践者配置里最主要的成本驱动。三条例行任务每 15 分钟一次，就是一天几百次运行。
+
+- 始终优先 **事件或 webhook 触发** 而不是定时
+- 大多数汇报一天一两次就够
+- 五分钟轮询用于主动监督正在运行的工作，不是用来盯一周发生两次的事
+- **按计划审计它们。** 在自己的日历里放一条周期提醒，看清单，杀掉不值留的
+
+### 连接器还是浏览器
+
+连接器（MCP、API 插件）比机器人开浏览器更快，单次任务更便宜，也更容易加白名单或黑名单。靠点击填网页表单，比同一张表单自己的 API 更贵。有连接器就用连接器；浏览器是没有连接器时的退路，不是默认。
+
+### 在安全数据上测试
+
+测试运行会做真工作。它会改真实文件、打真实站点。第一次指向一次性的地方。
 
 ---
 
-## Checklist for a new skill
+## 自我改进例行任务
 
-- [ ] The work was done by hand at least once first
-- [ ] It states when it applies and when it doesn't
-- [ ] It includes error handling and approval gates, not just the happy path
-- [ ] Nothing in it references a specific past incident
-- [ ] Someone who wasn't there would understand every line
-- [ ] It names how the result gets checked
+一条每周例行任务，让智能体审计自己的运转：
+
+1. **系统审计** — 本周哪些手工活本可以自动化？
+2. **语气/风格学习** — 把你改过的和智能体产出的做 diff，把差值喂回去，让下一份草稿更接近。
+
+**每周最多一条建议。** 无上限的自我改进建议会像垃圾打扰，然后被忽略，这就没意义了。
+
+---
+
+## 新技能检查清单
+
+- [ ] 工作至少先亲手做过一遍
+- [ ] 写明何时适用、何时不适用
+- [ ] 包含错误处理和批准门禁，不只是主路径
+- [ ] 没有任何内容引用某次具体过往事件
+- [ ] 当时不在场的人也能读懂每一行
+- [ ] 写明结果如何被检查

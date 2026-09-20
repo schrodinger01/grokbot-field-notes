@@ -1,195 +1,123 @@
-# Sales
+# 销售
 
-**Session:** GrokBot for Sales — day 2
-**Ran by:** Krista (rendered "Crystal" in the captions) and Mark Wright, xAI
-go-to-market. Krista is the team's power user; her templates are what the rest
-of the sales team started from.
+**场次：** GrokBot for Sales — 第 2 天
+**主讲：** Krista（字幕里写成「Crystal」）和 Mark Wright，xAI GTM。Krista 是团队的重度用户；她的模板是销售团队其他人起步用的东西。
 
-The maturity curve, sales edition: ask a question → "clean up my files" tasks
-→ **"build me pipeline" / "get me a meeting with X company"** as a single
-delegated objective → a staff function of bots working together.
+成熟度曲线，销售版：问一个问题 → 「整理我的文件」类任务 → 把 **「给我做 pipeline」/「帮我约到 X 公司的会」** 当成一条委派目标 → 一班机器人一起干活的幕僚职能。
 
-The pitch is aimed at the parts of sales nobody enjoys: pipeline generation,
-engineering questions you can't answer on the call, Salesforce hygiene,
-forecasting.
+卖点对准销售里没人爱干的部分：pipeline 生成、电话上答不上来的工程问题、Salesforce 数据卫生、预测。
 
 ---
 
-## The team
+## 团队
 
-| Bot | Job | Connected to |
+| 机器人 | 工作 | 接到 |
 |---|---|---|
-| **Olive** (her dog) | Chief of staff. Day-to-day: morning prep, prep for the 9 a.m., drafts email replies as cards | Gmail, Slack, calendar |
-| **PG** | Outbound prospecting. The PG skill is on the marketplace | Salesforce, X API, Gmail |
-| **Echo** | Updates a deck live from what the customer said on the call | Granola (or Gong), Google Slides |
-| **Customer Expert** | Knows her strategic accounts inside out. Updates the account plan after every call | Notion (database of record), Slack channels, usage data, changelog |
-| **Engineer** | Answers technical questions live on a call, customer-ready | The codebase, Slack |
-| Salesforce next-steps updater | Turns call transcripts into pipeline updates in her format | Granola, Gong, Gmail, Slack, Salesforce |
-| Travel & expense, X bot, "learning" chat | Utility | — |
+| **Olive**（她的狗） | 幕僚长。日常：晨间准备、为早上 9 点的会做准备、把邮件回复起草成卡片 | Gmail、Slack、日历 |
+| **PG** | 外拓。PG 技能在市场上 | Salesforce、X API、Gmail |
+| **Echo** | 根据客户在通话里说的内容现场更新演示文稿 | Granola（或 Gong）、Google Slides |
+| **Customer Expert** | 对她的战略客户了如指掌。每次通话后更新客户计划 | Notion（记录数据库）、Slack 频道、用量数据、changelog |
+| **Engineer** | 在通话中现场回答技术问题，客户可直接看 | 代码库、Slack |
+| Salesforce next-steps updater | 把通话转录变成她格式的 pipeline 更新 | Granola、Gong、Gmail、Slack、Salesforce |
+| Travel & expense、X bot、「learning」chat | 工具型 | — |
 
 ---
 
-## Olive — the chief of staff
+## Olive — 幕僚长
 
-"The bus to the office is my most anxiety-prone time: not at my laptop, but
-Slacks and emails flowing in." Olive preps the day and the 9 a.m. meeting and
-drafts replies. A customer asks for a one-pager → Olive drafts the email as a
-card; she edits, sends, or discards.
+「去办公室的公交是我最焦虑的时段：人不在电脑前，Slack 和邮件却往里涌。」Olive 准备当天和早上 9 点的会，并起草回复。客户要一页纸 → Olive 把邮件起草成卡片；她改、发、或丢掉。
 
-Routine: morning inbox scan. Her cadence is deliberate: **once or twice a
-day, not more** — "otherwise I find it really noisy." Mark is the opposite
-(chief of staff + heavy routines, higher spend) and offsets it by asking the
-bot itself for optimisation tips.
+例行任务：早间收件箱扫描。她的节奏是刻意的：**一天一两次，不要更多**——「否则我会觉得非常吵。」Mark 正好相反（幕僚长 + 很重的例行任务，花费更高），靠问机器人本身要优化建议来对冲。
 
-Olive can also orchestrate: working on a deck, it calls the deck bot; working
-on a customer, it calls that customer's bot for account data. Krista mostly
-talks to the specialists directly and finds that uses fewer tokens.
+Olive 也能编排：做演示文稿时，它叫演示文稿机器人；做某个客户时，它叫那个客户的机器人要客户数据。Krista 多半直接跟专家说话，发现这样更省 token。
 
 ---
 
-## PG — prospecting with personal hooks
+## PG — 带个人钩子的开拓
 
-The workflow, run overnight:
+工作流，夜里跑：
 
-1. Pick **five accounts** from her book in Salesforce (or she names them). You
-   can do 100; she does five a day.
-2. Pick **five contacts** per account.
-3. For each contact, pull **personal hooks**, not company events. "Your
-   company raised funding" — they're getting that from a thousand vendors.
-   Instead: the CTO posted on X about building a software factory; the CEO
-   posted about a product launch. Connect the **X API** — "X is where a lot
-   of leaders and companies post."
-4. Pull intent data: company growth, job openings, whatever you ask for.
-5. Find podcasts and webinars the contact appeared in and **watch them**,
-   pulling quotes that relate to what you sell. She used to try to listen on
-   the way to work; a 45-minute webinar per prospect doesn't scale.
-6. Rank contacts by who to reach out to first.
-7. Draft the outreach in Gmail, as editable cards.
+1. 从她 Salesforce 的客户簿里挑 **五个客户**（或她点名）。你可以做 100 个；她一天做五个。
+2. 每个客户挑 **五个联系人**。
+3. 对每个联系人，拉 **个人钩子**，不是公司事件。「你们公司融了资」——他们正从一千家供应商那里收到这个。换成：CTO 在 X 上发了关于建软件工厂的帖；CEO 发了产品上线。接上 **X API**——「很多领导者和公司发东西的地方是 X。」
+4. 拉意图数据：公司增长、职位空缺，你要什么就拉什么。
+5. 找到联系人出现过的播客和网络研讨会，并**看完它们**，抽出跟你卖的东西相关的引用。她以前想在上班路上听；每个潜客一场 45 分钟的网络研讨会规模化不了。
+6. 按该先联系谁给联系人排序。
+7. 在 Gmail 里起草外联，做成可编辑卡片。
 
-Before any of this sends: **de-slop.** Give the bot writing you're proud of —
-scan your sent Gmail, Slack, your X — so it writes in your voice. "I'm very
-picky that things sound like me."
+任何东西发出去之前：**去水分。** 给机器人你自己满意的文字——扫你已发送的 Gmail、Slack、你的 X——让它按你的声音写。「我非常挑剔，东西得听起来像我。」
 
-Then build on it: "you drafted these emails, great — now draft LinkedIn
-responses, now find 10 more people." Every day add ~20 more. Result: "I've
-booked a lot more meetings with executive buyers because I understand what's
-important to them based on what they've posted."
+然后往上叠：「这些邮件你起草得很好——现在起草 LinkedIn 回复，现在再找 10 个人。」每天大约再加 20 个。结果：「我约到了多得多的高管买家会议，因为我根据他们发过的东西理解了对他们重要的是什么。」
 
 ---
 
-## Echo — a deck that updates itself during the call
+## Echo — 通话中自己更新的演示文稿
 
-Run discovery with Granola recording. Stop Granola, run Echo. It pulls the
-transcript and updates the slides — use cases discussed, next steps — so you
-leave the discovery call with a deck that reflects it. About two minutes.
-Also: "translate this slide to Japanese" for international customers.
+用 Granola 录制做探需。停 Granola，跑 Echo。它拉转录并更新幻灯片——讨论过的用例、下一步——这样你离开探需通话时，演示文稿已经反映了它。大约两分钟。还有：「把这张幻灯片翻译成日语」，给国际客户。
 
-Granola is fast; Gong takes a couple of minutes to load after the call, so
-Gong is better for the *next* call or the follow-up email.
+Granola 快；Gong 通话结束后要几分钟才加载完，所以 Gong 更适合*下一通*电话或跟进邮件。
 
 ---
 
-## Salesforce next steps
+## Salesforce 下一步
 
-"Does anyone enjoy updating Salesforce?" (One person did.)
+「有人喜欢更新 Salesforce 吗？」（有一个人喜欢。）
 
-She gave the bot her format — **initials, date, customer outcomes, next
-steps** — and it listens to her Granola and Gong calls, pulls from email and
-Slack, drafts the next-steps update, she reviews, it pushes to Salesforce.
+她把格式给了机器人——**首字母、日期、客户结果、下一步**——它听她的 Granola 和 Gong 通话，从邮件和 Slack 拉，起草下一步更新，她审，它推进 Salesforce。
 
 ---
 
-## Customer Expert — one bot per strategic account
+## Customer Expert — 每个战略客户一个机器人
 
-She works a few strategic accounts across many departments, internal and
-external Slack channels, email threads. Notion is the database of record.
-After every call the bot updates the **account plan**: signals, upcoming
-renewal, stakeholders to reach, calls had, projects in flight, next steps.
-Pull usage: "who are the top 20 power users?" — so the team can get feedback
-before renewal or offer a new feature.
+她跨很多部门做几个战略客户，内外部 Slack 频道、邮件线程。Notion 是记录数据库。每次通话后机器人更新 **客户计划**：信号、即将到来的续约、该触达的干系人、打过的电话、进行中的项目、下一步。拉用量：「谁是前 20 名重度用户？」——好让团队在续约前拿反馈，或推出新功能。
 
-The feature she loves: **changelog ↔ feature requests.** A customer asked for
-something a month ago; she'd have forgotten. When it ships, the bot flags:
-*we just shipped this, reach out to the customer who asked.* "Feels like we
-built a feature for them."
+她最爱的功能：**changelog ↔ 功能请求。** 客户一个月前要过某样东西；她会忘掉。发出去时，机器人标出来：*我们刚发出这个，联系当时要过的客户。* 「感觉像我们专门为他们做了一个功能。」
 
-Per-client bot vs. one expert for all clients? Preference. She has one per
-strategic account because she only has a few; AEs with hundreds of accounts
-do it differently. Mark: per-customer bots for intent and notes, a chief of
-staff directing them, plus an "intent" bot that builds demos on the fly.
+按客户一个机器人 vs. 一个专家管所有客户？偏好问题。她每个战略客户一个，因为她只有几个；管几百个客户的 AE 做法不同。Mark：按客户做意图和笔记的机器人，由幕僚长指挥，再加一个现场做演示的「意图」机器人。
 
 ---
 
-## Engineer — answering on the call, not after
+## Engineer — 在通话上回答，而不是通话后
 
-> Can you send me a customer-facing answer on how to set up cloud agents?
-> Also send me a few outcomes that Amplitude and Fair achieved.
+> 你能给我一份面向客户的回答，讲怎么设置云端智能体吗？再给我几个 Amplitude 和 Fair 拿到的结果。
 
-Without it: bring an engineer onto the call, or go find the Amplitude and
-Fair account managers. With it: steps pulled from the codebase, outcomes
-pulled from other accounts, formatted paste-ready for Slack because "it
-already knows how I work." Mark: "how many times have we all said *let me
-find the answer and get back to you* — now we answer on the call and speed
-up the next step."
+没有它：把工程师拉进通话，或去找 Amplitude 和 Fair 的客户经理。有了它：步骤从代码库拉，结果从其他客户拉，格式已经能贴进 Slack，因为「它已经知道我怎么工作。」Mark：「我们说过多少次 *我去找答案再回复你*——现在我们在通话上就回答，并把下一步加快。」
 
 ---
 
-## The mindset shift, in her words
+## 心态转变，用她的原话
 
-"When I first started, I mistakenly used it like a chat interface. I said *go
-do this research* and it gave me links to go watch the webinars myself. I
-pushed back: **no, go watch those webinars for me and draft an email.**"
+「刚开始时，我错误地把它当聊天界面用。我说 *去做这个调研*，它给我链接让我自己去看那些网络研讨会。我顶回去：**不行，替我看那些网络研讨会，并起草一封邮件。**」
 
-Think of it as a **doing partner**, not a thinking partner. It has its own
-computer. It can work overnight. Have the prospecting bot chew through a long
-list while you sleep and wake up to drafts.
+把它当成**执行搭档**，不是思考搭档。它有自己的电脑。它可以夜里干活。让开拓机器人在你睡觉时啃一长串名单，醒来面对草稿。
 
 ---
 
-## Three tips (Mark's close)
+## 三条建议（Mark 的收尾）
 
-1. **Connect your stack.** Whatever you use day to day, get it connected
-   first. That's where the "aha" moments come from fastest.
-2. **One bot, one job.** Engineer, pipeline, travel & expense. Onboard them
-   as team members; give each all the material to be great at that job.
-3. **Routines.** "Set it and forget it" — but see Krista's cadence.
+1. **接上你的技术栈。** 你日常用什么，先接上。最快出「原来如此」时刻的地方。
+2. **一个机器人，一份工作。** 工程师、pipeline、差旅报销。把他们当团队成员接入；给每人成为这份工作高手所需的全部材料。
+3. **例行任务。** 「设了就忘」——但也要看 Krista 的节奏。
 
 ---
 
-## Q&A worth keeping
+## 值得保留的问答
 
-- **Tokens.** Run fewer routines (someone ran one every 15 minutes). Use
-  specialists directly rather than routing everything through a chief of
-  staff. **Use MCPs where they exist** — Gong, Granola, Salesforce shipped
-  out of the box — and save computer use for tools without one. "A lot of
-  sales tools don't have great MCPs."
-- **Knowledge base as it grows?** Meet where you are. For them everything
-  lives in Notion and Slack, so connect those. Salesforce is the source of
-  truth for deals. GrokBot is the **orchestration layer** over Databricks,
-  Salesforce, Notion, Slack — "no company is good at keeping data in one
-  place."
-- **Delegating to Cursor?** Just say "spin up cloud agents" in natural
-  language; your Cursor account is connected.
-- **Talking to other departments?** Slack, as before — but the bot can track
-  the marketing channel for you.
-- **Standardised setup for a team?** Take the power user's templates and
-  share them so a new rep gets five bots on day one. Role-based onboarding
-  (GrokBot asks your role and pre-loads templates) was rolling out.
+- **Token。** 少跑例行任务（有人每 15 分钟跑一条）。直接用专家，而不是什么都经幕僚长转。**有 MCP 的地方就用 MCP**——Gong、Granola、Salesforce 开箱即有——把 computer use 留给没有 MCP 的工具。「很多销售工具没有很好的 MCP。」
+- **知识库长大了怎么办？** 从你现在所在的地方接。对他们来说一切住在 Notion 和 Slack，所以接这些。交易的事实来源是 Salesforce。GrokBot 是 Databricks、Salesforce、Notion、Slack 之上的**编排层**——「没有哪家公司擅长把数据放在一个地方。」
+- **委派给 Cursor？** 用白话说「拉起云端智能体」就行；你的 Cursor 账号已接上。
+- **跟其他部门说话？** 还是 Slack——但机器人可以替你盯市场频道。
+- **给团队做标准化搭建？** 拿重度用户的模板分享出去，让新销售第一天就有五个机器人。按角色接入（GrokBot 问你的角色并预装模板）当时正在推出。
 
 ---
 
-## Copy this
+## 照这个做
 
-1. Chief of staff for the morning: prep, inbox, reply drafts. One or two
-   routine runs a day.
-2. Prospecting bot: small daily batch, personal hooks from X, watch the
-   webinars, rank, draft. Train the voice first.
-3. Post-call bot that updates the CRM in *your* format from the transcript.
-4. One account-expert bot per strategic account, with the account plan in
-   your doc tool, updated after every call, watching the changelog.
-5. An engineer bot on the codebase for live technical answers.
-6. Push back the first time it hands you links.
+1. 给早晨用的幕僚长：准备、收件箱、回复草稿。一天一到两次例行任务。
+2. 开拓机器人：每天小批量，从 X 拉个人钩子，看网络研讨会，排序，起草。先训练声音。
+3. 通话后机器人，按*你的*格式从转录更新 CRM。
+4. 每个战略客户一个客户专家机器人，客户计划放在你的文档工具里，每次通话后更新，盯着 changelog。
+5. 一个挂在代码库上的工程师机器人，做现场技术回答。
+6. 它第一次甩给你链接时，顶回去。
 
-Related: [`sales-engineering.md`](sales-engineering.md) (Sherlock is the SE
-version of the engineer bot), [`sdr.md`](sdr.md) (the top-of-funnel version
-of PG, at scale).
+相关：[`sales-engineering.md`](sales-engineering.md)（Sherlock 是工程师机器人的 SE 版），[`sdr.md`](sdr.md)（PG 的漏斗顶端版，按规模）。

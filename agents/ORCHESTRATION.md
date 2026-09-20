@@ -1,195 +1,146 @@
 # ORCHESTRATION.md
 
-**Use when:** you are designing a team of agents rather than prompting one, or
-your roster has grown past the point where you can keep track of it.
+**何时使用：** 你在设计一支智能体团队，而不是给单个智能体写提示词，或角色名册已经大到你自己都跟不住。
 
 ---
 
-## One bot, one job
+## 一个机器人，一件事
 
-The most repeated advice across three days, from every presenter
-independently. Not one general-purpose assistant — a roster of narrow
-specialists you address by name.
+三天里被重复最多的建议，每位讲者各自独立说到。不是一个通用助手——而是一份窄域专员角色名册，你按名字点他们。
 
-Four reasons it wins:
+它赢在四点：
 
-1. **Context stays scoped.** Each agent has its own context limit. A generalist
-   juggling four unrelated jobs burns through it and starts forgetting.
-2. **You can remember who to ask.** "Our brains can't store novels either — you
-   want to know who to reference."
-3. **Cast into a role, the model performs better.** The feedback loop only
-   tightens when the job is narrow enough for feedback to mean something.
-4. **Parallelism is free.** Fire off five specialists, let them work, come back
-   and synthesize.
+1. **上下文保持收束。** 每个智能体有自己的上下文上限。一个通才同时抛四个不相干的活，会烧光它然后开始忘事。
+2. **你能记住该问谁。** 「我们的脑子也存不下长篇小说——你得知道该点谁的名。」
+3. **被派入角色后，模型表现更好。** 只有职责窄到反馈有意义，反馈环才会收紧。
+4. **并行几乎免费。** 一次派出五个专员，让他们干活，回来再综合。
 
-### Writing a role
+### 怎么写角色
 
-A good role spells out:
+好的角色会写明：
 
-- one clear area of ownership, narrow enough to name
-- the specific tools and data sources it may use
-- **how** it should approach the work, not just what the work is
-- what needs sign-off before it happens
-- its source of truth — which teammate or document is authoritative
-- a recurring schedule, if the job has one
+- 一块清楚、窄到能起名的职责
+- 可以使用的具体工具和数据源
+- 它**如何**开展工作，而不只是工作是什么
+- 发生前需要批准的事项
+- 它的事实来源——哪位队友或哪份文档说了算
+- 若这份工作有周期，写明日程
 
-Avoid "General Helper." Go narrow: *Talent Scout*, *Expense Manager*,
-*Bug Reproduction*, *Release Notes*.
+避开「万能助手」。往窄里写：*人才侦察*、*费用管理*、*Bug 复现*、*发版说明*。
 
-### Write principles, not incidents
+### 写原则，不写事件
 
-The most common way a role goes bad: it gets written or amended right after a
-specific failure, and the specifics get baked in permanently.
+角色变坏最常见的方式：刚出完一次具体故障就写或改角色，细节被永久写死。
 
-Bad role text:
+糟糕的角色文本：
 
-> "High-level context on our studio. One job: own engineering outcomes by
-> orchestrating work through [today's toolchain] and cloud agents, then
-> supervising and verifying. Match your playbook and follow it."
+> 「关于我们工作室的高层背景。一件事：通过 [今天的工具链] 和云端智能体编排工作，然后监督并验证，对工程结果负责。对照你的手册并照做。」
 
-The fix is to say, out loud, what you want instead:
+改法是大声说出你真正想要的：
 
-> *"Read the playbook again and come up with principles this role should follow
-> instead of these overly specific issues."*
+> *「再读一遍手册，提炼这个角色该遵循的原则，而不是这些过于具体的问题。」*
 
 ---
 
-## The bot-sprawl trap
+## 机器人膨胀陷阱
 
-Creating a new agent is cheap, fast and fun. That is the problem.
+新建一个智能体便宜、快、好玩。问题就在这里。
 
-> "I promise you I've had way too many at some points. It's honestly more
-> chaotic. You should really be questioning: why is it important that a *new*
-> bot does this?"
+> 「我跟你保证，有些时候我真的养太多了。老实说更乱。你真该问一句：这件事为什么非得由一个*新*机器人来做？」
 
-> "Keep your team lean. You don't need 45 bots."
+> 「团队保持精简。你不需要 45 个机器人。」
 
-**Rule:** before creating an agent, check whether an existing specialist just
-needs a new *skill* or *routine*. New agents cost context, setup, routines and
-your attention — every one of them, forever.
+**规则：** 新建智能体之前，先看现有专员是不是只需要一条新*技能*或*例行任务*。新智能体要耗费上下文、配置、例行任务和你的注意力——每一个，而且永远。
 
-Symptoms you have too many: you can't remember what one of them does; two of
-them overlap; you route messages between them manually; you have agents you
-haven't opened in a week.
+太多的症状：你记不清其中一个在干什么；两个职责重叠；你在它们之间手工转发消息；有的智能体一周没打开过。
 
 ---
 
-## Four patterns for running more than five
+## 管超过五个时的四种模式
 
-### 1. The chief of staff
+### 1. 幕僚长
 
-One agent you talk to almost exclusively. It routes to specialists and reports
-back.
+你几乎只跟这一个智能体说话。它分发给专员并汇报回来。
 
-- **Build every other agent *through* it.** That is what gives it the context
-  to route correctly later.
-- It **onboards new agents itself** — messaging them the context and standards
-  so you don't repeat yourself to each new hire.
-- It holds "who is working on what," so specialists don't carry that overhead.
-- One practitioner runs 15–20 specialists under a single chief with no middle
-  layer.
+- **其他智能体都*经由*它来建。** 这样它才有上下文，以后才能分发正确。
+- 它**自己接入新智能体**——把上下文和标准发给它们，这样你不用对每个新成员重复一遍。
+- 它掌握「谁在干什么」，专员不必扛这份开销。
+- 有实践者在一名幕僚长下管 15–20 个专员，没有中间层。
 
-Not universal. Some people prefer talking to experts directly and say so. Try
-it; drop it if it adds a hop without adding value.
+不是人人适用。有人更喜欢直接跟专家说话，而且会明说。先试试；如果只加一跳不增值，就丢掉。
 
-### 2. The playbook broadcast
+### 2. 手册广播
 
-One agent owns a living document of team standards. New standards are told to
-**it**, once, and it propagates them to everyone else.
+一个智能体拥有团队标准的活文档。新标准只告诉**它**一次，由它传播给其他人。
 
-> "You are just thinking about what needs to be done once... the next time you
-> need to add a new workflow, they populate the playbook and all engineers know
-> that without you telling them individually."
+> 「你只需要把该做什么想一遍……下次要加新工作流，它们会写入手册，所有工程师都知道，不用你挨个通知。」
 
-Example standards to put in it:
-- every PR ships with screenshots for UI, perf numbers for backend
-- how urgent work is defined and handled (see below)
-- what requires human approval
+可以放进去的标准示例：
+- 每份 PR：UI 带截图，后端带性能数字
+- 紧急工作如何定义、如何处理（见下）
+- 什么需要人批准
 
-### 3. The staff meeting
+### 3. 幕僚会议
 
-Pull several agents into one thread to argue a decision from different vantage
-points, then have the chief synthesize a recommendation.
+把几个智能体拉进同一线程，从不同视角争论一项决策，再由幕僚长综合出建议。
 
-- **Instruct them to disagree.** "It's not helpful if they just agree."
-- Use it for decisions, not for routine work — group threads are talkative and
-  get expensive fast.
+- **要求它们唱反调。** 「光附和没有用。」
+- 用于决策，不用于例行工作——群聊爱说话，贵得很快。
 
-### 4. The sub-agent army
+### 4. 子智能体军团
 
-A mid-tier agent delegates a large batch job to a swarm of low-context workers,
-with output flowing back to one parent for audit. Research 200 accounts, fuzz
-40 flows, summarize 100 documents. Easy to scale up and down.
+中层智能体把大批量工作委派给一群低上下文工人，产出回流到一个父级做审计。调研 200 个账户、模糊测试 40 条流程、摘要 100 份文档。容易放大缩小。
 
 ---
 
-## Standing policies beat shouting
+## 常驻策略胜过喊话
 
-Telling an agent "this is urgent" repeatedly makes it skip steps and guess.
-Define the policy once instead:
+反复对智能体说「这个很急」，会让它跳步骤、瞎猜。改为把策略定义一次：
 
-> *"Set up a routine that checks running agents every five minutes. Check if
-> they are off track — running a long sleep, or going off the goal, or being
-> too conservative. Interrupt and nudge them when you find them going off."*
+> *「设一条例行任务，每五分钟检查正在运行的智能体。看它们是否跑偏——在跑长时间 `sleep`，或偏离目标，或过于保守。发现跑偏就打断并推一把。」*
 
-Same for escalation, failure handling, and what counts as blocking.
+升级、失败处理、什么算阻塞，都一样。
 
 ---
 
-## The autopilot ladder
+## 自动驾驶阶梯
 
-Grant autonomy in rungs, and name the rung explicitly in the instruction.
+按梯级授予自主权，并在指令里明确写出这一级。
 
-| Rung | Means | Use when |
+| 梯级 | 含义 | 何时使用 |
 |---|---|---|
-| **Investigate** | Diagnose, report back, touch nothing | Production, unclear cause |
-| **Draft** | Open a PR, wait for a human | Normal work |
-| **Autopilot** | Implement, verify, merge on green | Low blast radius, good verify loop |
-| **Full autopilot** | Plan, phase, implement, verify, merge | Throwaway projects only |
+| **排查** | 诊断、汇报，什么都不动 | 生产环境，原因不清 |
+| **草稿** | 开 PR，等人 | 常规工作 |
+| **自动驾驶** | 实现、验证、绿灯即合并 | 影响范围小，验证闭环好 |
+| **完全自动驾驶** | 规划、分阶段、实现、验证、合并 | 仅限一次性项目 |
 
-Pull back a rung the moment something is live. The team that invented this
-ladder did exactly that on launch day — *"maybe not full autopilot, do we
-dare?"* — because the game was now in front of real users.
+一旦上线就降一级。发明这套阶梯的团队在上线当天正是这么做的——*「也许别完全自动驾驶，我们敢吗？」*——因为游戏已经摆在真实用户面前。
 
 ---
 
-## Organising the roster
+## 整理角色名册
 
-- **Sections** group agents like an org chart: Leadership, Engineering, War Room.
-- **Colour or label by function**, not by task — research, outbound, account
-  work — so a glance at a thread tells you the pipeline stage.
-- **Pin the three or four you actually use daily.** Hide the rest rather than
-  deleting them.
+- **分区**像组织架构一样给智能体分组：领导层、工程、作战室。
+- **按职能上色或打标签**，不要按任务——研究、外联、客户工作——这样一眼线程就知道流程阶段。
+- **钉住你每天真正用的三四个。** 其余藏起来，而不是删掉。
 
 ---
 
-## The cost model
+## 成本模型
 
-Consumption-based: you pay for talking to agents and for their tool use. Four
-places the money actually goes:
+按量计费：你为跟智能体说话和它们使用工具付费。钱实际花在四处：
 
-1. **Over-frequent routines — the biggest leak by far.** "If you have three
-   that run every 15 minutes, that's hundreds of messages a day." Audit
-   frequency weekly. Prefer event triggers over schedules. Once or twice a day
-   is usually enough.
-2. **Browser automation where an API exists.** Watch the agent do it once
-   through the browser, ask it to inspect the network requests it triggered,
-   then have it hit those endpoints directly from then on.
-3. **Group threads left running.** Agents in a shared thread talk over each
-   other. Prefer one-to-one for routine work.
-4. **Roster sprawl.** More agents means more routines, more re-established
-   context, more overlap.
+1. **过于频繁的例行任务——遥遥领先的最大漏洞。** 「如果你有三条每 15 分钟跑一次，那就是一天几百条消息。」每周审计频率。优先事件触发而不是定时。一天一两次通常就够。
+2. **已有 API 却走浏览器自动化。** 看智能体用浏览器做一次，让它检查触发的网络请求，然后从此直接打那些端点。
+3. **一直开着的群聊线程。** 共享线程里的智能体会互相抢话。例行工作优先一对一。
+4. **角色名册膨胀。** 智能体越多，例行任务越多，要重建的上下文越多，重叠越多。
 
-Levers you control: verbosity, telling agents to forget context they no longer
-need, and keeping one agent whose only job is optimizing the others' routines
-and skills.
+你能扳的杠杆：详略程度、让智能体忘掉不再需要的上下文，以及留一个专职优化其他智能体的例行任务和技能的智能体。
 
 ---
 
-## The problem nobody had solved
+## 还没人解决的问题
 
-> "I am getting more work done than ever. I'm also busier than ever."
+> 「我完成的工作比以往都多。我也比以往都忙。」
 
-Context-switching across a dozen running agents is a real cost with no clean
-answer yet. The chief-of-staff pattern is the best available mitigation, not a
-fix. Budget attention like you budget tokens.
+在十几个正在运行的智能体之间切换上下文，是真实成本，目前没有干净答案。幕僚长模式是现有最好的缓解，不是根治。像预算 token 一样预算注意力。

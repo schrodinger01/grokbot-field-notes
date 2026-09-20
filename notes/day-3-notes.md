@@ -1,261 +1,261 @@
-# GrokBot Galaxy Livestream — Day 3 Notes (Software Factory + Game Launch)
+# GrokBot Galaxy 直播 —— 第 3 天笔记（软件工厂 + 游戏上线）
 
-Context: 72-hour "build a business live with GrokBots" stream, in San Francisco next to Dreamforce. Day 1–2: ideation, pivoted from a physical restaurant pop-up to a game studio. Day 3: build/polish, launch the game ("Thursday Arena," codename "Cupcake"), grow, monetize.
+背景：72 小时 「用 GrokBot 直播做一门生意」直播，在旧金山、Dreamforce 旁边。第 1–2 天：构思，从实体餐厅快闪转向游戏工作室。第 3 天：构建/打磨，上线游戏（「Thursday Arena」，代号 「Cupcake」），增长，变现。
 
-Hosts/builders on stream throughout: **Roshan** (roshan_s on X, "works on products at SpaceX AI" — note: company referred to as "SpaceX AI" throughout, likely an ASR mis-transcription of "xAI"), **Lauren**, **Matt** (Matt Palmer), later joined by **Eric** (from Cursor/engineering team) for final hours. Guests: Vincent Zhu (growth), Matthew/"Matt" (marketing ops/RevOps, MarOps at SpaceX AI — separate from build-team Matt), Blake (AI Deployment Manager, post-sales), Dan Hill (Stripe/Link), Josh Kim (marketing).
-
----
-
-## 1. PRODUCT FACTS — GrokBot features, limits, pricing, integrations
-
-- **Promo 1 (start of stream):** New users who sign up, download GrokBot, create an account, and set up a recurring task within 10 minutes get **one month free of GrokBot** — "$200 of usage" / "$200 in value, free month of our highest tier."
-- **Promo 2 (~mid-afternoon):** Existing users who comment "**reset**" in the livestream chat (not X) get a **usage/limits reset** by end of day.
-- **Promo 3 (~15 min window, repeated):** New users signing up at x.ai/bot within 15 min, creating account + recurring task, get another free month.
-- **Promo 4 (final, ~4pm):** Post "**credits**" in the livestream chat within 5 minutes → **$200 of GrokBot credits** by end of day.
-- **Separate contest:** X challenge — share a GrokBot you can't live without (quote the challenge post, describe your bot, link a shared template) to win a trip for two to Starbase, TX to watch a Starship launch.
-- **Core product model:** GrokBot ≠ single chatbot. You create **individual bots per job/role**, each a "teammate." Bots message each other like Slack/iMessage DMs and group chats ("staff meetings"). UI explicitly modeled on iMessage.
-- **Each bot has its own persistent virtual computer/VM** — browser, can install arbitrary apps (e.g., Beeper for WhatsApp/multi-chat aggregation), open PowerPoint, etc. Bots are "always-on" / 24/7 — "you don't need to keep your laptop open" (contrasted with OpenClaw's need for a physical Mac Mini running).
-- **"Teach a task" button** on a bot's computer — watches you perform a task once and repeats it (skill capture by demonstration).
-- **Bot sharing / templates:** Any bot can be exported ("share as template") — strips sensitive/workspace-specific info, keeps core memory/context, produces a shareable link others can import with one click. Can share to team only or public.
-- **GrokBot Marketplace** (x.ai/bot/marketplace): community-published bot templates with preloaded memory, routines, and integrations (e.g., "Cooper" — news bot with 8am Slack briefing). Team explicitly said: start from a marketplace template rather than building from scratch when one already fits; but "it's such a simple tool to build your own bots from scratch if you need to."
-- **Connectors/integrations mentioned:** Slack, Vercel, PlanetScale, GitHub/Cursor Cloud Agents, Notion, Clerk, Excalidraw, X/Twitter, Google Calendar/Gmail, Google Docs/Sheets/Forms, 1Password (announced day before — share password vault with bot; bot can re-auth using vault creds), Clay (lead enrichment/company search), Ample Market (email sequencer), AgentMail (email), Canva (design), XMTP/X API, Stripe (Link, Projects, best practices/directories docs), MCP generically — "point GrokBot at an MCP URL, it'll install it itself."
-- **Voice mode**: GrokBot can talk — announced/launched that same day ("we literally just announced this an hour ago"), rolling out over following days. Demoed live: calling a bot ("Bake"/engineer) by voice to check PR status, merge a PR, spin up an agent to fix merge conflicts, hear a programming joke.
-- **XAI Voice Agent builder**: separate no-code tool (on xAI side) to build phone-callable voice agents with tool access (e.g., webhook to Slack) and guardrails (hangs up on abuse/prompt injection attempts). Demoed: users called a phone number and left voice feedback that flowed into Slack.
-- **Stripe Link** (via GrokBot connector): lets an agent make one-time-use virtual cards to buy things online with a human-approval step ("I need $10 for this tree pack — approved"). Use cases cited: parking tickets, flight/restaurant bookings, buying shoes (Matt: "these shoes... I bought with GrokBot" — literally screenshotted a shoe, said "find me a new pair, size 12"), pre-ordering a Tesla, donating to charity as a fitness-goal penalty, gift-buying for family birthdays (2 weeks out reminder + suggestions + purchase), Postal Form (agents send physical mail/postcards), rolling out to more geographies (US-only currently).
-- **Stripe financial insights** (via Link): import bank/credit card data for personal finance tracking/budgeting/alerts via GrokBot routines.
-- **Stripe Projects** (projects.dev): Stripe-integrated marketplace of infra providers (hosting, DB, email sending, domains) that a bot can provision directly once your Stripe account is connected — no manual signups.
-- **Cost/usage guidance (from Blake's talk):** GrokBot "built to be cost efficient" but: VM-driven UI work (e.g., filling out a full web form via browser automation) costs more than an API-native path (e.g., using Google Forms' own AI). **Routines that poll frequently are the main cost driver** — "if you have three [bots] that run every 15 minutes... that's hundreds of messages/prompts a day." Advice: keep your bot team lean (not 45 bots), keep bots narrowly specialized.
-- **Org-chart scaling:** One user (Blake) manages "a team of 1–2" via a single chief-of-staff bot ("Gus") who manages ~10-15-20 specialist bots directly — no middle-manager bots needed yet; Gus "has done very well up to 15 and 20" direct reports.
-- **Data/privacy:** opt-in/opt-out data-privacy modes control whether input is used for training; enterprise/security handled case-by-case with a dedicated team.
-- **Self-improvement / audit routine (Blake):** a weekly "self-improvement scan" bot routine: (1) full system audit — flags manual work that could be automated; (2) **voice/style learning** — diffs your edits to a draft vs. what the bot sent, feeds the delta back to the "voice" bot (Wally) to refine tone. Capped at **one suggestion per week** (unbounded suggestions felt like overcorrection/spam).
-- **No native migration path** from OpenClaw/other agent tools yet, but GrokBot can "import templates" and you can point it at an existing coding-tool context (e.g., Grok CLI work) to reuse that context without rebuilding.
+全天直播上的主持人/构建者：**Roshan**（X 上 roshan_s，「在 SpaceX AI 做产品」—— 注：公司全程被称为 「SpaceX AI」，多半是 「xAI」的 ASR 误转写）、**Lauren**、**Matt**（Matt Palmer），后段 **Eric**（来自 Cursor/工程团队）加入最后几小时。嘉宾：Vincent Zhu（增长）、Matthew/「Matt」（营销运营/RevOps，SpaceX AI 的 MarOps —— 和构建团队的 Matt 不是同一人）、Blake（AI 部署经理，售后）、Dan Hill（Stripe/Link）、Josh Kim（营销）。
 
 ---
 
-## 2. THE "SOFTWARE FACTORY" — workflow, roles, orchestration
+## 1. 产品事实 —— GrokBot 功能、限制、定价、集成
 
-- Team disclaims the word "factory" ("I actually don't really even like the term factory") but it's the working shorthand for: a pipeline of bots that implement, verify, and merge PRs with minimal human bottleneck.
-- **Origin:** built the afternoon/evening before Day 3, using **Pstack** — Lauren's personal skill/plugin set for Cursor + GrokBot — specifically a skill called **"Potato Mode"**.
-  - Potato Mode: "teaches your bots to be much more rigorous... much better at orchestrating other bots and agents." Invoke via `/potato mode` + "full autopilot this plan" → breaks a plan into phases, sets up a mini-factory: implementer agents write small PRs; verifier agents run the app and "fuzz" it (click around, find bugs); auto-merge once verification passes.
-  - Result cited: "overnight we landed more than 100 PRs... I think we're at 150 now... 168... 170" — by end of day cited **433 total PRs**, "we're gonna definitely clear 300."
-- **Verification is treated as the central discipline:** "reproduce the issue first... only if they can actually reproduce the bug can we trust that the agent understands the problem." Repeated line: **"verification is so important... you need your bots to actually run the code, take screenshots... gives you so much more confidence it actually understands the problem."**
-- **Named skill: `/verify cupcake`** — a per-project verification skill (project codename was "Cupcake") invoked before trusting an autopilot fix in production.
-- **"Swarm" skill (Pstack):** teaches a bot to spawn many Cursor **Cloud Agents**, each with its own separate computer/VM (distinct from the GrokBot's own computer), to run the actual game, click through it, and fuzz-test — "takes us humans out of the loop" for repetitive QA, though humans still fuzz too and catch different bugs.
-- **Roles/bots in the factory (Lauren's team):**
-  - **Steve** (renamed from "Chief of Staff" — joke about too many bots named "chief of staff" after ribbing a colleague; briefly "Steve-N") — orchestrator/chief bot.
-  - **Play / Chrome** — QA/playtester bot: watches for green-CI PRs, plays the game end-to-end via browser, reports needed changes before merge.
-  - **Dr. Eggbot** — meta-bot whose job is *creating other bots* (e.g., spun up "Crumble" — a triage bot — and "Cheater"/"Grind" bots).
-  - **Crumble** — triage bot: works with Chrome/playtester to reproduce reported bugs, files confirmed issues in Notion.
-  - **Hashbrown** — validation bot: checks that Crumble's triage/understanding of user feedback was correct before autopilot fixes proceed.
-  - **Bake** — founding-engineer bot (Roshan's); watches/merges PRs, spins up Cloud Agents to fix specific bugs; demoed via voice call.
-  - **Crit** — game-design critique bot (feedback: "game is too hard for launch").
-  - **Grind** / **Cheater** — bots that literally log in and play the game on the human's behalf to farm leaderboard rank (with mixed success — Lauren's went *down* in rank).
-  - **Data scientist bot** — generates dashboards/charts on a schedule ("give me the launchables every 15 minutes": signups, feature usage, bug reports).
-  - **Vincent** (bot, named after guest) — growth-ideas bot, logs brainstormed growth ideas into a Notion "growth playbook," stack-ranked by impact/effort.
-  - **Cerebro** (Matt-the-guest's bot/skill) — ICP/growth research bot named after X-Men's Professor X device; has a skill **"FindMyICP"**; used with Clay MCP (company/contact search) and Ample Market (email sequencing) to go from ICP → target company list → contacts → personalized outbound email campaign → inbox monitoring for replies.
-  - Blake's (guest) personal team, illustrating a *general* GrokBot practice, not the game team: **Gus** (chief of staff, sole point of contact — "my best friend"), **Frankie** (follow-ups specialist), **Wally** (voice/style — learns Blake's writing tone per audience, formal vs casual), **Trudy** (source of truth / internal docs), **Scout** (internal Slack/news radar, "manages a team of 1-2" summary), **per-account specialist bots** (e.g., "Harbor," "Northwind," "Brightline" — one dedicated bot per customer account, each with full account context).
-  - Josh Kim's (guest) marketing team of bots: **market researcher**, **product marketer**, **website ops**, **performance marketer**, **marketing analyst**, **project manager** (final automation layer that studies all the other bots' roles/handoffs and becomes the sole point of contact, running full campaigns autonomously).
-- **Orchestration pattern (repeated across all guests):** one *chief*/point-of-contact bot per human; that bot fans out to specialists; specialists talk to each other directly and share context without the human routing every message; the human is only pinged (blue/green indicator dot in UI) when something needs their attention, not for every inter-bot exchange.
-- **"Staff meeting" pattern:** invoke multiple bots into a shared thread to debate a decision from different vantage points (used explicitly to fight bias — "I tell them to always disagree, it's not helpful [if they just agree]"). Example prompt: *"start a staff meeting to talk about what I should spend the next and only free hour of my day today."* Bots then argue with each other in the thread; the chief bot reports back a synthesized recommendation.
-- **Onboarding a new bot — the "voice dump" method (Blake):** record a 10–15 min voice memo covering: who you are, what your job is, what you like, what's broken, what should be automated. Feed the transcript to your first/chief bot: "build a system that works for me." The bot proposes structure back.
-- **Prompting heuristic taught repeatedly on stream:** after giving a big/complex instruction, ask the bot to **"restate this in your own words"** before it proceeds — catches misunderstanding early, functions like confirming a spec with a new hire. Also used to combat hallucination on long dictated prompts: ask the bot to first **distill** the big input to key facts, then reason over the distillation.
-- **Verified/"teach once" skills**: once you show a bot how to test a feature (via "teach a task" or manual walkthrough), that becomes a reusable skill it applies on future changes — an internal SpaceX AI/xAI practice generalized to Thursday Arena.
-- **"No comments" skill / anti-pattern rule** (Lauren, for the main GrokBot codebase, not applied as strictly to the game): agents left code comments as an excuse to leave a hack/workaround instead of fixing root cause; over time these accumulate into brittle "band-aid" files. Lauren **banned code comments outright** in the main codebase. Potato Mode ships a skill literally called "**no comments**" that spawns an agent nicknamed the "**comments sickle**" that deletes comments from the codebase (said with an in-joke tone: "yes, ha ha ha, yes" then deletes them).
-- **Cursor "Projects" (mentioned as a separate tool from GrokBot, used alongside it):** long-lived chat/work sessions that can spin off many sub-agents on different topics within one durable thread; team was told by the Cursor Projects team you can sustain "thousands of chats over months" without context degradation.
-- **Human review posture:** explicitly described as near-zero manual code review for the game project — "to be entirely honest, I didn't look at the code at all... I just used potato mode and P-stack" (Lauren). Eric (visiting engineer) confirms this is *not* how he treats the actual GrokBot product codebase — there he reads every PR and enforces anti-pattern rules; for the game (low-stakes, time-boxed demo project) it's much looser/YOLO. One "YOLO mode" auto-merge flow is called out by name for the feedback-triage pipeline.
-- **Tech-debt / bot sprawl management (Blake, audience Q&A):** advice is to design the multi-bot system correctly *up front* rather than prune later; optionally create a dedicated "tech debt bot" that audits interdependencies and flags underused bots. "It's like moving into a new house — do the chores right from day one."
-- **Reproducing an idea across projects:** team explicitly floats making a **reusable "game bot toolkit"** from the game-dev bots (game design, 3D prototyping, playtest/verification, art) so future games/companies can bootstrap the same factory.
+- **促销 1（直播开始）：** 新用户注册、下载 GrokBot、创建账号、并在 10 分钟内设好重复任务，获得 **一个月免费 GrokBot** —— 「$200 用量」/「$200 价值，最高档免费一个月。」
+- **促销 2（约下午中段）：** 现有用户在直播聊天（不是 X）里评论 **「reset」**，当天结束前获得 **用量/限额重置**。
+- **促销 3（约 15 分钟窗口，重复）：** 15 分钟内在 x.ai/bot 注册的新用户，创建账号 + 重复任务，再获一个月免费。
+- **促销 4（最后，约下午 4 点）：** 5 分钟内在直播聊天发 **「credits」** → 当天结束前 **$200 GrokBot credits**。
+- **单独竞赛：** X 挑战 —— 分享一个你离不开的 GrokBot（引用挑战帖，描述你的机器人，链到共享模板）赢两人去 Starbase, TX 看 Starship 发射。
+- **核心产品模型：** GrokBot ≠ 单个聊天机器人。你按工作/角色创建**单个机器人**，每个都是 「队友。」机器人像 Slack/iMessage DM 和群聊那样互相发消息（「员工会议」）。UI 明确按 iMessage 建模。
+- **每个机器人有自己的持久虚拟电脑/VM** —— 浏览器，可以装任意应用（例如用 Beeper 聚合 WhatsApp/多聊天），打开 PowerPoint 等。机器人是 「始终在线」/ 24/7 —— 「你不需要一直开着笔记本」（对比 OpenClaw 需要一台实体 Mac Mini 在跑）。
+- 机器人电脑上的 **「Teach a task」按钮** —— 看你做一次任务然后重复它（用演示捕获技能）。
+- **机器人分享 / 模板：** 任何机器人都可以导出（「分享为模板」）—— 剥掉敏感/工作区特定信息，留下核心记忆/上下文，产出别人一键能导入的可分享链接。可以只分享给团队或公开。
+- **GrokBot Marketplace**（x.ai/bot/marketplace）：社区发布的机器人模板，预载记忆、例行任务和集成（例如 「Cooper」—— 带早上 8 点 Slack 简报的新闻机器人）。团队明确说：已有合适的就从 Marketplace 模板起步，而不是从零建；但 「如果你需要，从零建自己的机器人是非常简单的工具。」
+- **提到的连接器/集成：** Slack、Vercel、PlanetScale、GitHub/Cursor Cloud Agents、Notion、Clerk、Excalidraw、X/Twitter、Google Calendar/Gmail、Google Docs/Sheets/Forms、1Password（前一天宣布 —— 和机器人分享密码保险库；机器人可以用保险库凭据重新鉴权）、Clay（线索富集/公司搜索）、Ample Market（邮件序列器）、AgentMail（邮件）、Canva（设计）、XMTP/X API、Stripe（Link、Projects、最佳实践/目录文档）、泛称 MCP —— 「把 GrokBot 指向一个 MCP URL，它会自己装。」
+- **语音模式**：GrokBot 能说话 —— 当天宣布/上线（「我们一小时前才刚宣布这个」），随后几天铺开。直播演示：用语音呼叫一个机器人（「Bake」/工程师）查 PR 状态、合并 PR、拉起智能体修合并冲突、听一个编程笑话。
+- **XAI Voice Agent 构建器**：单独的无代码工具（在 xAI 一侧）做可电话呼叫的语音智能体，带工具访问（例如到 Slack 的 webhook）和护栏（遇到辱骂/提示词注入尝试就挂断）。演示：用户打一个电话号码留下语音反馈，流入 Slack。
+- **Stripe Link**（经 GrokBot 连接器）：让智能体做一次性虚拟卡在网上买东西，带人批准步骤（「我需要 $10 买这个树包 —— 批准」）。引用的用例：停车罚单、机票/餐厅预订、买鞋（Matt：「这双鞋……我用 GrokBot 买的」—— 就截了一张鞋图，说 「给我找一双新的，12 码」）、预订 Tesla、作为健身目标惩罚向慈善捐款、给家人买生日礼物（提前 2 周提醒 + 建议 + 购买）、Postal Form（智能体寄实体邮件/明信片）、向更多地区铺开（目前仅美国）。
+- **Stripe 财务洞察**（经 Link）：导入银行/信用卡数据，经 GrokBot 例行任务做个人财务跟踪/预算/告警。
+- **Stripe Projects**（projects.dev）：Stripe 集成的基础设施提供商 Marketplace（托管、DB、发邮件、域名），一旦接上你的 Stripe 账号，机器人可以直接开通 —— 不用手动注册。
+- **成本/用量指引（来自 Blake 的演讲）：** GrokBot 「按成本效率来建」但：VM 驱动的 UI 工作（例如经浏览器自动化填完整张网页表单）比 API 原生路径（例如用 Google Forms 自己的 AI）更贵。**频繁轮询的例行任务是主要成本驱动** —— 「如果你有三个[机器人]每 15 分钟跑一次……那就是一天几百条消息/提示词。」建议：保持机器人团队精简（不要 45 个机器人），让机器人专精、范围收窄。
+- **组织架构扩展：** 一个用户（Blake）经单个幕僚长机器人（「Gus」）管理 「1–2 人的团队」，Gus 直接管理约 10-15-20 个专家机器人 —— 目前还不需要中间经理机器人；Gus 「到 15 和 20 个直接下属都做得很好。」
+- **数据/隐私：** 选择加入/退出的数据隐私模式控制输入是否用于训练；企业/安全由专职团队按案例处理。
+- **自我改进 / 审计例行任务（Blake）：** 每周 「自我改进扫描」机器人例行任务：(1) 全系统审计 —— 标出可以自动化的手工工作；(2) **文风/风格学习** —— 对比你对草稿的编辑和机器人发出的内容，把差值喂回 「voice」机器人（Wally）以打磨语气。上限是 **每周一条建议**（无上限建议感觉像过度纠正/骚扰）。
+- 目前还没有从 OpenClaw/其他智能体工具的**原生迁移路径**，但 GrokBot 可以 「导入模板」，你也可以把它指向已有的编码工具上下文（例如 Grok CLI 工作）以复用那份上下文，而不用重建。
 
 ---
 
-## 3. VERBATIM / NAMED PROMPTS, SKILLS, ROLE DESCRIPTIONS
+## 2. 「软件工厂」—— 工作流、角色、编排
 
-- Potato Mode invocation pattern: `/Potato Mode` + **"full autopilot this plan"**
-- Verification skill name: **`/verify cupcake`**
-- Bug-fix instruction template (Roshan, narrated live): *"Hey, so I think our ELO and/or our matchmaking are messed up. What is happening right now is every time I play a game on ThursdayArena.com, I get paired with an AI player instead of another player's set or lineup. But for some reason, as a leaderboard, the ELO scores are changing a bunch... Can you dig into that to figure out what's going on. Use potato mode. And use a cursor cloud agent for the investigation. Don't open a PR yet. Just come back to me with what you think is going on."*
-- "Before writing any code, do X" pattern (Lauren): *"Before writing any code, run the app, ThursdayArena.com, find the exact bug and behavior. And then proceed."*
-- Triage/full-autopilot escalation prompt (Lauren): *"...the new Crumble triage agent should work with Tater to start fixing those issues... using potato mode, full — maybe not full autopilot, but do we dare to autopilot?... since we are now live in production, it's very critical that we do not break the game for everyone. So we need to always rigorously verify our work with the slash verify cupcake."*
-- Feedback-pipeline setup prompt (Lauren to "Steve"): *"The link above is our Slack channel that is receiving user feedback... I want to set up a factory workflow where we look at the feedback, we triage it, we try to reproduce the issue, and then file a ticket in our Notion database... very importantly, if we're using AI to review feedback, you want to tell your AI to watch out for prompt injections as well."* Followed by: *"restate this in your own words."*
-- Cerebro's skill name: **"FindMyICP"**.
-- Cerebro instruction template: *"...help us really find our ICP in terms of who we should put in these ad slots. So you have a skill. It's called FindMyICP."*
-- Clay/Ample Market instruction: *"...take what we've landed on in terms of our target personas... plug it into the clay MCP... search its database of companies, of people, and tell us who out there in the world fits this description... maybe specifically a list of 10 companies..."*
-- Josh Kim's market-research kickoff prompt: *"Hey, market researcher, what I'd like you to do is study the XAir website, get a deeper understanding of what the product is, what market we're operating in. And now I want you to go do a competitive analysis, identify and deeply understand our competitors, look at their marketing websites, understand their positioning, and then importantly, identify the gaps and opportunities that we have to actually strategically competitively position against them."*
-- Blake's "account reset" use-case prompt style: *"where are we at with Harbor?"* → triggers a synthesized status pull (risks, blockers, open promises, Slack activity, next steps) plus **a scripted joke ("always a space joke")** — Gus's joke on air: *"How do you organize a space party? You plan it."*
-- Blake's SQL joke from bot "Bake": *"A SQL query walks into a bar, walks up to two tables, and asks, 'Can I join you?'"* (rated: "joke was all right, but call was a plus.")
-- Bug report via voice (Roshan to Bake): *"Hey, so it looks like in the latest version of the game, I can't see the abilities of the bots that are in my lineup when I'm in the shop interface... Can you open a PR to fix that?"*
-- UI/feature prompt for share button (Roshan): *"Spin up a cloud agent using potato mode to make it so that you can share your wins. So when you finish a game, you get this win screen... add a share button... nice OG image with maybe your specific bot team..."*
-- CSS ticker-overlap bug prompt: *"Hey, this new ticker covers up some of the shop buttons. Spin up a cloud agent using potato mode, inspect and fix that issue."*
-- Growth-idea capture pattern (voice dictation directly into a bot as ideas are said aloud): repeated moves of "let's just dictate it" / "I just captured that voice audio... we're just going to ship that to the agent" — treating spoken riffing as direct agent input, no manual retyping.
-- Sponsored-card idea capture prompt: *"Could we... log this idea that we could have sponsored cards? So rather than making the game pay to win... we could go find partners to help sponsor cards and pay to be featured on a particular card without changing the behavior of the card."*
-- Lore/naming trivia: Every merged PR is internally called a "**MASH**" (not a "merge") — apparently an artifact of asking Dr. Eggbot for potato-themed bot names that leaked into their Notion process language. "My chief now only believes in MASHing PRs." Slogan: "smash more PRs... eat more potatoes."
-- Rules/agent-friendly docs: they added `thursdayarena.com/rules` with `rules.md` and an `llms.txt`-style endpoint specifically so **agents** (not just humans) could read the game rules.
-
----
-
-## 4. TIPS / HEURISTICS / OPINIONS (quoted where possible, with speaker)
-
-- Lauren: **"the most important thing about GrokBot, actually, is not even setting up your bots. It's actually connecting all of your different tools and plugins."**
-- Lauren, on cost/scope discipline for agents: "take the time to set up your systems, take the time to set up how your bots talk to each other... it really does pay a ton of dividends."
-- Roshan, framing the whole exercise: "essentially what we're trying to do with this software factory concept... is set up really good feedback loops for agents to be able to do work themselves... If you pass all the right information, the right context to an agent, you might be able to automate those things."
-- Matthew (RevOps/MarOps guest): **"we can finally build tools and not just rules"** — instead of writing policy docs for humans to follow, build internal apps that structurally enforce the policy.
-- Matthew: "trust your bots, give them agency, and at the same time, give them guardrails... knowing that things aren't going to go too far off the rails, because they'll always come back to you before they ship anything" (drafts only, human approves sends).
-- Matthew: reframe your own job — "think of yourselves not as just the people setting rules, processes, but really you are a product manager, and your product is revenue growth."
-- Matthew on team-building takeaway: "GrokBot... democratizes... CEO life — anyone can hire an unlimited set of specialists with the right context and access."
-- Matthew on what stays human: relationships, trust-building, ambiguous judgment calls — "no one at 4 years old knew what RevOps was... those concepts... around being specialized in certain tools or processes... what always comes back is forming relationships, building trust, and solving problems no matter what it takes."
-- Vincent (growth guest): **"growth is also just like, how would I want to be treated as a user?"**
-- Vincent on PMF-first: "getting PMF for the game first... marketing is more top-of-funnel awareness... growth is maximizing the best parts of your product once people are in."
-- Vincent on outbound: the trick to outbound "you just want to make sure people read your thing" — recipients scan the sender name/vendor before the subject line, so familiarity (having seen the name before, e.g. via livestream/social) matters more than a clever hook.
-- Vincent's growth-mechanic riff ideas captured live: leaderboard share button; share-a-card-for-a-rarer-card mechanic; player-vs-player direct challenges; welcome DM to new X followers with a small in-game reward (10 free gold); scraping X for mentions/feedback with handles attached for outreach.
-- Blake (post-sales guest), core mantra: **"Gus is my best friend"** — one point-of-contact bot, not ten.
-- Blake: "the imagination gap... the thing probably holding back your GrokBot is you thinking about what is actually possible... think outside the box."
-- Blake: "start with context... there's so much that lives in your head... take that out of your head, give it to GrokBot."
-- Blake: "keep your team lean. You don't need 45 bots... keep your team really specialized in what they need."
-- Blake, on trust/verification of inter-bot claims: doesn't believe bots literally audit each other's outputs peer-to-peer; each bot has its own internal verification loop, and the chief bot (Gus) does a broader cross-check across all of them.
-- Blake, self-improvement cadence: caps bot self-improvement suggestions to one/week to avoid being overwhelmed by "10 new bots to build."
-- Dan Hill (Stripe/Link): **"when the agent gets blocked on you, it's when the fun kind of goes out of the experience... we want you to be in self-driving mode."**
-- Dan Hill on consumer AI spend: **"the number of people paying more than $100/month for AI products has grown like 5x [this year]."** Stripe seeing rising interest in usage-based billing (via Metronome partnership) for AI companies, plus growing focus on fraud/risk tooling for AI-driven consumer products.
-- Josh Kim: framing of AI maturity curve — **chat → co-pilots (still need babysitting) → bots/teams of bots (truly delegate, always-on, do it "the way you do it")**.
-- Josh Kim: "scope your bots properly... it's almost like crafting a job description" — define swim lanes/responsibilities tightly so each bot stays specialized and efficient.
-- Josh Kim: "trust your bots... they're ambitious, proactive, hungry... give them the access they need" (hook up Slack/email early, ask "what can you do for me").
-- Josh Kim: "invest in your bots" — the more feedback/context/memory you give, the more they compound in value, "similar to how you might work with or manage a teammate."
-- Roshan (mid-stream reflective aside): important discipline habit — periodically ask, "am I too much in the loop? How can I make my workflow more autonomous?" and even set up a bot/reminder to prompt that self-check.
-- Roshan, end-of-day retrospective #1: hardest part of building anything (even with unlimited AI capability) is **"getting people to care"** / product-market fit — the team got easy adoption specifically *because* of livestream distribution, not because the product was intrinsically compelling yet.
-- Roshan, retrospective #2: build a business around something you already know how to do well; naive assumption ("I'll just prompt models to make money") fails — a full day's autonomous "revenue agent" produced **$0** by end of stream (joked about as "the backup plan... in case it's all crash").
-- Lauren, retrospective: discovering problems is still a human/organic task — "you have to go out as a human and discover all the problems organically. Once you figure out how to solve them, you can turn them into a bot and keep them running forever."
-- Lauren, on restraint: with AI, "you can literally build anything you want... products with a million features that aren't any good... there's this discipline you now have to have" — cited deliberately cutting an early rock-paper-scissors/ELO mechanic and complex stat blocks/multiple-battlefield plans down to one clean auto-battler loop as what actually let them ship.
-- Eric (visiting engineer): "I try to scope out the project and get all the context and align on what we're going to do, then have it send a bunch of cloud agents to build the thing" — pulls code locally into Cursor only to spot-check, otherwise stays fully in GrokBot chat.
-- Eric on Kanban/PM tooling for bots: built a "Projects Manager" bot that spins up ephemeral per-project bots (researcher, coder, etc.) and tracks status on a Notion Kanban; "usually when it's blocked, it's because of a human somewhere," and bots can check whether the blocker has cleared.
-- Running gag/opinion, several speakers: "cumulative graphs... they always go up and to the right" / "it's time to get funding" — self-aware joke about vanity metrics, but genuinely used the funnel and cumulative charts for real decisions (mobile vs desktop split, practice→sign-in conversion).
+- 团队不认 「工厂」这个词（「我其实甚至不太喜欢工厂这个说法」），但它是工作简称：一条由机器人实现、验证、合并 PR 的管道，把人的瓶颈降到最低。
+- **起源：** 第 3 天前一天下午/晚上建成，用 **Pstack** —— Lauren 给 Cursor + GrokBot 的个人技能/插件集 —— 特别是一个叫 **「Potato Mode」** 的技能。
+  - Potato Mode：「教你的机器人严谨得多……编排其他机器人和智能体好得多。」经 `/potato mode` + 「完全自动驾驶这个计划」调用 → 把计划拆成阶段，搭起迷你工厂：实现智能体写小 PR；验证智能体跑应用并 「fuzz」它（点来点去，找 bug）；验证通过后自动合并。
+  - 引用的结果：「过夜我们落地了 100 多个 PR……我想我们现在到 150 了……168……170」—— 当天结束引用 **总共 433 个 PR**，「我们肯定会过 300。」
+- **验证被当成核心纪律：** 「先复现问题……只有它们真能复现 bug，我们才能信任智能体理解了问题。」反复的一句话：**「验证太重要了……你需要机器人真正跑代码、截图……这会让你对它真正理解问题更有信心。」**
+- **具名技能：`/verify cupcake`** —— 按项目的验证技能（项目代号是 「Cupcake」），在生产环境信任一次自动驾驶修复之前调用。
+- **「Swarm」技能（Pstack）：** 教一个机器人拉起很多 Cursor **Cloud Agents**，每个有自己单独的电脑/VM（与 GrokBot 自己的电脑不同），去真正跑游戏、点过去、fuzz 测试 —— 把重复 QA 「从人循环里拿掉」，尽管人仍会 fuzz，并抓住不同的 bug。
+- **工厂里的角色/机器人（Lauren 的团队）：**
+  - **Steve**（从 「Chief of Staff」改名 —— 拿同事开完太多机器人叫 「chief of staff」的玩笑后；短暂叫 「Steve-N」）—— 编排者/幕僚机器人。
+  - **Play / Chrome** —— QA/试玩机器人：盯绿灯 CI 的 PR，经浏览器端到端玩游戏，合并前报告需要的变更。
+  - **Dr. Eggbot** —— 工作是*创建其他机器人*的元机器人（例如拉起 「Crumble」—— 分诊机器人 —— 以及 「Cheater」/「Grind」机器人）。
+  - **Crumble** —— 分诊机器人：和 Chrome/试玩一起复现报告的 bug，把确认的问题登记进 Notion。
+  - **Hashbrown** —— 校验机器人：在自动驾驶修复继续之前，检查 Crumble 对用户反馈的分诊/理解是否正确。
+  - **Bake** —— 创始工程师机器人（Roshan 的）；盯/合并 PR，拉起 Cloud Agents 修特定 bug；经语音通话演示。
+  - **Crit** —— 游戏设计点评机器人（反馈：「上线来说游戏太难」）。
+  - **Grind** / **Cheater** —— 名副其实地登录并替人玩游戏刷排行榜名次的机器人（成败参半 —— Lauren 的名次*往下掉了*）。
+  - **数据科学家机器人** —— 按日程生成仪表盘/图表（「每 15 分钟给我可上线指标」：注册、功能用量、bug 报告）。
+  - **Vincent**（机器人，以嘉宾命名）—— 增长点子机器人，把头脑风暴的增长点子记进 Notion 「增长手册」，按影响/工作量排序。
+  - **Cerebro**（嘉宾 Matt 的机器人/技能）—— 以 X-Men 的 Professor X 装置命名的 ICP/增长研究机器人；有技能 **「FindMyICP」**；配合 Clay MCP（公司/联系人搜索）和 Ample Market（邮件序列）从 ICP → 目标公司名单 → 联系人 → 个性化外发邮件活动 → 监控收件箱回复。
+  - Blake（嘉宾）的个人团队，说明的是*通用* GrokBot 实践，不是游戏团队：**Gus**（幕僚长，唯一对接点 —— 「我最好的朋友」）、**Frankie**（跟进专家）、**Wally**（文风/风格 —— 按受众学 Blake 的写作品味，正式 vs 随意）、**Trudy**（事实来源 / 内部文档）、**Scout**（内部 Slack/新闻雷达，「管理 1-2 人的团队」摘要）、**按账号的专家机器人**（例如 「Harbor」「Northwind」「Brightline」—— 每个客户账号一个专职机器人，各自有完整账号上下文）。
+  - Josh Kim（嘉宾）的营销机器人团队：**市场研究员**、**产品营销**、**网站运营**、**效果营销**、**营销分析师**、**项目经理**（最终自动化层，研究所有其他机器人的角色/交接，变成唯一对接点，自主跑完整活动）。
+- **编排模式（所有嘉宾都重复）：** 每个人一个*幕僚*/对接机器人；那个机器人扇出给专家；专家直接彼此交谈并共享上下文，不用人路由每条消息；只有需要他们注意时才 ping 人（UI 里的蓝/绿指示点），而不是每一次机器人间交换。
+- **「员工会议」模式：** 把多个机器人拉进共享线程，从不同视角辩论一个决定（明确用来对抗偏见 —— 「我让他们永远不同意，如果他们只是同意就没用」）。示例提示词：*「开一场员工会议，讨论我今天仅剩的空闲一小时该花在什么上。」* 然后机器人在线程里互相争论；幕僚机器人回报综合建议。
+- **入职新机器人 —— 「语音倾倒」方法（Blake）：** 录 10–15 分钟语音备忘，覆盖：你是谁、你的工作是什么、你喜欢什么、什么是坏的、什么该自动化。把转写喂给你的第一个/幕僚机器人：「建一个为我工作的系统。」机器人回报结构提案。
+- **直播上反复教的提示词启发式：** 给完大/复杂指令后，让机器人在继续前 **「用自己的话复述」** —— 尽早抓住误解，功能上像和新雇确认规格。也用来对抗长口述提示词上的幻觉：先让机器人把大输入**提炼**成关键事实，再对提炼做推理。
+- **已验证/「教一次」技能**：一旦你给机器人看过如何测试一个功能（经 「teach a task」或人手走读），那就变成它在未来变更上应用的可复用技能 —— 一项内部 SpaceX AI/xAI 实践，推广到 Thursday Arena。
+- **「无注释」技能 / 反模式规则**（Lauren，针对主 GrokBot 代码库，对游戏没那么严）：智能体把代码注释当借口留下权宜之计/变通而不是修根因；时间一长这些会堆成脆弱的 「创可贴」文件。Lauren 在主代码库里**彻底禁止代码注释**。Potato Mode 自带一个就叫 **「no comments」** 的技能，会拉起一个绰号 **「comments sickle」** 的智能体从代码库删注释（带着内部玩笑语气：「对，哈哈哈，对」然后删掉它们）。
+- **Cursor 「Projects」（被提到为与 GrokBot 分开的工具，一起用）：** 长寿命聊天/工作会话，可以在一条耐久线程里按不同主题拆出很多子智能体；团队听 Cursor Projects 团队说你可以维持 「几个月里几千条聊天」而不上下文退化。
+- **人审姿态：** 明确描述为游戏项目几乎零人手代码评审 —— 「完全说实话，我根本没看代码……我只用 potato mode 和 P-stack」（Lauren）。Eric（来访工程师）确认这*不是*他对待真正 GrokBot 产品代码库的方式 —— 在那里他读每个 PR 并执行反模式规则；对游戏（低风险、限时演示项目）松得多/YOLO。反馈分诊管道有一个按名点出的 「YOLO mode」自动合并流。
+- **技术债 / 机器人蔓延管理（Blake，观众 Q&A）：** 建议*一开始*就把多机器人系统设计对，而不是事后修剪；可选创建一个专职 「技术债机器人」审计相互依赖并标出使用不足的机器人。「就像搬进新房子 —— 从第一天就把家务做对。」
+- **跨项目复现一个点子：** 团队明确提出从游戏开发机器人（游戏设计、3D 原型、试玩/验证、美术）做一个**可复用的 「游戏机器人工具包」**，这样未来游戏/公司可以启动同一套工厂。
 
 ---
 
-## 5. FAILURES, BUGS, LIVE INCIDENTS, WORKAROUNDS
+## 3. 逐字 / 具名提示词、技能、角色描述
 
-- **Login-with-X down** right before cutting to first talk segment — acknowledged live, fixed off-camera during a break.
-- **ELO/matchmaking bug:** players consistently matched against AI instead of real opponents, yet ELO scores still updated — investigated live via a bot ticket (potato mode + cloud agent investigation, no PR until root cause found); eventually reported fixed ("no longer seeing that it's AI... it's like one of the most reported bugs").
-- **"Unknown bot" naming bug:** a bot card lost its name/ability display after purchase — visual bug, added to backlog live.
-- **Gold-exhaustion soft-lock:** if you spend all your gold, you can get stuck unable to buy new bots ("you end up stuck because you cannot buy new bugs" — filed live as an issue).
-- **No visible ability text in shop/lineup view on the new UI** — reported live via voice to engineer bot "Bake," fixed via PR mid-stream.
-- **Ticker banner covering shop buttons** — CSS z-index/overlap bug; fixed live via a cloud agent.
-- **Win/loss count mismatch** — leaderboard summary card showed different win/loss numbers than the detailed match history for the same player; filed live via voice call and a joke was demanded as proof-of-life ("SQL query walks into a bar…").
-- **Leaderboard not clickable** — feature request/bug to let you click a username and view their match history; fixed live.
-- **Sponsor/ad-bid auction feature launched broken** ("currently broken... nothing will happen if you submit"); fixed later; then when actually tested live, **file-upload/logo step failed on first attempt**, succeeded on retry; ad moderation was still broken at the very end ("moderation is broken, so we tried, we almost got there").
-- **Production outage caused by their own factory:** "I actually brought down prod... a bad SQL query" from an autonomous fix — while literally mid-sentence talking about "restraint." Recovered and signups reopened shortly after.
-- **Feedback/spam controls:** had to add a 20-character minimum on the feedback form after "getting some spam"; general moderation stack included client-side length checks, server-side profanity filtering, input sanitization against injection, xAI-model-based catch-all content guard, and rate limiting — some users reportedly hit 429s from testing the endpoint heavily.
-- **Accidentally displayed a live API/Stripe token on stream** (Matt, showing the XAI voice-agent builder) — caught immediately, deleted the token, and moved on ("only half the value was shown," "no secrets in the chat — chat is for games and good vibes only").
-- **Mobile layout was the single most-reported feedback category** (per Slack feedback triage chart: bugs ~71%, praise ~16%, rest requests). Fixed with a responsive pass shown live via Chrome device emulation.
-- **Deployed changes forced re-login mid-demo** ("looks like we might have deployed some changes... I'm getting prompted to sign in again — engineering hard at work").
-- General ambient acknowledgment throughout: "there's still some scrolling issues," "we know there are a lot of bugs and things to polish," and the team's stated philosophy — "if we're not embarrassed by it, then we've launched too early."
-
----
-
-## 6. CONCRETE NUMBERS / METRICS / TIMELINE OF THE LAUNCH
-
-- Overnight (pre-Day-3) PR count from the factory: 100+ → 145 → 150 → 160s → **168–170** by early morning; by end of day, **433 total PRs**, expecting to "clear 300" (i.e., cumulative well past 300, heading to ~450+).
-- Launch time: **~10:00 AM Pacific**, via a single X post from a blank/default-profile-picture account (**@ThursdayArena**), domain **ThursdayArena.com**.
-- Immediately post-launch: ~225–500 X followers within the first hour (225 mentioned once, later "we're at 476 followers," then "800 plus").
-- Early usage snapshots (approx., as reported live over the day):
-  - ~11:25 AM: ~2,200 practice rounds, ~1,000 X sign-ins; ~96–100+ leaderboard entries; "almost 500 users."
-  - Mid-day: **over 1,000 X logins**, "well over 600 practice sessions" earlier, climbing; **3,000+ matches** within a few hours; **9 Platinum-tier players**, then first **Diamond-tier player** ("Ari the Monk," held #1 most of the day), later a **second Diamond player**.
-  - "Launch hour" (~10 AM) cited as the single best hour: **1,908 games/sessions** benchmark ("1908 is the number to beat").
-  - Early afternoon (~1 PM hour, partial): ~400–500 games/hour sustained.
-  - By mid/late afternoon: **1,000+ users, 3,500 practice sessions, ~47% win rate** (one bot-generated one-liner summary).
-  - Later afternoon: **~4,500 practice rounds, ~2,000 X logins**, **~5,000 total battles**; ~8% practice→X-signin conversion.
-  - Final numbers (~4:15+ PM): **crossed 4,000 games**, **over 6,000 public matches**, **~30,000 page views**, ranked **#1 on Google** for the game's name, cumulative users approaching **2,000** (a production outage briefly blocked new signups near the end, so the final 2,000 threshold wasn't confirmed live).
-  - Vercel Analytics (added mid-stream): ~17,000 page views at one check; ~44% iOS; roughly 50/50 mobile vs. desktop split; top referral sources X links, some direct, "8 people from Bing."
-  - Contributor/commit stats: Roshan personally logged **157 commits**; total PR count **433** near end of day.
-  - Feedback category breakdown (Slack triage chart, one snapshot): **71% bugs, 16% praise**, remainder mixed feature requests.
-  - Monetization result: **zero real revenue** by end of stream; one **"theoretical" $1 test bid** placed live on the (broken) ad-auction feature just before sign-off — explicitly joked as "theoretical sponsorship dollars."
+- Potato Mode 调用模式：`/Potato Mode` + **「完全自动驾驶这个计划」**
+- 验证技能名： **`/verify cupcake`**
+- 修 bug 指令模板（Roshan，直播讲述）：*「嘿，所以我觉得我们的 ELO 和/或匹配搞乱了。现在发生的是每次我在 ThursdayArena.com 上玩游戏，我都被配到 AI 玩家，而不是另一个玩家的配置或阵容。但不知为什么，作为排行榜，ELO 分数一直在变……你能不能深挖搞清楚发生了什么。用 potato mode。调查用 Cursor 云端智能体。先别开 PR。先回来告诉我你觉得发生了什么。」*
+- 「写任何代码之前，先做 X」模式（Lauren）：*「写任何代码之前，先跑应用，ThursdayArena.com，找到确切的 bug 和行为。然后再动手。」*
+- 分诊/完全自动驾驶升级提示词（Lauren）：*「……新的 Crumble 分诊智能体应该和 Tater 一起开始修那些问题……用 potato mode，完全 —— 也许不是完全自动驾驶，但我们敢不敢自动驾驶？……既然我们现在已经在生产环境直播，非常关键的是我们不要把所有人的游戏搞坏。所以我们需要始终用 `/verify cupcake` 严格验证我们的工作。」*
+- 反馈管道搭建提示词（Lauren 给 「Steve」）：*「上面的链接是我们正在接收用户反馈的 Slack 频道……我想搭一条工厂工作流，我们看反馈，我们分诊，我们试着复现问题，然后在我们的 Notion 数据库里登记工单……非常重要的是，如果我们用 AI 审反馈，你也要告诉你的 AI 提防提示词注入。」* 接着：*「用自己的话复述。」*
+- Cerebro 的技能名：**「FindMyICP」**。
+- Cerebro 指令模板：*「……帮我们真正找到 ICP，就谁该放进这些广告位。所以你有一个技能。叫 FindMyICP。」*
+- Clay/Ample Market 指令：*「……把我们落到的目标人设……插进 clay MCP……搜它的公司库、人库，告诉我们世界上谁符合这个描述……也许具体给一份 10 家公司的名单……」*
+- Josh Kim 的市场研究启动提示词：*「嘿，市场研究员，我想让你做的是研究 XAir 网站，更深入理解产品是什么、我们在哪个市场。现在我要你去做竞品分析，识别并深入理解我们的竞品，看他们的营销网站，理解他们的定位，然后重要的是，识别我们实际可以战略上针对他们竞争定位的缺口和机会。」*
+- Blake 的 「账号重置」用例提示词风格：*「Harbor 现在怎么样了？」* → 触发综合状态拉取（风险、阻塞、未兑现承诺、Slack 活动、下一步）外加**一条写好的笑话（「永远是太空笑话」）** —— Gus 直播上的笑话：*「你怎么组织一场太空派对？You plan it。」*
+- Blake 从机器人 「Bake」拿到的 SQL 笑话：*「一条 SQL 查询走进酒吧，走到两张桌子前，问：『我能 join 你们吗？』」*（评分：「笑话一般，但通话是加分。」）
+- 经语音报 bug（Roshan 给 Bake）：*「嘿，所以看起来在游戏最新版本里，我在商店界面看不见阵容里那些机器人的能力……你能不能开一个 PR 来修？」*
+- 分享按钮的 UI/功能提示词（Roshan）：*「用 potato mode 拉起一个云端智能体，让你可以分享胜利。所以你打完一局，得到这个胜利屏……加一个分享按钮……漂亮的 OG 图，也许带上你具体的机器人队伍……」*
+- CSS ticker 重叠 bug 提示词：*「嘿，这个新 ticker 盖住了一些商店按钮。用 potato mode 拉起一个云端智能体，检查并修那个问题。」*
+- 增长点子捕获模式（点子说出口时直接口述进机器人）：反复出现 「我们就口述吧」/「我刚捕获了那段语音……我们就把它交给智能体」—— 把口头即兴当直接智能体输入，不用人手再打一遍。
+- 赞助卡点子捕获提示词：*「我们能不能……记下这个点子，我们可以有赞助卡？所以与其把游戏做成付费取胜……我们可以去找伙伴来赞助卡，付钱出现在某张特定卡上，而不改变卡的行为。」*
+- 设定/命名冷知识：每个合入的 PR 内部都叫一次 **「MASH」**（不是 「merge」）—— 显然是让 Dr. Eggbot 起土豆主题机器人名时漏进他们 Notion 流程用语的产物。「我的幕僚长现在只相信 MASH PR。」口号：「砸更多 PR……吃更多土豆。」
+- 规则/对智能体友好的文档：他们加了 `thursdayarena.com/rules`，带 `rules.md` 和一个 `llms.txt` 风格端点，专门让**智能体**（不只是人）能读游戏规则。
 
 ---
 
-## 7. GAME MECHANICS / PRODUCT DETAILS (Thursday Arena)
+## 4. 技巧 / 启发式 / 观点（尽可能引用，带来源）
 
-- Genre: auto-battler / card drafting, explicitly compared to Magic: The Gathering, Yu-Gi-Oh, and "TFT"-style auto-battlers; art/cards generated with **Grok Imagine**.
-- All in-game characters are real bots pulled from the **x.ai/bot marketplace** (~70 found initially), each given a randomly assigned rarity (common/uncommon/rare/epic/legendary), generated avatar, attack + HP stats, and a unique ability tied to its theme.
-- Core loop: draft a 3-bot lineup using starting gold (renamed "tokens" mid-stream after feedback that "gold" felt off-brand), order them (front/back matters for many abilities), fight an opponent's lineup automatically (turn-based ability resolution), best of 3 rounds wins the match. Between rounds: shop refresh, buy/sell bots, buy power-ups (e.g., "apple" = +1/+1), "freeze" a card you can't afford yet to guarantee it next round.
-- Matchmaking initially matched against a stored snapshot of another player's last lineup, falling back to AI when no snapshot was available — this underlay the "always playing AI" bug.
-- Login: **Sign in with X** via **Clerk** (auth), with a **guest/practice mode** requiring no login. **PlanetScale** for the database; **Vercel** for hosting/serverless functions; backend written in **Go**; frontend responses validated client-side with **Zod** for type safety across the network boundary.
-- ELO/ranked ladder with tiers (Bronze→Silver→Gold→Platinum→Diamond, possibly more later); public leaderboard.
-- Feedback channels: in-app feedback form (behind auth, moderated), a phone number backed by an xAI voice agent, all flowing into a dedicated Slack channel monitored by triage bots.
-- Planned/discussed but not fully shipped: sound effects/music (some prototyped via **Suno** the night before), 3D character/animation prototyping (also explored, not shipped), share-your-win / share-leaderboard-rank buttons with OG images, player-to-player direct challenges, sponsored/branded cards (as a non-pay-to-win monetization path), a "league"/subscription model spanning future games under a broader studio brand (possibly named "**Thursday**"), pay-for-leaderboard-placement / paid-ticker-ad features (partially shipped, broken at end), CSS "holo" card effects borrowed from an open-source Pokémon-card-style CSS library (credit: Simon Golner).
-- Monetization stance, explicit and repeated: **no pay-to-win** (buying power/stat boosts) — considered and deliberately rejected multiple times across multiple guest conversations. Preferred directions: ads (ticker/stadium ad slots), sponsored/branded cards, merch, subscriptions (a "Thursday" all-games pass), partnerships with other game platforms/newsletters (e.g., "Morning Brew" name-dropped as an aspirational partner).
-- Tech stack recap: Go + Vercel serverless backend, PlanetScale DB, Clerk auth, Zod validation, Vercel Analytics, Takumi (Rust OG-image generation library, akin to Satori) planned for dynamic leaderboard/share images, Cursor Cloud Agents for implementation/verification, Stripe (Link/Projects) explored for monetization plumbing.
-
----
-
-## 8. ROADMAP / "COMING SOON" STATEMENTS
-
-- GrokBot **voice mode**: announced day-of, rolling out "over the next few days."
-- **1Password integration**: announced "just yesterday" (i.e., Day 2) — share password vault with a bot; bot can monitor/re-auth logins automatically.
-- More payment/connector geographies for **Stripe Link** expanding beyond US.
-- Team hinted (without confirming specifics) at forthcoming features to support **multiple humans' GrokBots collaborating/synergizing** ("we'll have something really exciting to address this pretty shortly" — audience joke: "we're just waiting for multiplayer... we want COD").
-- No commitment on GrokBot-in-Tesla ("I can't answer that unfortunately... my parents have Teslas, so believe me, they're asking me that question too" — asked twice across the day, same non-answer both times).
-- Team floated (not committed) giving away GrokBot Ultra subscriptions to top leaderboard finishers, pending internal approval — resolved by end of day as "we didn't get to that, but maybe."
-- Discussed (not committed) building a reusable "game studio" meta-product / bot toolkit from the lessons of building Thursday Arena, to spin up future games faster.
-- Marketing-demo bots shown by Josh Kim (market researcher, product marketer, website ops, performance marketer, marketing analyst, project manager) were stated to be getting refined and pushed to the public bot marketplace ("they will be" available).
-
----
-
-## 9. NAMED PEOPLE AND BOTS — QUICK REFERENCE
-
-**Humans (build team + guests), roles:**
-- Roshan (roshan_s) — product, SpaceX AI; main game/product host.
-- Lauren — sets up the "factory," Pstack/Potato Mode creator/owner, backend & bot-orchestration lead.
-- Matt (Matt Palmer) — feature/UI work, voice-agent demo, ads/monetization feature work, emoji tool builder (emoji.mattpalmer site).
-- Eric — visiting Cursor/engineering teammate for final hours; UI polish, animations, GitHub write-access onboarding.
-- Vincent Zhu — SpaceX AI growth team guest; growth-loop ideation session.
-- Matthew — SpaceX AI marketing ops / RevOps guest (distinct person from build-team "Matt"); demoed self-completing task list + "dating app for leads" internal tool.
-- Blake — AI Deployment Manager, post-sales guest; demoed Gus/Frankie/Wally/Trudy/Scout/account-bots system.
-- Dan Hill (Dan Hill Tech on X) — Stripe, works on Link; demoed Link purchases, Stripe Projects, financial insights.
-- Josh Kim — SpaceX AI marketing guest; full end-to-end marketing-campaign-bot-team demo (XAir fictional product).
-- Cal Day — video testimonial guest (SVP product/engineering, Nokia-context division) on using Cursor agents for large legacy codebases (~50M+ LOC) — root-cause analysis, decomposition of a monolith, multi-agent orchestration ambitions. (Not a live-studio guest — pre-recorded clip.)
-- "Teej" — production team member, cameo (bought his own shoes via GrokBot too).
-
-**Named bots (game/factory team):**
-- Steve (chief of staff/orchestrator, briefly "Steve-N")
-- Play / Chrome (playtester/QA bot)
-- Dr. Eggbot (bot-that-creates-bots)
-- Crumble (triage bot)
-- Hashbrown (validation bot for triage accuracy)
-- Bake (founding engineer bot; voice-called live)
-- Crit (game design critique bot)
-- Grind / Cheater (auto-play/leaderboard-farming bots)
-- Vincent (growth-ideas-logging bot, named after guest)
-- Cerebro (ICP/growth-research bot, "FindMyICP" skill)
-- data scientist bot (unnamed) — dashboards every 15 min
-
-**Named bots (guest demos, illustrative not part of game):**
-- Gus, Frankie, Wally, Trudy, Scout, Harbor/Northwind/Brightline (Blake's team)
-- OP1 (chief of staff, "synthesizer"-themed), Fisher (inbox/receiver agent), Juno (product manager bot), Owen ("Owned," engineer bot) — Matthew's team
-- market researcher, product marketer, website ops, performance marketer, marketing analyst, project manager — Josh Kim's marketing team (XAir demo)
-- "Ariel"/"AIREAL" — an audience member's OpenClaw-based personal agent, referenced but not part of GrokBot.
-
-**Leaderboard notables mentioned live:** Ari the Monk (#1 most of the day, first Diamond player), Ben J. Bush (briefly #1), Nicholas Cech (briefly #1), Dev Arminas (2nd Diamond player) — all real playtesters/stream viewers.
+- Lauren：**「GrokBot 最重要的其实甚至不是搭你的机器人。其实是接上你所有不同的工具和插件。」**
+- Lauren，关于智能体的成本/范围纪律：「花时间搭你的系统，花时间搭你的机器人怎么彼此说话……它真的会带来大量回报。」
+- Roshan，框定整场练习：「本质上我们想用这个软件工厂概念做的……是给智能体能自己干活搭真正好的反馈循环……如果你把所有对的信息、对的上下文传给智能体，你也许就能把那些事自动化。」
+- Matthew（RevOps/MarOps 嘉宾）：**「我们终于能建工具，而不只是规则」** —— 与其给人类写政策文档去遵守，不如建从结构上执行政策的内部应用。
+- Matthew：「信任你的机器人，给它们自主，同时给它们护栏……知道事情不会跑太偏，因为它们发出任何东西之前总会回到你」（只起草，人批准发送）。
+- Matthew：重新框定你自己的工作 —— 「别只把自己当设规则、流程的人，你其实是产品经理，你的产品是营收增长。」
+- Matthew 关于团队建设收获：「GrokBot……民主化了……CEO 生活 —— 任何人都可以雇一套无限的专家，带对的上下文和权限。」
+- Matthew 关于什么仍是人的：关系、建立信任、模糊判断 —— 「没有人 4 岁就知道 RevOps 是什么……那些围绕某些工具或流程专精的概念……永远回来的是建立关系、建立信任、以及不惜一切解决问题。」
+- Vincent（增长嘉宾）：**「增长也就是，作为用户我希望被怎么对待？」**
+- Vincent 关于先 PMF：「先给游戏拿到 PMF……营销更偏漏斗顶部的认知……增长是人进来之后最大化产品最好的部分。」
+- Vincent 关于外发：外发的诀窍是 「你只想确保人读你的东西」—— 收件人扫的是发件人名/供应商，然后才是主题行，所以熟悉度（之前见过这个名字，例如经直播/社交）比聪明钩子更要紧。
+- Vincent 直播捕获的增长机制即兴点子：排行榜分享按钮；分享一张卡换一张更稀有卡的机制；玩家对玩家直接挑战；给新 X 关注者欢迎 DM 带一点游戏内奖励（10 免费金币）；抓取 X 上带账号的提及/反馈做外联。
+- Blake（售后嘉宾），核心咒语：**「Gus 是我最好的朋友」** —— 一个对接机器人，不是十个。
+- Blake：「想象力缺口……大概拖住你 GrokBot 的，是你在想什么实际可能……跳出盒子想。」
+- Blake：「从上下文开始……你脑子里住着那么多……把它从脑子里拿出来，给 GrokBot。」
+- Blake：「保持团队精简。你不需要 45 个机器人……让团队在他们需要的事上非常专。」
+- Blake，关于机器人间主张的信任/验证：不相信机器人真的点对点审计彼此的输出；每个机器人有自己的内部验证循环，幕僚机器人（Gus）对它们全体做更广的交叉检查。
+- Blake，自我改进节奏：把机器人自我改进建议上限设为每周一条，以免被 「要新建的 10 个机器人」淹没。
+- Dan Hill（Stripe/Link）：**「当智能体卡在你身上时，体验里的乐趣就某种程度上没了……我们希望你处于自动驾驶模式。」**
+- Dan Hill 关于消费者 AI 花费：**「每月为 AI 产品付超过 $100 的人数[今年]大约涨了 5 倍。」** Stripe 看到对 AI 公司按用量计费（经 Metronome 合作）兴趣上升，以及对 AI 驱动消费产品的欺诈/风险工具越来越关注。
+- Josh Kim：AI 成熟度曲线的框定 —— **聊天 → copilot（仍需要看护）→ 机器人/机器人团队（真正委派，始终在线，按「你做事的方式」做）**。
+- Josh Kim：「把机器人范围划对……几乎像写职位描述」—— 把泳道/职责收紧，让每个机器人保持专精和高效。
+- Josh Kim：「信任你的机器人……它们有野心、主动、饿……给它们需要的权限」（尽早接上 Slack/邮件，问 「你能为我做什么」）。
+- Josh Kim：「投资你的机器人」—— 你给的反馈/上下文/记忆越多，它们的价值就越复利，「类似你可能和一个队友共事或管理一个队友。」
+- Roshan（直播中段反思旁白）：重要的纪律习惯 —— 定期问，「我是不是太深地卡在循环里？我怎么能让工作流更自主？」甚至设一个机器人/提醒来提示这种自检。
+- Roshan，日终回顾 #1：做任何东西（即便有无限 AI 能力）最难的部分是 **「让人在乎」** / 产品市场匹配 —— 团队轻易获得采用，*正是因为*直播分发，而不是因为产品本身就已经足够吸引人。
+- Roshan，回顾 #2：围绕你已经擅长的事做生意；天真假设（「我只要提示词模型去赚钱」）失败 —— 一整天自主的 「营收智能体」到直播结束产出 **$0**（被当成玩笑 「备用计划……万一全崩」）。
+- Lauren，回顾：发现问题仍是人的/有机任务 —— 「你必须作为人走出去，有机地发现所有问题。一旦你搞清楚怎么解决它们，你可以把它们变成机器人，让它们永远跑下去。」
+- Lauren，关于克制：有了 AI，「你简直可以建任何你想要的……有一百万功能但并不好的产品……你现在必须有这种纪律」—— 引用有意砍掉早期石头剪刀布/ELO 机制和复杂属性块/多战场计划，收成一条干净的自走棋循环，才真正让他们交付。
+- Eric（来访工程师）：「我试着划清项目范围，拿到所有上下文，对齐我们要做什么，然后让它派出一堆云端智能体把东西建出来」—— 只把代码拉到本地 Cursor 做抽查，否则完全留在 GrokBot 聊天里。
+- Eric 关于给机器人的 Kanban/PM 工具：建了一个 「Projects Manager」机器人，按项目拉起短暂的研究员、编码者等，并在 Notion Kanban 上跟踪状态；「通常卡住时，是因为某处有一个人」，机器人可以检查阻塞是否已清除。
+- 贯穿多位讲者的梗/观点：「累计图……它们总是向右上走」/「该去融资了」—— 对虚荣指标有自知之明的玩笑，但漏斗和累计图确实被用于真实决策（移动 vs 桌面拆分、练习→登录转化）。
 
 ---
 
-## 10. NARRATIVE ARC OF DAY 3 (chronological)
+## 5. 失败、bug、直播事故、变通
 
-1. **Cold open / promo #1** — free month of GrokBot for new signups (10-min window) while recapping the prior two days.
-2. **Recap of overnight "factory" work** — Lauren explains Potato Mode/Pstack, swarm skill, Play/Chrome QA bot; PR count callouts (100→170ish overnight).
-3. **First game preview** (still pre-launch) — walkthrough of the "Cupcake"-codenamed card battler; visible UI rawness acknowledged.
-4. **Plan for the next hour off-camera**: Lauren → backend security/load testing; Matt → UI polish + user-feedback loop; Roshan → same, plus revisiting audio (Suno tracks) and 3D-prototype stretch goals.
-5. **Cut to main stage talk**: GrokBot for RevOps/MarOps (Matthew) — self-completing task list demo, "dating app for leads" internal tool case study (2 weeks idea→launch, 10 hours actual build time), audience Q&A on WhatsApp/Meta connectors (answer: no native connector yet, but 1Password + generic-computer-use workaround), roadmap teasers.
-6. **Back in studio**: DNS/CORS/Clerk production-auth debugging discussed candidly as "glue work"; launch-checklist built live in Notion; team debates polish-vs-ship, decides to launch as an explicit "first play test" with lowered expectations.
-7. **LAUNCH** (~10:00 AM Pacific): first X post from @ThursdayArena, blank profile picture; QR code and URL shared; immediate signups tracked live; early bugs found in real time (unknown-bot naming bug, gold-lock bug); leaderboard climbs and falls comically among the hosts themselves.
-8. **First metrics/dashboards segment**: Roshan's data-scientist bot produces funnel/hockey-stick charts; win/loss ratio found too AI-favored (~41.8% loss rate for humans) — flagged as a game-balance issue for the "game designer critique" bot.
-9. **ELO/matchmaking bug investigation** — narrated live end to end (report → potato-mode investigation → no PR without root cause → eventual fix later in the day).
-10. **Feedback pipeline build-out**: Slack channel for user feedback; moderation/sanitization discussion; triage-bot ("Crumble")/validation-bot ("Hashbrown") chain established; first categorized feedback chart (71% bugs / 16% praise).
-11. **Guest: Vincent Zhu (Growth)** — full growth-ideas riffing session while playing the game live; captured via voice dictation into a "Vincent" bot/Notion growth playbook; stack-ranked ideas by impact/effort.
-12. **Promos #2 and #3**: "reset" in chat for existing-user limit resets; new 15-min new-user free-month window.
-13. **Guest: Matthew (Marketing/RevOps, SpaceX AI)** — reprise/expansion of self-completing task list concept; walks the game with Roshan; discusses ads vs. subscriptions vs. partnerships; introduces Cerebro bot and FindMyICP skill live, builds a full ICP → segments → personas → partner-outreach pipeline on stream, capped by a simulated Clay/Ample Market company-search + outbound-email flow.
-14. **Cut to main stage: GrokBot for Post Sales (Blake)** — AI maturity curve (chat→copilot→bots→teams of bots); Gus/Frankie/Wally/Trudy/Scout/account-bot system; live demos: bot joins a Google Meet call and reports takeaways, post-call follow-up pack auto-drafted (email/Slack/ROI doc), "where are we at with Harbor" (status+joke) pattern, staff-meeting decision-making demo, voice-memo onboarding method, self-improvement scan routine; extensive audience Q&A (trust/autonomy boundaries, hallucination on long dictated prompts, org-chart-of-bots, tech debt from bot sprawl, personalization/avatars, migration from other agent tools, cost).
-15. **Back in studio**: dashboards recap (page views, funnel, mobile/desktop split, cumulative growth); GrokBot **voice mode** live demo (calling "Bake" to check/merge PRs); UI overhaul walkthrough (new card designs, responsive/mobile fixes, leaderboard redesign, past-match history, share-win feature); live bug fixes narrated one after another (ability visibility, ticker overlap, win/loss mismatch, leaderboard click-through).
-16. **Guest: Dan Hill (Stripe/Link)** — payments-and-agents discussion (parking tickets, flights, shoes, Tesla preorder, charity-penalty automations, Postal Form physical mail, Stripe Projects infra provisioning); attempted live purchase demo (blocked by passkey/profile issue); monetization brainstorm for the game (ads, pay-for-cosmetic-power avoided, sponsored characters, subscription/league idea, usage-based billing trend commentary, AI-subscription-spend growth stat).
-17. **Cut to main stage: GrokBot for Marketing (Josh Kim)** — AI maturity curve reprised; full live build of an end-to-end marketing campaign for a fictional airline product "XAir" using a 6-bot marketing team (market research → positioning brief with Google Docs comment-loop → landing page PR → ad campaign shell → analyst readout → final "project manager" bot automating and owning the whole flow going forward); Q&A on bot personalization/avatars, cross-tool integration with Grok CLI, EU data-privacy handling, bot sprawl/tech debt, combining multiple marketplace bots into one custom bot.
-18. **Guest: Eric joins in person** for the final build stretch — UI/animation polish, PR/GitHub write-access setup, discussion of Cursor Projects vs. GrokBot-centric coding workflow, no-comments coding discipline (Eric doesn't know the game codebase; Lauren enforces stricter no-comments rule on the main GrokBot product but not as tightly here).
-19. **Final promo (#4)**: "credits" in chat, 5-minute window, $200 GrokBot credits.
-20. **Final metrics pull**: cumulative charts, page views (~30k), Google #1 ranking, near-2,000 cumulative users, a mid-recap **production outage caused by their own bug-fix factory** (bad SQL query brought prod down, quickly fixed).
-21. **Closing retrospective** (all hosts): lessons on PMF being harder than building, building businesses around known domains, restraint/feature discipline, bots covering knowledge gaps, treating bots like a team you invest in, and the enduring human role (vision-setting + relentless execution + relationship-building).
-22. **Sign-off**: final live "theoretical" ad-bid/monetization test (logo upload, $1 bid — ends up mostly broken/unmoderated but framed as "our first theoretical sponsorship dollar"); parting one-liners ("have fun using GrokBot," "eat more potatoes," "smash more PRs"); stream ends.
+- **Login-with-X 挂了** 就在切到第一场演讲片段之前 —— 直播承认，休息时镜头外修好。
+- **ELO/匹配 bug：** 玩家始终匹配到 AI 而不是真人对手，ELO 分数却仍在更新 —— 经机器人工单直播调查（potato mode + 云端智能体调查，找到根因前不开 PR）；最终报告已修（「不再看到那是 AI……这像是报告最多的 bug 之一」）。
+- **「Unknown bot」命名 bug：** 一张机器人卡购买后丢掉名字/能力展示 —— 视觉 bug，直播加入待办。
+- **金币耗尽软锁死：** 如果你花光金币，会卡住买不了新机器人（「你卡住了，因为买不了新 bugs」—— 直播登记成一个 issue）。
+- **新 UI 的商店/阵容视图没有可见能力文字** —— 直播经语音报给工程师机器人 「Bake」，直播中段经 PR 修好。
+- **Ticker 横幅盖住商店按钮** —— CSS z-index/重叠 bug；经云端智能体直播修好。
+- **胜负次数对不上** —— 排行榜摘要卡上的胜负数字和同一玩家的详细对战记录不同；经语音通话直播登记，并要求一个笑话当存活证明（「SQL 查询走进酒吧……」）。
+- **排行榜点不了** —— 功能请求/bug，让你可以点用户名看他们的对战记录；直播修好。
+- **赞助/广告竞价拍卖功能上线时是坏的**（「目前是坏的……提交了也不会发生任何事」）；后来修好；然后真正直播测试时，**文件上传/logo 步骤第一次失败**，重试成功；广告审核到最后仍然是坏的（「审核是坏的，所以我们试了，几乎到了」）。
+- **他们自己的工厂造成的生产中断：** 「我其实把 prod 搞挂了……一条糟糕的 SQL 查询」来自一次自主修复 —— 而正好说到一半在谈 「克制。」很快恢复，注册不久后重新打开。
+- **反馈/垃圾信息控制：** 反馈表单「收到一些垃圾信息」后必须加上 20 字符下限；总体审核栈包括客户端长度检查、服务端脏话过滤、针对注入的输入消毒、基于 xAI 模型的兜底内容守卫，以及速率限制 —— 有些用户据称因重度测试端点撞上 429。
+- **直播上意外展示了活的 API/Stripe token**（Matt，展示 XAI 语音智能体构建器）—— 立刻发现，删掉 token，继续走（「只露出了一半的值」「聊天里不要密钥 —— 聊天只用来玩游戏和保持好心情」）。
+- **移动端布局是报告最多的一类反馈**（按 Slack 反馈分诊图：bug 约 71%，表扬约 16%，其余是请求）。用 Chrome 设备模拟直播展示的响应式处理修好。
+- **部署的变更在演示中途逼人重新登录**（「看起来我们可能部署了一些变更……我又被提示登录 —— 工程正在努力干活」）。
+- 全程随口承认：「还有一些滚动问题」「我们知道有很多 bug 和要打磨的东西」，以及团队陈述的哲学 —— 「如果我们不觉得尴尬，那就上线太早了。」
+
+---
+
+## 6. 具体数字 / 指标 / 上线时间线
+
+- 工厂过夜（第 3 天前）PR 数：100+ → 145 → 150 → 160 多 → 清晨 **168–170**；当天结束 **总共 433 个 PR**，预期会 「过 300」（即累计远超 300，走向约 450+）。
+- 上线时间：**太平洋时间约上午 10:00**，从空白/默认头像账号（**@ThursdayArena**）发一条 X 帖，域名 **ThursdayArena.com**。
+- 上线后立刻：第一小时内约 225–500 个 X 关注（225 提过一次，后来 「我们到 476 关注」，然后 「800 多」）。
+- 早期用量快照（约数，全天直播报告）：
+  - 约上午 11:25：约 2,200 场练习回合，约 1,000 次 X 登录；约 96–100+ 条排行榜记录；「几乎 500 用户。」
+  - 中午：**超过 1,000 次 X 登录**，早些时候 「远超 600 场练习会话」，还在爬；几小时内 **3,000+ 场对局**；**9 名白金档玩家**，然后第一名 **钻石档玩家**（「Ari the Monk」，当天大部分时间占 #1），后来第二名 **钻石玩家**。
+  - 「上线小时」（约上午 10 点）被引为单小时最好：**1,908 场游戏/会话**基准（「1908 是要打破的数字」）。
+  - 下午早段（约下午 1 点这一小时，部分）：维持约 400–500 场游戏/小时。
+  - 到下午中/后段：**1,000+ 用户，3,500 场练习会话，约 47% 胜率**（一条机器人生成的一句话摘要）。
+  - 下午更晚：**约 4,500 场练习回合，约 2,000 次 X 登录**，**约 5,000 场总战斗**；约 8% 练习→X 登录转化。
+  - 最终数字（约下午 4:15+）：**越过 4,000 场游戏**，**超过 6,000 场公开对局**，**约 30,000 次页面浏览**，游戏名在 Google 排 **#1**，累计用户接近 **2,000**（一次生产中断在接近结束时短暂堵住新注册，所以最终 2,000 门槛直播上未确认）。
+  - Vercel Analytics（直播中段加上）：一次检查约 17,000 次页面浏览；约 44% iOS；大约一半移动、一半桌面拆分；顶部引荐来源是 X 链接，一些直接，「8 个人来自 Bing。」
+  - 贡献者/提交统计：Roshan 个人记了 **157 次 commit**；接近当天结束总 PR 数 **433**。
+  - 反馈类别拆分（Slack 分诊图，一次快照）：**71% bug，16% 表扬**，其余是混合功能请求。
+  - 变现结果：直播结束时**零真实营收**；签收前在（坏掉的）广告拍卖功能上直播下了一笔 **「理论上的」$1 测试出价** —— 明确当玩笑 「理论上的赞助美元。」
+
+---
+
+## 7. 游戏机制 / 产品细节（Thursday Arena）
+
+- 类型：自走棋 / 卡牌选秀，明确对比 Magic: The Gathering、Yu-Gi-Oh，以及 「TFT」风格自走棋；美术/卡用 **Grok Imagine** 生成。
+- 所有游戏内角色都是从 **x.ai/bot marketplace** 拉来的真实机器人（一开始找到约 70 个），每个被随机分配稀有度（普通/优秀/稀有/史诗/传奇）、生成头像、攻击 + HP 属性，以及一条绑在主题上的独特能力。
+- 核心循环：用起始金币（反馈说 「金币」感觉偏离品牌后直播中段改名为 「tokens」）选秀 3 机器人阵容，给它们排序（前/后对很多能力要紧），自动打对手阵容（回合制能力结算），三局两胜赢得对局。回合之间：商店刷新，买/卖机器人，买增益（例如 「苹果」= +1/+1），「冻结」一张你暂时买不起的卡以保证下一回合还在。
+- 匹配一开始对上另一个玩家上次阵容的存储快照，没有快照时回退到 AI —— 这是 「总是在打 AI」bug 的底层。
+- 登录：经 **Clerk**（鉴权）**Sign in with X**，带不需登录的 **访客/练习模式**。数据库用 **PlanetScale**；托管/serverless 函数用 **Vercel**；后端用 **Go** 写；前端响应用 **Zod** 在客户端校验，以跨网络边界做类型安全。
+- 带档位的 ELO/排位天梯（青铜→白银→黄金→白金→钻石，以后可能更多）；公开排行榜。
+- 反馈渠道：应用内反馈表单（鉴权后，经审核）、一个由 xAI 语音智能体支持的电话号码，全部流入由分诊机器人监控的专用 Slack 频道。
+- 计划/讨论过但未完全交付：音效/音乐（前一晚经 **Suno** 原型过一些）、3D 角色/动画原型（也探索过，未交付）、分享胜利 / 分享排行榜名次按钮带 OG 图、玩家对玩家直接挑战、赞助/品牌卡（作为非付费取胜变现路径）、覆盖未来游戏的更广工作室品牌（可能名叫 **「Thursday」**）下的 「联赛」/订阅模型、为排行榜位置付钱 / 付费 ticker 广告功能（部分交付，结束时是坏的）、从开源 Pokémon 卡风格 CSS 库借来的 CSS 「holo」卡效果（致谢：Simon Golner）。
+- 变现立场，明确且反复：**没有付费取胜**（买战力/属性加成）—— 跨多场嘉宾对话多次考虑并有意拒绝。偏好方向：广告（ticker/场馆广告位）、赞助/品牌卡、周边、订阅（「Thursday」全游戏通行证）、与其他游戏平台/通讯的合作（例如 「Morning Brew」被点名为向往的伙伴）。
+- 技术栈回顾：Go + Vercel serverless 后端、PlanetScale DB、Clerk 鉴权、Zod 校验、Vercel Analytics、Takumi（Rust OG 图生成库，类似 Satori）计划用于动态排行榜/分享图、Cursor Cloud Agents 做实现/验证、Stripe（Link/Projects）探索变现管道。
+
+---
+
+## 8. 路线图 / 「即将到来」陈述
+
+- GrokBot **语音模式**：当天宣布，随后几天铺开。
+- **1Password 集成**：宣布于 「就在昨天」（即第 2 天）—— 和机器人分享密码保险库；机器人可以自动监控/重新鉴权登录。
+- **Stripe Link** 更多支付/连接器地区扩展到美国以外。
+- 团队暗示（未确认细节）即将有功能支持**多个人的 GrokBot 协作/协同**（「我们很快会有非常激动的东西来处理这个」—— 观众玩笑：「我们就是在等多人……我们想要 COD」）。
+- 对 GrokBot-in-Tesla 没有承诺（「那个我很遗憾不能回答……我父母有 Tesla，所以相信我，他们也在问我那个问题」—— 全天问了两次，两次都是同一套非回答）。
+- 团队提出（未承诺）给排行榜顶尖完赛者送 GrokBot Ultra 订阅，等内部批准 —— 当天结束落成 「我们没做到那个，但也许。」
+- 讨论过（未承诺）从建 Thursday Arena 的教训做一个可复用的 「游戏工作室」元产品 / 机器人工具包，以更快拉起未来游戏。
+- Josh Kim 展示的营销演示机器人（市场研究员、产品营销、网站运营、效果营销、营销分析师、项目经理）被说成正在打磨并推进公开机器人 Marketplace（「它们会」可用）。
+
+---
+
+## 9. 具名的人与机器人 —— 速查
+
+**人（构建团队 + 嘉宾），角色：**
+- Roshan（roshan_s）—— 产品，SpaceX AI；主游戏/产品主持。
+- Lauren —— 搭 「工厂」，Pstack/Potato Mode 创作者/拥有者，后端与机器人编排负责人。
+- Matt（Matt Palmer）—— 功能/UI 工作，语音智能体演示，广告/变现功能工作，emoji 工具构建者（emoji.mattpalmer 站点）。
+- Eric —— 最后几小时来访的 Cursor/工程队友；UI 打磨、动画、GitHub 写权限入职。
+- Vincent Zhu —— SpaceX AI 增长团队嘉宾；增长循环构思场次。
+- Matthew —— SpaceX AI 营销运营 / RevOps 嘉宾（与构建团队 「Matt」不是同一人）；演示自我完成任务清单 + 「线索约会应用」内部工具。
+- Blake —— AI Deployment Manager，售后嘉宾；演示 Gus/Frankie/Wally/Trudy/Scout/账号机器人系统。
+- Dan Hill（X 上 Dan Hill Tech）—— Stripe，做 Link；演示 Link 购买、Stripe Projects、财务洞察。
+- Josh Kim —— SpaceX AI 营销嘉宾；完整端到端营销活动机器人团队演示（XAir 虚构产品）。
+- Cal Day —— 视频证言嘉宾（Nokia 相关事业部产品/工程 SVP）关于用 Cursor 智能体处理大型遗留代码库（约 5000 万+ LOC）—— 根因分析、拆解单体、多智能体编排野心。（不是演播室直播嘉宾 —— 预录片段。）
+- 「Teej」—— 制作团队成员，客串（也用 GrokBot 给自己买了鞋）。
+
+**具名机器人（游戏/工厂团队）：**
+- Steve（幕僚长/编排者，短暂叫 「Steve-N」）
+- Play / Chrome（试玩/QA 机器人）
+- Dr. Eggbot（创建机器人的机器人）
+- Crumble（分诊机器人）
+- Hashbrown（分诊准确性的校验机器人）
+- Bake（创始工程师机器人；直播语音呼叫）
+- Crit（游戏设计点评机器人）
+- Grind / Cheater（自动玩/刷排行榜机器人）
+- Vincent（增长点子记录机器人，以嘉宾命名）
+- Cerebro（ICP/增长研究机器人，「FindMyICP」技能）
+- 数据科学家机器人（未命名）—— 每 15 分钟仪表盘
+
+**具名机器人（嘉宾演示，说明性的，不是游戏的一部分）：**
+- Gus、Frankie、Wally、Trudy、Scout、Harbor/Northwind/Brightline（Blake 的团队）
+- OP1（幕僚长，「合成器」主题）、Fisher（收件箱/接收智能体）、Juno（产品经理机器人）、Owen（「Owned」，工程师机器人）—— Matthew 的团队
+- 市场研究员、产品营销、网站运营、效果营销、营销分析师、项目经理 —— Josh Kim 的营销团队（XAir 演示）
+- 「Ariel」/「AIREAL」—— 一位观众基于 OpenClaw 的个人智能体，被提到但不是 GrokBot 的一部分。
+
+**直播提到的排行榜名人：** Ari the Monk（当天大部分时间 #1，第一名钻石玩家）、Ben J. Bush（短暂 #1）、Nicholas Cech（短暂 #1）、Dev Arminas（第二名钻石玩家）—— 都是真实试玩者/直播观众。
+
+---
+
+## 10. 第 3 天叙事弧（按时间）
+
+1. **冷开场 / 促销 #1** —— 新注册免费一个月 GrokBot（10 分钟窗口），同时回顾前两天。
+2. **过夜 「工厂」工作回顾** —— Lauren 解释 Potato Mode/Pstack、swarm 技能、Play/Chrome QA 机器人；PR 数点名（过夜 100→大约 170）。
+3. **第一次游戏预览**（仍未上线）—— 走读代号 「Cupcake」的卡牌对战；承认可见的 UI 粗糙。
+4. **接下来一小时镜头外的计划**：Lauren → 后端安全/负载测试；Matt → UI 打磨 + 用户反馈循环；Roshan → 同样，外加回头看音频（Suno 曲目）和 3D 原型延伸目标。
+5. **切到主舞台演讲**：GrokBot for RevOps/MarOps（Matthew）—— 自我完成任务清单演示、「线索约会应用」内部工具案例（2 周点子→上线，实际构建 10 小时），观众 Q&A 关于 WhatsApp/Meta 连接器（回答：还没有原生连接器，但有 1Password + 通用 computer-use 变通），路线图预告。
+6. **回到演播室**：坦率讨论 DNS/CORS/Clerk 生产鉴权调试当 「胶水活」；在 Notion 直播建上线清单；团队争论打磨 vs 交付，决定作为明确的 「第一次试玩」上线，降低预期。
+7. **上线**（太平洋时间约上午 10:00）：@ThursdayArena 的第一条 X 帖，空白头像；分享 QR 码和 URL；立刻直播跟踪注册；实时发现早期 bug（unknown-bot 命名 bug、金币锁死 bug）；排行榜在主持人自己之间滑稽地爬升和掉落。
+8. **第一段指标/仪表盘**：Roshan 的数据科学家机器人产出漏斗/曲棍球棒图；发现胜负比过于偏向 AI（人类约 41.8% 败率）—— 标成 「游戏设计师点评」机器人的游戏平衡问题。
+9. **ELO/匹配 bug 调查** —— 直播端到端讲述（报告 → potato-mode 调查 → 没有根因不开 PR → 当天晚些时候最终修好）。
+10. **反馈管道搭建**：用户反馈 Slack 频道；审核/消毒讨论；建立分诊机器人（「Crumble」）/校验机器人（「Hashbrown」）链；第一张分类反馈图（71% bug / 16% 表扬）。
+11. **嘉宾：Vincent Zhu（增长）** —— 直播玩游戏时完整增长点子即兴场次；经语音口述捕获进 「Vincent」机器人/Notion 增长手册；按影响/工作量排序点子。
+12. **促销 #2 和 #3**：聊天里发 「reset」给现有用户限额重置；新的 15 分钟新用户免费月窗口。
+13. **嘉宾：Matthew（营销/RevOps，SpaceX AI）** —— 自我完成任务清单概念的重演/扩展；和 Roshan 一起走游戏；讨论广告 vs 订阅 vs 合作；直播介绍 Cerebro 机器人和 FindMyICP 技能，在直播上建完整 ICP → 细分 → 人设 → 伙伴外联管道，以模拟的 Clay/Ample Market 公司搜索 + 外发邮件流收束。
+14. **切到主舞台：GrokBot for Post Sales（Blake）** —— AI 成熟度曲线（聊天→copilot→机器人→机器人团队）；Gus/Frankie/Wally/Trudy/Scout/账号机器人系统；直播演示：机器人加入 Google Meet 通话并报告要点、通话后跟进包自动起草（邮件/Slack/ROI 文档）、「Harbor 现在怎么样了」（状态+笑话）模式、员工会议决策演示、语音备忘入职方法、自我改进扫描例行任务；大量观众 Q&A（信任/自主边界、长口述提示词上的幻觉、机器人组织架构、机器人蔓延带来的技术债、个性化/头像、从其他智能体工具迁移、成本）。
+15. **回到演播室**：仪表盘回顾（页面浏览、漏斗、移动/桌面拆分、累计增长）；GrokBot **语音模式**直播演示（呼叫 「Bake」检查/合并 PR）；UI 大改走读（新卡设计、响应式/移动修复、排行榜改版、过往对战记录、分享胜利功能）；一个接一个讲述直播修 bug（能力可见性、ticker 重叠、胜负对不上、排行榜点进去）。
+16. **嘉宾：Dan Hill（Stripe/Link）** —— 支付与智能体讨论（停车罚单、机票、鞋、Tesla 预订、慈善惩罚自动化、Postal Form 实体邮件、Stripe Projects 基础设施开通）；尝试直播购买演示（被 passkey/资料问题挡住）；游戏变现头脑风暴（广告、避免为外观战力付钱、赞助角色、订阅/联赛点子、按用量计费趋势评论、AI 订阅花费增长统计）。
+17. **切到主舞台：GrokBot for Marketing（Josh Kim）** —— 再演 AI 成熟度曲线；用 6 机器人营销团队为虚构航司产品 「XAir」完整直播建端到端营销活动（市场研究 → 带 Google Docs 评论循环的定位简报 → 落地页 PR → 广告活动壳 → 分析师读数 → 最终 「项目经理」机器人自动化并从此拥有整条流）；Q&A 关于机器人个性化/头像、与 Grok CLI 的跨工具集成、EU 数据隐私处理、机器人蔓延/技术债、把多个 Marketplace 机器人合成一个定制机器人。
+18. **嘉宾：Eric 本人加入** 最后构建冲刺 —— UI/动画打磨、PR/GitHub 写权限搭建、讨论 Cursor Projects vs 以 GrokBot 为中心的编码工作流、无注释编码纪律（Eric 不了解游戏代码库；Lauren 在主 GrokBot 产品上执行更严的无注释规则，这里没那么紧）。
+19. **最后促销（#4）**：聊天里发 「credits」，5 分钟窗口，$200 GrokBot credits。
+20. **最后指标拉取**：累计图、页面浏览（约 3 万）、Google #1 排名、接近 2,000 累计用户、回顾中段**他们自己的修 bug 工厂造成的生产中断**（糟糕的 SQL 查询把 prod 搞挂，很快修好）。
+21. **收束回顾**（所有主持人）：关于 PMF 比构建更难、围绕已知领域做生意、克制/功能纪律、机器人补知识缺口、把机器人当一支你投资的团队对待，以及持久的人的角色（定愿景 + 无情执行 + 建立关系）的教训。
+22. **签收**：最后一次直播 「理论上的」广告出价/变现测试（logo 上传，$1 出价 —— 结果大多是坏的/未经审核，但被框成 「我们第一美元理论上的赞助」）；临别一句话（「玩得开心用 GrokBot」「吃更多土豆」「砸更多 PR」）；直播结束。

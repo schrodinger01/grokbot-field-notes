@@ -1,162 +1,149 @@
-# Roster
+# 角色名册
 
-A catalogue of the agent roles described across the three days — sixty-nine
-of them, deduplicated by *role*, not by bot name. Steve, Cora, Gus, Craig,
-Simon-bot and Olive are one role (chief of staff) with six names.
+一份贯穿三天直播所描述的智能体角色目录——共六十九个，按*角色*去重，而非按机器人名称。Steve、Cora、Gus、Craig、Simon-bot 和 Olive 是同一个角色（幕僚长），六个名字。
 
-Every file has the same sections:
+每个文件的章节相同：
 
-| Section | What it answers |
+| 章节 | 回答什么 |
 |---|---|
-| **Seen on stream as** | The named bots that played this role, and whose |
-| **Owns / Does not own** | The swim lane. The *does not own* list is the part people skip and the part that stops sprawl |
-| **Source of truth** | Where it gets facts. If it isn't there, the bot says so |
-| **Needs approval for** | The human gates. Start stricter than this and relax |
-| **Triggers / Outputs** | What starts it, what it hands back |
-| **Routines** | Cadence, where the stream stated one |
-| **Role description** | A paste-ready description with `{PLACEHOLDERS}`. This is the "soul" / system prompt |
-| **From the stream** | The incident or quote it came from |
+| **直播中出现的名称** | 扮演该角色的具名机器人，以及属于谁 |
+| **负责 / 不负责** | 泳道。*不负责*列表是人们最容易跳过、也最能防止蔓延的部分 |
+| **事实来源** | 它从哪里取事实。不在那里，机器人就直说 |
+| **需要批准** | 人工闸门。先比这里更严，再逐步放宽 |
+| **触发 / 输出** | 什么启动它，它交回什么 |
+| **例行任务** | 节奏，直播里说过的才写 |
+| **角色描述** | 可粘贴的描述，带 `{PLACEHOLDERS}`。这是「灵魂」/ 系统提示词 |
+| **来自直播** | 它出自的事件或原话 |
 
-## How to use one
+## 如何使用
 
-1. Copy the description block into a new bot. Fill the placeholders.
-2. Cut the *owns* list down to what you actually need today. Don't build
-   the four-bot support team on day one — David didn't.
-3. Keep the *needs approval* list as written until it has earned trust.
-4. When you correct it, add the general rule to its description — not the
-   story. See [`../AGENTS.md`](../AGENTS.md).
+1. 把描述块复制到新机器人里。填好占位符。
+2. 把*负责*列表裁到你今天真正需要的。不要第一天就建四人支持团队——David 没有。
+3. *需要批准*列表先按原文保留，直到它赢得信任。
+4. 纠正它时，把一般规则写进描述——而不是故事。见 [`../AGENTS.md`](../AGENTS.md)。
 
-Most setups on stream were 5–10 of these. Blake: "You don't need 45 bots."
-Simon: "I've had way too many at some points. It's more chaotic."
+直播中大多数配置只用了其中 5–10 个。Blake：「你不需要 45 个机器人。」
+Simon：「我有时多过头了。更乱。」
 
 ---
 
-## Orchestration
+## 编排
 
-| Role | One line |
+| 角色 | 一句话 |
 |---|---|
-| [`Bot Factory (meta-bot)`](bot-factory.md) | Creates other bots: writes their descriptions, picks names, reviews and health-checks the existing team, and diagnoses workflow bottlenecks. |
-| [`Chief of Staff`](chief-of-staff.md) | The one bot the human talks to. Routes every request to the right specialist, holds who-is-working-on-what, and is the only thread that pings the human. |
-| [`Engineering Manager`](engineering-manager.md) | Takes a large chunk of work, decomposes it into scoped tasks, delegates to engineer bots, and runs the verification loop on what comes back. Coached not to write code. |
-| [`Knowledge Base Manager`](knowledge-base-manager.md) | Watches the other bots' conversations passively and selectively writes durable facts to the team knowledge base — with the human's say-so, treating it like a git log, not a dump. |
-| [`Miscellaneous Bot (trash can)`](misc-bot.md) | A catch-all for random requests so they don't pollute the specialists' context. Can hand a learning to the right bot when it turns out to matter. |
-| [`Playbook Owner (head of operations)`](playbook-owner.md) | Owns the living document of team standards. Other bots read it and may not edit it. Every new rule goes in once and is announced to every bot. |
-| [`Project Manager`](project-manager.md) | Learns how a multi-bot workflow was orchestrated by the human, then runs it end to end without them. Becomes the single point of contact for that workflow. |
-| [`Self-Improvement Scan (bot optimiser)`](self-improvement-scan.md) | Audits how the human and the bots actually worked this week, proposes one automation, and feeds the draft-vs-sent delta back into the voice bot. |
-| [`Source of Truth`](source-of-truth.md) | Answers questions from the canonical documentation with sources attached. Other bots ground their claims in it; the chief goes to it when an answer must be right. |
-| [`Sub-Agent Army (soldier)`](sub-agent-army.md) | A pool of low-context, identical sub-bots that a parent bot fans a batch job across, reporting back to the parent in a shared group chat — never to the human. |
+| [`机器人工厂（元机器人）`](bot-factory.md) | 创建其他机器人：撰写它们的描述、起名、审查并健康检查现有团队，诊断工作流瓶颈。 |
+| [`幕僚长`](chief-of-staff.md) | 你对话的唯一机器人。把每项请求路由给合适的专家，掌握谁在做什么，并且是唯一会 ping 你的对话。 |
+| [`工程经理`](engineering-manager.md) | 接手一大块工作，拆成有范围的任务，委派给工程师机器人，并对返回结果跑验证循环。被要求不要写代码。 |
+| [`知识库管理员`](knowledge-base-manager.md) | 被动观察其他机器人的对话，有选择地把可持久事实写入团队知识库——须经你同意，当作 git 日志，而不是一股脑倾倒。 |
+| [`杂务机器人（垃圾桶）`](misc-bot.md) | 承接零散请求，以免污染专家的上下文。当真变成值得沉淀的学习时，可以交给对应机器人。 |
+| [`手册负责人（运营主管）`](playbook-owner.md) | 掌管团队标准这份活文档。其他机器人只读、不得编辑。每条新规则只写一次，并告知所有机器人。 |
+| [`项目经理`](project-manager.md) | 学习你如何编排多机器人工作流，然后端到端替你跑。成为该工作流的唯一对接人。 |
+| [`自我改进扫描（机器人优化器）`](self-improvement-scan.md) | 审计本周你和机器人实际怎么干活，提出一项自动化，并把草稿与已发送的差异回灌给文风机器人。 |
+| [`事实来源`](source-of-truth.md) | 依据权威文档回答问题并附上来源。其他机器人用它锚定主张；幕僚长在答案必须正确时找它。 |
+| [`子智能体军团（士兵）`](sub-agent-army.md) | 一组低上下文、彼此相同的子机器人，由父机器人把批处理任务分发出去，在共享群聊里向父机器人汇报——从不对你。 |
 
-## Engineering
+## 工程
 
-| Role | One line |
+| 角色 | 一句话 |
 |---|---|
-| [`CI / Alert Auto-Fix (on-call bot)`](ci-autofix.md) | First responder for red CI, failed deploys and alerts. Investigates, spins a cloud agent to fix, merges per policy, and pages a human only if unresolved after a timeout. |
-| [`Comment Cleanup`](comment-cleanup.md) | Deletes unnecessary code comments. Exists because agents use comments as a crutch for workarounds instead of fixing root causes. |
-| [`Domain Engineer (UI / DevX / infra / …)`](domain-engineer.md) | One engineer bot per domain, with its own memory, that turns a scoped task into a cloud-agent run and returns a PR with proof. |
-| [`Feedback → PR`](feedback-to-pr.md) | Takes a confirmed piece of customer feedback and turns it into a PR, using the real product for context and verification, within hours. |
-| [`Founding Engineer (PR watcher)`](founding-engineer.md) | The first engineer on a new repo: watches every PR, merges what's ready, spins up cloud agents for specific bugs, and can be called by voice for status. |
-| [`Kanban / Task-Board Updater`](kanban-updater.md) | Keeps the task board true: moves cards when PRs land, creates cards from decisions, and lets other bots pick up work by watching the board. |
-| [`Nightly Audit Engineer`](nightly-audit-engineer.md) | Runs a research cloud agent over the whole codebase every night, finds slop, modularisation gaps, comment bloat and security issues, and leaves PRs for the morning. |
-| [`Playtester / QA`](playtester.md) | Actually uses the product — clicks through it, plays it, breaks it on purpose — on its own computer, and reports what's wrong before a PR merges or after a deploy. |
-| [`PR Reviewer`](pr-reviewer.md) | Reviews every PR for correctness, risk and missing tests, checks that the required proof is attached, and either auto-merges or sends it back. |
-| [`Prototyper`](prototyper.md) | Builds throwaway prototypes fast — inline HTML in chat, or a cloud agent on a scratch branch — to answer a design question, not to ship. |
-| [`Slack Mention Responder`](slack-mention-responder.md) | Listens for @-mentions and DMs in Slack and processes them — a lightweight internal tool with no dashboard, or a triage layer in front of the human. |
-| [`Triage Validator`](triage-validator.md) | Checks that the triage bot's understanding of a piece of feedback is correct before any autopilot fix proceeds. A second pair of eyes between users and code. |
-| [`Triage`](triage.md) | Reads incoming feedback, reproduces the reported issue, and files a confirmed ticket — or discards it. Watches for prompt injection in the feedback. |
+| [`CI / 告警自动修复（值班机器人）`](ci-autofix.md) | 红色 CI、失败发布和告警的第一响应。调查、拉起云端智能体修复、按策略合并，超时仍未解决才呼叫人工。 |
+| [`注释清理`](comment-cleanup.md) | 删除不必要的代码注释。存在原因：智能体把注释当权宜之计的拐杖，而不是修根因。 |
+| [`领域工程师（UI / DevX / 基础设施 / …）`](domain-engineer.md) | 每个领域一个工程师机器人，自带记忆，把有范围的任务变成一次云端智能体运行，并交回带证据的 PR。 |
+| [`反馈 → PR`](feedback-to-pr.md) | 把一条已确认的客户反馈变成 PR，用真实产品做上下文和验证，几小时内完成。 |
+| [`创始工程师（PR 观察者）`](founding-engineer.md) | 新仓库的第一位工程师：盯每一个 PR，合并就绪的，为具体 bug 拉起云端智能体，并可用语音询问状态。 |
+| [`看板 / 任务板更新器`](kanban-updater.md) | 让任务板保持真实：PR 落地时移动卡片，从决策创建卡片，其他机器人通过看看板领取工作。 |
+| [`夜间审计工程师`](nightly-audit-engineer.md) | 每晚对整个代码库跑一次研究型云端智能体，找出敷衍代码、模块化缺口、注释膨胀和安全问题，早上留下 PR。 |
+| [`游戏测试 / QA`](playtester.md) | 真的使用产品——点一遍、玩一遍、故意弄坏——在自己的电脑上，在 PR 合并前或发布后报告问题。 |
+| [`PR 审查者`](pr-reviewer.md) | 审查每个 PR 的正确性、风险和缺失测试，检查是否附上所需证据，然后自动合并或打回。 |
+| [`原型师`](prototyper.md) | 快速做一次性原型——聊天里的内联 HTML，或临时分支上的云端智能体——用来回答设计问题，不是用来上线。 |
+| [`Slack 提及响应器`](slack-mention-responder.md) | 监听 Slack 中的 @提及和私信并处理——轻量内部工具，无仪表盘，或作为挡在你前面的分诊层。 |
+| [`分诊校验器`](triage-validator.md) | 在任何自动驾驶修复开始前，检查分诊机器人对一条反馈的理解是否正确。用户与代码之间的第二双眼睛。 |
+| [`分诊`](triage.md) | 阅读进线反馈，复现所报问题，并归档已确认工单——或丢弃。留意反馈中的提示词注入。 |
 
-## Product & design
+## 产品与设计
 
-| Role | One line |
+| 角色 | 一句话 |
 |---|---|
-| [`Creative Director / Media Explorer`](creative-director.md) | Explores creative directions — music, motion, ad assets — as code where possible, and drops candidates somewhere the team can react (Notion, a playground). |
-| [`Critic`](critic.md) | Reviews a piece of work against a rubric and says what's wrong, in plain English, before it ships. Feedback only; never edits the thing. |
-| [`Data Scientist / Analyst`](data-scientist.md) | Answers data questions in plain English by writing and running the SQL against the warehouse, returns numbers and charts, and corrects the humans when they misread a chart. |
-| [`Designer`](designer.md) | Produces on-brand mocks fast because it carries the design system, reference files and the team's accumulated no-no's. Delivers options, not one answer. |
-| [`Prioritizer`](prioritizer.md) | Keeps a stack-ranked list of what to do next, scored by impact and effort, and re-ranks as new ideas and feedback arrive. |
-| [`Product Changes Tracker`](product-changes-tracker.md) | Tells you what shipped, what was unshipped, and which implicit decisions got made, by reading PRs and issues *and* walking the live product on its own computer. |
-| [`Recruiter`](recruiter.md) | Sources candidates, manages the hiring pipeline, and drafts outreach — or, flipped around, finds the recruiters and warm contacts for a job seeker. |
-| [`Spec / PRD Writer`](spec-writer.md) | Turns an insight plus product context into a crisp P0/P1/P2 spec optimised for getting to code fast, and iterates from comments in the doc. |
+| [`创意总监 / 媒体探索者`](creative-director.md) | 探索创意方向——音乐、动效、广告素材——尽可能用代码，并把候选放到团队能反应的地方（Notion、演练场）。 |
+| [`评论家`](critic.md) | 按评分表审查一件作品，用直白的中文指出问题，在上线前完成。只给反馈；从不改那件东西。 |
+| [`数据科学家 / 分析师`](data-scientist.md) | 用直白语言回答数据问题：编写并在数仓运行 SQL，返回数字和图表，并在人读错图时纠正。 |
+| [`设计师`](designer.md) | 快速产出符合品牌的稿，因为它带着设计系统、参考文件和团队积累的禁区。交付选项，不是唯一答案。 |
+| [`优先级排序器`](prioritizer.md) | 维护按影响与工作量打分的下一件事清单，并随新点子和反馈重新排序。 |
+| [`产品变更追踪器`](product-changes-tracker.md) | 告诉你上线了什么、撤回了什么、以及哪些隐含决策被做了，方法是读 PR 和 issue，*并且*在自己电脑上走一遍线上产品。 |
+| [`招聘专员`](recruiter.md) | 寻访候选人、管理招聘管道、起草外联——反过来，也可以为求职者找招聘方和暖联系人。 |
+| [`规格 / PRD 撰写者`](spec-writer.md) | 把洞察加产品上下文变成清晰的 P0/P1/P2 规格，为尽快落到代码而优化，并根据文档评论迭代。 |
 
-## Sales & sales engineering
+## 销售与销售工程
 
-| Role | One line |
+| 角色 | 一句话 |
 |---|---|
-| [`Account Specialist (one per account)`](account-specialist.md) | A dedicated bot with the full context of one account: plan, stakeholders, renewal, signals, promises. Updates the account plan after every call and flags what needs you. |
-| [`Battle Card Writer`](battle-card-writer.md) | Combines the competitor bot's hands-on findings with the technical expert's codebase truth into short, SE-ready battle cards: competitor claim vs. our reality. |
-| [`Call Prep / Close`](call-prep.md) | 15–20 minutes before a call (or the night before), hands you who's on it, what happened last time, their usage, what shipped since, a suggestion, and any bug on their site to open with. |
-| [`Case-Study / Slides Curator`](case-study-curator.md) | Turns a customer blog post or call notes into a slide in your fixed template, fetches the right logo, inserts it into the master deck, and hides what's irrelevant for the next call. |
-| [`Competitive Intel`](competitive-intel.md) | Signs up for and uses competitor products on its own computer, reads their changelogs, blogs, X and job posts, and reports what's different and what you should react to. |
-| [`CRM Updater (next steps)`](crm-updater.md) | Listens to the call, reads the thread, and writes the next-steps update in your exact format for you to approve and push — and reacts to stage changes. |
-| [`Demo Scripter / Talk Track`](demo-scripter.md) | Builds no-hallucination demo scripts and call talk tracks that map a specific customer's pain to the live product flow, grounded in the technical expert. |
-| [`Enrichment & Company Research`](enrichment.md) | Turns a name into a verified email, and a company into a tech stack, job postings and an org chart — so the sequencer doesn't bounce and the message lands with the right person. |
-| [`ICP Researcher`](icp-researcher.md) | Works out who actually buys — from won deals, VoC and product data — turns it into segments and personas, and keeps that as a skill because it will change. |
-| [`Live Deck Curator`](live-deck-curator.md) | After (or during) a discovery call, pulls the transcript and updates the deck with the use cases and next steps the customer actually said. |
-| [`Prospector (outbound)`](prospector.md) | Picks accounts and contacts, finds personal hooks (X posts, podcasts, webinars — watched, not skimmed), ranks who to reach out to, and drafts the outreach in your voice. |
-| [`Signal Scanner (web research)`](signal-scanner.md) | Scans the outside world for changes across your whole account list — funding, job posts, news, blog posts — every day, at scale, by fanning out to sub-agents. |
-| [`Technical Expert (repo-grounded)`](technical-expert.md) | Answers "how does the product actually do X" from the codebase, via cloud agents, and rephrases it for a customer — without leaking IP. |
-| [`Usage Signals (PLG)`](usage-signals.md) | Reads product usage to find who signed up, who the power users are, which teams adopted what, and which accounts are warm right now. |
-| [`Voice of Customer`](voice-of-customer.md) | Holds why deals were won and lost — from call recordings and the CRM — so outreach and ranking can be tailored to what similar customers actually cared about. |
-| [`Voice (writes as you)`](voice.md) | Learns how you actually write from what you actually sent — filtered, weighted to recent and successful — and drafts everything external in that voice, per audience. |
+| [`客户专员（每客户一个）`](account-specialist.md) | 一个客户一个机器人，掌握该客户的全部上下文：计划、干系人、续约、信号、承诺。每次通话后更新客户计划，并标出需要你出手的事项。 |
+| [`作战卡片撰写者`](battle-card-writer.md) | 把竞品机器人的上手发现与技术专家的代码库事实合成短作战卡片，供销售工程师使用：竞品主张 vs. 我们的现实。 |
+| [`通话准备 / 成交`](call-prep.md) | 通话前 15–20 分钟（或前一晚），交给你：谁在会上、上次谈了什么、他们的用量、此后上线了什么、一条建议，以及他们网站上可开场的 bug。 |
+| [`案例研究 / 幻灯片策展`](case-study-curator.md) | 把客户博文或通话笔记做成固定模板中的一页，取对 logo，插入主演示文稿，并为下一通通话隐藏无关内容。 |
+| [`竞争情报`](competitive-intel.md) | 在自己电脑上注册并使用竞品，读他们的 changelog、博客、X 和招聘，报告有何不同、你该如何反应。 |
+| [`CRM 更新器（下一步）`](crm-updater.md) | 听通话、读讨论串，按你的精确格式写下下一步更新供你批准后推送——并对阶段变更作出反应。 |
+| [`Demo 脚本 / 话术`](demo-scripter.md) | 编写无幻觉的 demo 脚本和通话话术，把特定客户的痛点映射到线上产品流程，锚定于技术专家。 |
+| [`信息补全与公司研究`](enrichment.md) | 把一个名字变成已验证邮箱，把一家公司变成技术栈、招聘和组织结构——让序列器不弹信、信息落到对的人。 |
+| [`ICP 研究员`](icp-researcher.md) | 从赢单、VoC 和产品数据搞清楚谁真正买单——做成细分和画像，并作为技能保存，因为它会变。 |
+| [`现场演示文稿策展`](live-deck-curator.md) | 发现通话之后（或之中），拉取转录，用客户实际说的用例和下一步更新演示文稿。 |
+| [`潜客开发（外拓）`](prospector.md) | 挑选客户和联系人，找个人钩子（X 帖、播客、网络研讨会——看过，不是扫过），排序该联系谁，并用你的文风起草外联。 |
+| [`信号扫描器（网络研究）`](signal-scanner.md) | 每天扫描外部世界，覆盖你的整份客户名单——融资、招聘、新闻、博文——靠向子智能体分发来规模化。 |
+| [`技术专家（基于代码库）`](technical-expert.md) | 从代码库回答「产品到底怎么做 X」，经由云端智能体，并为客户改写——不泄露 IP。 |
+| [`使用信号（PLG）`](usage-signals.md) | 读产品用量，找出谁注册了、谁是重度用户、哪些团队采用了什么、哪些客户现在是热的。 |
+| [`客户之声`](voice-of-customer.md) | 掌握赢单和丢单的原因——来自通话录音和 CRM——以便外联和排序贴合同类客户真正在意的事。 |
+| [`文风（以你的口吻撰写）`](voice.md) | 从你实际发出的内容学习你怎么写——经过筛选，偏重近期和成功的——并以该文风、按受众起草所有对外内容。 |
 
-## Post-sales & personal ops
+## 售后与个人运营
 
-| Role | One line |
+| 角色 | 一句话 |
 |---|---|
-| [`Commitment Tracker (promise keeper + ask watch)`](commitment-tracker.md) | Two lists: what you said you'd do, and what you asked others for. Reminds you of the first and chases the second, so nothing falls into the abyss of email and Slack. |
-| [`Daily Digest`](daily-digest.md) | Reads the newsletters, podcasts and feeds you subscribed to and can't keep up with, and posts one summary a morning where you'll see it. |
-| [`Follow-Up Desk`](follow-up-desk.md) | The second a call ends: reads the transcript, drafts the replies, Slacks the AE, and builds whatever was promised on the call — as drafts, in your voice. |
-| [`Inbox Manager`](inbox-manager.md) | Ranks overnight email, Slack and meeting invites into an action order every morning, drafts replies to the routine ones, and only escalates what matters. |
-| [`Internal Radar`](internal-radar.md) | Watches the 30–40 internal channels and update emails you can't, and sends one daily digest of what's new, what you need to know, with links. |
-| [`Meeting Attendee / Note Taker`](meeting-attendee.md) | Joins a call on your behalf (muted, camera off, announces itself), sends takeaways and decisions afterwards, and routes action items to the right bots. |
+| [`承诺追踪器（守诺 + 请求盯梢）`](commitment-tracker.md) | 两份清单：你说要做的，以及你向别人要的。提醒前者、追后者，以免掉进邮件和 Slack 的深渊。 |
+| [`每日摘要`](daily-digest.md) | 阅读你订阅却跟不上的通讯、播客和信息源，每天早上在你会看到的地方发一份摘要。 |
+| [`跟进台`](follow-up-desk.md) | 通话一结束：读转录、起草回复、Slack 给 AE，并做出通话上承诺的东西——一律草稿，用你的文风。 |
+| [`收件箱管理员`](inbox-manager.md) | 每天早上把隔夜邮件、Slack 和会议邀请排成行动顺序，为常规项起草回复，只升级真正重要的。 |
+| [`内部雷达`](internal-radar.md) | 盯着你顾不上的 30–40 个内部频道和更新邮件，每天发一份摘要：有什么新的、你需要知道什么，带链接。 |
+| [`会议出席 / 记录员`](meeting-attendee.md) | 替你加入通话（静音、关摄像头、自我介绍），会后发送要点和决策，并把行动项路由给对应机器人。 |
 
-## Customer support
+## 客户支持
 
-| Role | One line |
+| 角色 | 一句话 |
 |---|---|
-| [`Support Alert`](support-alert.md) | Pinged by the reply bot (or on its own hourly scan) when a ticket matches an escalation rule; posts to a shared Slack channel and tags the human. |
-| [`Support Infra (build)`](support-infra.md) | Sets up the support system: installs connectors, creates the evals and traces tables, wires the KB, and builds a missing connector with a cloud agent when there isn't one. |
-| [`Support Reply`](support-reply.md) | Works tickets through a written loop — read, look up, decide reply-or-handoff, act, leave a note — with confidence gating, and answers internal questions from the same KB. |
-| [`Support Tuner (self-improvement)`](support-tuner.md) | Proposes KB additions when the reply bot can't answer, reviews last week's tickets and traces for what could have gone better, and — with approval — makes the change. |
+| [`支持告警`](support-alert.md) | 当工单匹配升级规则时，由回复机器人触发（或自己每小时扫描）；发到共享 Slack 频道并标记你。 |
+| [`支持基础设施（搭建）`](support-infra.md) | 搭建支持系统：安装连接器、创建评估和追踪表、接入 KB，没有连接器时用云端智能体补一个。 |
+| [`支持回复`](support-reply.md) | 按书面循环处理工单——读、查找、决定回复或移交、行动、留笔记——带置信度闸门，并用同一 KB 回答内部问题。 |
+| [`支持调优（自我改进）`](support-tuner.md) | 回复机器人答不上时提议 KB 增补，回顾上周工单和追踪看哪里可以更好，并——经批准——做出改动。 |
 
-## Marketing & growth
+## 营销与增长
 
-| Role | One line |
+| 角色 | 一句话 |
 |---|---|
-| [`Growth Ideas Logger`](growth-ideas-logger.md) | Captures growth ideas as they're said aloud, logs them to a growth playbook doc, and stack-ranks them by impact and effort. |
-| [`Market Researcher`](market-researcher.md) | Studies your product and market, finds competitors' marketing sites, and names the positioning gaps and opportunities — the first bot in a campaign chain. |
-| [`Marketing Analyst`](marketing-analyst.md) | Pulls the results of the last experiment from the ads platform, names the winner and the key metrics, and recommends how to update strategy and assets. |
-| [`Performance Marketer`](performance-marketer.md) | Builds campaign shells in the ads platform, traffics the copy variants into them, and sends screenshots as it clicks — stopping short of spend without you. |
-| [`Product Marketer`](product-marketer.md) | Takes the research and writes the positioning brief — one-liners, packaging, value statements — then the landing-page outline and ad-copy variants, iterating from your comments in the doc. |
-| [`Website Ops`](website-ops.md) | Takes an approved landing-page outline and ships it: opens a PR against the marketing site, sends progress screenshots, and pushes to production. |
+| [`增长点子记录器`](growth-ideas-logger.md) | 把随口说出的增长点子记下来，写入增长手册文档，并按影响与工作量排序。 |
+| [`市场研究员`](market-researcher.md) | 研究你的产品和市场，找到竞品营销站点，点出定位缺口和机会——营销活动链的第一个机器人。 |
+| [`营销分析师`](marketing-analyst.md) | 从广告平台拉取上次实验的结果，点出胜者和关键指标，并建议如何更新策略和素材。 |
+| [`效果营销`](performance-marketer.md) | 在广告平台搭活动壳、把文案变体灌进去，边点边发截图——未经你同意不花预算。 |
+| [`产品营销`](product-marketer.md) | 承接研究并写定位简报——一句话、包装、价值陈述——然后落地页大纲和广告文案变体，根据你在文档中的评论迭代。 |
+| [`网站运营`](website-ops.md) | 承接已批准的落地页大纲并上线：对营销站点开 PR，发送进度截图，并推到生产。 |
 
-## Operations, events & finance
+## 运营、活动与财务
 
-| Role | One line |
+| 角色 | 一句话 |
 |---|---|
-| [`Bookkeeper / CFO`](bookkeeper.md) | Tracks receipts and expenses, keeps the books current, and alerts on budget — with no ability to move money. |
-| [`Contract / Policy Reviewer`](contract-reviewer.md) | First-pass review of a venue contract or policy: flags unusual terms, missing protections and market-rate outliers — explicitly a draft for a human expert to finish. |
-| [`Event Planner`](event-planner.md) | Owns a production budget for an event — venue, F&B, staffing, AV, marketing as a separate line — and sends the sub-bots (venue, permits, contracts) their parameters. |
-| [`Negotiator / Reseller`](negotiator.md) | Lists items or requests quotes, and negotiates with counterparties inside a framework you set — floor price, walk-away rules — reporting back for anything outside it. |
-| [`Permit / Red-Tape Researcher`](permit-researcher.md) | Researches the permits, licences and regulations for an event type in a specific jurisdiction, and produces a checklist with lead times. |
-| [`Venue Scout`](venue-scout.md) | Finds venues that meet the event's criteria, sends RFPs by email, and negotiates within the budget you set. |
+| [`簿记 / CFO`](bookkeeper.md) | 追踪收据和开支，保持账目最新，并就预算告警——没有动钱的能力。 |
+| [`合同 / 政策审查`](contract-reviewer.md) | 对场地合同或政策做第一遍审查：标出异常条款、缺失保护和偏离市场价的项——明确是供人类专家收尾的草稿。 |
+| [`活动策划`](event-planner.md) | 掌管一场活动的制作预算——场地、餐饮、人员、AV，营销单独一行——并把参数发给子机器人（场地、许可、合同）。 |
+| [`谈判 / 转售`](negotiator.md) | 上架物品或询价，并在你设定的框架内与对手谈判——底价、离场规则——框架外的一律汇报。 |
+| [`许可 / 繁文缛节研究员`](permit-researcher.md) | 研究特定司法辖区某类活动所需的许可、执照和法规，并产出带前置时间的清单。 |
+| [`场地寻访`](venue-scout.md) | 寻找符合活动标准的场地，用邮件发 RFP，并在你设定的预算内谈判。 |
 
 ---
 
-## Roles that were on stream and are *not* here
+## 直播中出现但*未*收录的角色
 
-- **Grind / Cheater** — bots that logged in and played the game to farm
-  leaderboard rank for the hosts. A joke; Lauren's went *down* in rank.
-- **Personal trackers** (Karen Cheng's package tracker, back-in-stock,
-  shows tracker; Matthew Berman's PG&E plan optimiser) — personal-life
-  automations, not team roles. The pattern is `daily-digest` +
-  `signal-scanner` pointed at your own life.
-- **The xAI voice agent** on the feedback phone line — a product feature,
-  not a bot in this sense.
+- **Grind / Cheater** —— 登录并玩游戏、为主持人刷排行榜的机器人。玩笑；Lauren 的名次反而*掉了*。
+- **个人追踪器**（Karen Cheng 的包裹追踪、补货、演出追踪；Matthew Berman 的 PG&E 套餐优化器）——个人生活自动化，不是团队角色。模式是把 `daily-digest` + `signal-scanner` 对准你自己的生活。
+- 反馈电话线上的 **xAI 语音智能体** —— 产品功能，不是这个意义上的机器人。
 
-## Caveats
+## 注意事项
 
-Names, quotes and cadences are as stated on stream. Demo accounts (Harbor,
-Northwind, Brightline, Flylo, XAir) are fictional. The descriptions are
-written from what the presenters said their bots do; none of them were
-published verbatim, so treat each block as a reconstruction to edit, not a
-template that was tested as-is.
+名称、引述和节奏均按直播所述。演示客户（Harbor、Northwind、Brightline、Flylo、XAir）为虚构。描述根据主讲人对其机器人职责的说明撰写；没有一份是原文公开发布的，因此把每段都当作可编辑的复原，而不是已经原样验证过的模板。

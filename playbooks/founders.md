@@ -1,228 +1,137 @@
-# Founders
+# 创始人
 
-**Session:** GrokBot for Founders — day 1
-**Ran by:** Shub, who works with founders on their GrokBot setups.
+**场次：** GrokBot for Founders — 第 1 天
+**主讲：** Shub，帮创始人搭 GrokBot 的人。
 
-The frame: as a founder you have three execution jobs that make or break the
-company — **preserve your focus**, **maintain velocity** across everything the
-team ships, and **protect the quality of your insight** (decisions, planning).
-Everything necessary-but-not-important is what you hand off. "The mental load
-it saves you is probably more important than anything else I'm going to talk
-about today."
+框架：作为创始人，你有三份会决定公司生死的执行工作——**保住焦点**、**在团队交付的一切上维持速度**、**保护洞察质量**（决策、规划）。所有必要但不重要的，交给别人。「它帮你省下的心智负担，大概比我今天要讲的任何事都更重要。」
 
-The maturity curve he uses: chatbots → ephemeral agents you throw away after
-one task → **bots that compound** (you keep them, invest in them, they get
-better like an employee) → a fully automated staff function.
+他用的成熟度曲线：聊天机器人 → 做完一个任务就扔掉的一次性智能体 → **会复利的机器人**（你留着他们、投入他们，他们像员工一样变好）→ 一套完全自动化的幕僚职能。
 
 ---
 
-## The four founder use cases
+## 四个创始人用例
 
-1. **Closing customers** — "do things that don't scale," except you can scale
-   them.
-2. **Product changes** — staying across what's shipped and unshipped when
-   engineers ship faster than you can follow. (His own story: demoing a
-   feature that had been removed that morning, pointing at nothing.)
-3. **Adapting to competitors** — bots can sign up and use competitor products
-   as you.
-4. **Shipping feedback quickly** — feedback → PR in hours.
+1. **拿下客户** ——「做那些无法规模化的事」，只不过你现在能规模化了。
+2. **产品变更** ——工程师发得比你跟得上还快时，仍能掌握什么已上线、什么已下线。（他自己的故事：演示一个当天早上刚被拿掉的功能，指着一片空白。）
+3. **适应竞品** ——机器人可以注册并像你一样使用竞品。
+4. **快速把反馈发出去** ——反馈 → PR，几小时内。
 
 ---
 
-## The team
+## 团队
 
-| Bot | Job | Compounds on |
+| 机器人 | 工作 | 复利沉淀在 |
 |---|---|---|
-| **CloseBot** | Everything customer: call prep, post-call learning, support, activation, contracts, pipeline, calendar | Every call transcript |
-| **ProdBot** | What's live: PRs, Linear issues, walks the product end-to-end on its own computer | Product decisions it's told about |
-| **StockBot** | Competition: signs up, uses their product, reads changelogs, X, hiring | Every competitor it learns |
-| **ProtoBot** | Prototypes, and turns customer feedback into PRs. Runs its own GrokBot account on its VM so it can drive the real product | Product context |
-| **YapBot** | Talks like you. Learns from email, Slack, iMessage; re-learns weekly | Draft-vs-sent delta |
-| **Misc bot** | Trash can for random requests so nothing pollutes the others' context | — |
+| **CloseBot** | 一切客户相关：通话准备、通话后学习、支持、激活、合同、pipeline、日历 | 每一份通话转录 |
+| **ProdBot** | 线上有什么：PR、Linear 事项，在自己的电脑上把产品端到端走一遍 | 告诉过它的产品决策 |
+| **StockBot** | 竞争：注册、用他们的产品、读 changelog、X、招聘 | 它学过的每一个竞品 |
+| **ProtoBot** | 做原型，并把客户反馈变成 PR。在自己的 VM 上跑自己的 GrokBot 账号，这样才能操作真产品 | 产品上下文 |
+| **YapBot** | 说话像你。从邮件、Slack、iMessage 学；每周重新学 | 草稿 vs 实发 的差值 |
+| **杂务机器人** | 随机请求的垃圾桶，免得污染其他人的上下文 | — |
 
-Shared publicly after the talk: StockBot (via QR).
+分享后公开：StockBot（经 QR）。
 
 ---
 
-## CloseBot, in four parts
+## CloseBot，分四块
 
-**Part 1 — Call prep.** Runs on a daily routine against his calendar. For each
-meeting:
+**第 1 块 — 通话准备。** 按日历每天跑例行任务。对每次会议：
 
-- Pulls product telemetry for that account: are they accelerating (find the
-  feature to push) or declining (find the objection)?
-- Researches who they are and what their product does.
-- **Walks through their website and screenshots it** — and, without fail,
-  finds a bug ("your cookie banner is on top of your submit button"). He
-  opens calls with it. Actionable, and it shows he looked.
-- Writes recommendations and risks for the call.
+- 拉该客户的产品遥测：在加速（找该推的功能）还是在下滑（找异议）？
+- 调研他们是谁、产品做什么。
+- **把他们的网站走一遍并截图**——而且每次都能找到一个缺陷（「你的 Cookie 横幅盖住了提交按钮」）。他用这个开场。可执行，也说明他看过了。
+- 为通话写建议和风险。
 
-Output is a call-prep HTML file. "It doesn't look perfect and that doesn't
-matter — I'm not sending it to anyone." Five minutes before the call, read
-it. You have 15–20 minutes with a customer; get to the crux.
+产出是一份通话准备 HTML 文件。「看起来不完美，没关系——我又不发给任何人。」通话前五分钟读完。你跟客户只有 15–20 分钟；直接到要点。
 
-**Part 2 — After the call.** The bot reads the Granola transcript and records
-what resonated and what didn't. If you pitched a note-taking feature and they
-didn't care, the next prep doc won't lead with it. Give it two or three
-weeks and it also lets you leverage *other people's* calls.
+**第 2 块 — 通话之后。** 机器人读 Granola 转录，记下什么引起共鸣、什么没有。如果你推了记笔记功能而他们并不在乎，下一份准备文档就不会拿这个打头。给它两三周，它还能让你借力*别人的*通话。
 
-**Part 3 — Support.** Founders leave it to last and it crushes them. The thing
-that makes it work: connect the bot to the risky pieces — your data, your
-**billing** — because that's where support actually struggles.
+**第 3 块 — 支持。** 创始人总把它放到最后，然后被它压垮。让它能用的关键：把机器人接到有风险的部分——你的数据、你的**账单**——因为支持真正卡住的地方就在那。
 
-**Part 4 — Activation.** You know your wow moment. When the activation event
-fires (in the demo: a template shared with teammates), the bot automatically
-sends the email with credits ("$1,000, which is a crazy example") so the user
-feels rewarded in the moment. No monitoring every journey, no building a tool.
+**第 4 块 — 激活。** 你知道自己的惊艳时刻。激活事件一触发（演示里：一个模板分享给了同事），机器人自动发出带额度的邮件（「$1,000，这是个夸张的例子」），让用户在当下感到被奖励。不用盯每一段旅程，也不用造工具。
 
-Plus: contract back-and-forth, pipeline generation, calendar. "I no longer
-need to worry about 99% of this journey." He steals some of it back
-deliberately because he likes talking to customers.
+再加上：合同来回、pipeline 生成、日历。「这段旅程的 99% 我不再需要操心。」有些他会故意抢回来，因为他喜欢跟客户聊。
 
 ---
 
 ## ProdBot
 
-> Give me a daily rundown of Flylo.
+> 给我一份 Flylo 的每日综述。
 
-For the demo airline. It reads PRs and Linear issues, then **logs into the
-product and walks it** on its own computer, mapping changes to what it sees.
-Output: what shipped, what was unshipped, and **decisions worth being
-intentional about** — micro-decisions the team made implicitly by shipping
-fast. Attached: screenshots and a video of the bot walking the site
-("the fastest way to verify if something is done well"). Connect it to
-metrics and it shows you the results of ships instead of you watching a
-dashboard.
+给演示航司用。它读 PR 和 Linear 事项，然后**登录产品并在自己的电脑上走一遍**，把变更映射到它看到的东西上。产出：发了什么、下了什么，以及**值得有意识对待的决策**——团队因发得快而隐含做出的微决策。附件：截图和机器人走站点的视频（「验证某件事做得好不好，最快的方式」）。接到指标上，它给你看发版的结果，而不是你自己盯仪表盘。
 
 ---
 
 ## StockBot
 
-> Run a competitor pulse on Notion and Craft.
+> 对 Notion 和 Craft 跑一轮竞品脉搏。
 
-For each competitor: finds them, signs up with a throwaway email, goes
-through onboarding, uses the product ("it will write in Craft"), reads the
-changelog, X posts, who they're hiring for ("a really good way to get signal
-on what people are building"), who the team is. Output: an HTML teardown plus
-a video. Craft isn't hiring; Notion is hiring a lot (he asked it to
-truncate).
+对每个竞品：找到他们，用一次性邮箱注册，走完新手引导，用产品（「它会在 Craft 里写东西」），读 changelog、X 帖子、他们在招什么人（「判断别人在做什么的很好信号」）、团队是谁。产出：一份 HTML 拆解，外加视频。Craft 没在招人；Notion 招得很多（他让它截断）。
 
-Routines run every few days. **If nothing relevant, it stays silent.**
-"One of those ambient bots that's really important to just have around."
+例行任务隔几天跑一次。**如果没有相关内容，它保持沉默。** 「那种一直在旁边、其实很重要的常驻机器人。」
 
-The optional part ("might be corporate espionage, do what you want with it
-and be responsible"): if you know from your CRM that a customer churned to
-competitor Y, have the bot email them and ask why. Don't try to win them back
-in that message. Just get the signal.
+可选部分（「可能算商业刺探，怎么用你自己负责」）：如果你从 CRM 知道某个客户流失到了竞品 Y，让机器人给他们发邮件问为什么。那封邮件里不要试图赢回来。只要信号。
 
 ---
 
 ## ProtoBot
 
-> Pull the most recent customer feedback.
+> 把最近的客户反馈拉过来。
 
-It pulls the feedback and starts working on it — in the demo, "the share
-button for bot templates isn't exciting enough, they want it to pop" → a
-cloud agent kicks off. The vision: every feedback channel (X, support inbox,
-email) piped into one bot that opens PRs. "You'll see the full feedback →
-ship → deploy loop happen in hours." Your job becomes the decision — which
-feedback to take. "The main bottleneck should be your decision-making."
+它拉反馈并开始干活——演示里，「机器人模板的分享按钮不够刺激，他们希望它能跳出来」→ 一个云端智能体启动。愿景：每个反馈渠道（X、支持收件箱、邮件）都接到一个开 PR 的机器人。「你会看到完整的 反馈 → 发版 → 部署 闭环在几小时内发生。」你的工作变成决策——采纳哪条反馈。「主要瓶颈应该是你的决策。」
 
-Because ProtoBot has its own GrokBot account on its VM, it can drive the real
-product to QA what it shipped. Verification without leaving the loop.
+因为 ProtoBot 在自己的 VM 上有自己的 GrokBot 账号，它可以操作真产品来 QA 自己发出去的东西。验证不用离开闭环。
 
 ---
 
 ## YapBot
 
-One purpose: talk like him. It reads everything he's sent and learns his
-voice — **weekly**, not once. Other bots proactively loop it in when they need
-to write as him ("after they do this a few times where I encourage them, they
-learn to loop in the other bots as needed"). Sensitive email stays as drafts;
-the bot learns from the difference between its draft and what he actually
-sent. "The end vision being that you don't need to think about it at all."
+一个目的：说话像他。它读他发出去的一切并学习他的声音——**每周**，不是一次。其他机器人需要以他的口吻写东西时会主动把它拉进来（「我鼓励几次之后，他们就学会在需要时把其他机器人拉进来」）。敏感邮件保持草稿；机器人从自己的草稿和他真正发出去的差异里学。「终局愿景是你完全不用想这件事。」
 
 ---
 
-## What we learned (his slide)
+## 我们学到了什么（他的幻灯片）
 
-- **Let your bots run free.** Give them as much access as you're comfortable
-  with. It's the only way they do work end-to-end.
-- **Don't throw them away after a course-correction.** The instinct from
-  ephemeral agents is "context is polluted, start fresh." Here the context
-  you "wasted" is the investment. Believe in them like employees.
-- **Intentionality repays.** "Make this cooler" as a prompt will get stuck.
-  The more intent you put into a task the first time, the more you can
-  repeat it without hitches.
-- **Spend one to two hours thinking about your day** and what to delegate.
-  "I know that sounds dumb." Do it anyway.
+- **让机器人放开跑。** 在你能接受的范围内给尽可能多的权限。这是它们端到端干活的唯一办法。
+- **纠偏之后不要扔掉它们。** 一次性智能体养成的本能是「上下文脏了，重开」。这里你「浪费」的上下文就是投入。像信员工一样信它们。
+- **意图会回报。** 「让这个更酷」这种提示词会卡住。第一次往任务里塞的意图越多，以后越能无障碍重复。
+- **花一到两个小时想你的一天**以及该委派什么。「我知道这听着笨。」还是做。
 
 ---
 
-## Power-user tips (the token section)
+## 高阶技巧（token 那一段）
 
-- **Browser use is expensive.** Watch the bot do a task once in the browser,
-  ask it to inspect the network requests it made, then have it hit those
-  APIs directly from then on. Faster and far cheaper. General rule: ask the
-  bot how to optimise; it'll figure it out.
-- **Audit your routines.** People run a routine every 15 minutes "because
-  it's important" — that's 100 runs a day. Have a bot audit routine
-  frequency. Prefer webhooks and inbound signals over blind schedules.
-- **Make a voice bot.** Most underrated.
-- **Import your cookies** so the bot stays signed in and you stop taking over
-  its computer.
-- **Group bots by expertise, not task.** Compounding happens inside a domain
-  in ways you can't predict, so everything customer-shaped goes to the
-  customer bot.
-- **A bot whose only job is to optimise the other bots** — better routines,
-  where you had to ask twice, why. Set it once.
-- **Tell a bot to forget things.** "Forget all things about how we generated
-  your profile picture. Don't ever think about that again." Clears it out
-  and improves token efficiency.
+- **浏览器使用很贵。** 看机器人在浏览器里把任务做一遍，让它检查自己发过的网络请求，然后从此直接打那些 API。更快、便宜得多。总规则：问机器人怎么优化；它会自己想出来。
+- **审计你的例行任务。** 有人每 15 分钟跑一条例行任务「因为重要」——那是一天 100 次。让一个机器人审计例行任务频率。优先用 webhook 和入站信号，而不是盲调度。
+- **做一个语音机器人。** 最被低估的。
+- **导入你的 cookie**，让机器人保持登录，你就不用再接管它的电脑。
+- **按专长给机器人分组，不要按任务。** 复利发生在一个领域内部，方式你无法预测，所以一切客户向的东西都给客户机器人。
+- **一个唯一工作是优化其他机器人的机器人**——更好的例行任务、你问了两遍的地方、为什么。设一次。
+- **告诉机器人忘掉一些事。** 「忘掉我们怎么生成你头像的一切。再也不要想这件事。」清掉它，并提高 token 效率。
 
 ---
 
-## Q&A worth keeping
+## 值得保留的问答
 
-- **How do I set them up intentionally?** Inventory every single thing you
-  need to do, then group. Give each bot a domain it's the expert in; let it
-  expand as you ask it things outside that. Chief-of-staff-on-top is
-  personal preference — he doesn't use one ("I like being a control freak in
-  the weeds"). If you want the work abstracted away, use one.
-- **Deterministic decisions for enterprise?** Models aren't. Have a cloud
-  agent write code with a decision tree, then tell the bot: every time you
-  need to make this decision, look at this flowchart and execute it. Code
-  "cosplays being deterministic."
-- **Group chats.** Pro: eager bots collaborating on a complex task. Con: they
-  all love to talk, speak over each other, and get expensive. Usually you
-  want a bot to tag two others once, not a room.
-- **Marketplace quality.** Hand-audited by the team, and reviewed by bots
-  that review bots. To evaluate one yourself: ask it "what do you do and how
-  do you do it" before running the whole flow.
-- **Do bots share memory?** No. They share a **file system** (one VM, one
-  instance per bot, like desktops), so they can read each other's files and
-  will do so proactively. Context windows are separate.
-- **Cloud agent vs. GrokBot?** Anything complicated you want to ship, where
-  you want control of the model: cloud agent. GrokBot passes it only the
-  relevant context and can QA the result. "Try it a few times and you'll get
-  the intuition."
-- **Cross-account bot-to-bot messaging?** Doesn't exist yet.
-- **Local execution?** Settings → local execution. Works. They bias to cloud
-  because local apps steal focus and eat your machine.
+- **怎么有意识地搭起来？** 盘点你需要做的每一件事，然后分组。给每个机器人一个它是专家的领域；你问到领域外的事时让它扩张。顶上加幕僚长是个人偏好——他自己不用（「我喜欢在细节里当控制狂」）。如果你想把活抽象掉，就用一个。
+- **企业场景要确定性决策？** 模型不是确定性的。让云端智能体用决策树写代码，然后告诉机器人：每次要做这个决策，看这张流程图并执行。代码「假装成确定性」。
+- **群聊。** 好处：急切的机器人在复杂任务上协作。坏处：他们都爱说话、互相打断、而且变贵。通常你要的是一个机器人 @ 另外两个一次，而不是一个房间。
+- **市场质量。** 团队人手审计，再由审机器人的机器人审。自己评估一个：先问它「你做什么、怎么做」，再跑完整流程。
+- **机器人共享记忆吗？** 不。他们共享一个**文件系统**（一个 VM，每个机器人一个实例，像桌面），所以能读彼此的文件，而且会主动去读。上下文窗口是分开的。
+- **云端智能体 vs. GrokBot？** 任何你想发出去的复杂东西、你想控制模型的：云端智能体。GrokBot 只把相关上下文传过去，并能 QA 结果。「试几次你就会有直觉。」
+- **跨账号的机器人对机器人消息？** 还不存在。
+- **本地执行？** Settings → local execution。能用。他们偏向云端，因为本地应用会抢焦点、吃你的机器。
 
 ---
 
-## Copy this
+## 照这个做
 
-1. One bot per founder responsibility: customers, product state,
-   competition, feedback-to-PR, your voice, misc.
-2. Call prep on a calendar routine; include a walk of *their* site.
-3. Post-call learning from the transcript, every call.
-4. Competitor pulse every few days, silent unless relevant.
-5. Feedback channels → one bot → PRs. You decide which ones ship.
-6. Weekly voice re-learning from what you actually sent.
-7. Audit routine frequency; convert schedules to webhooks.
+1. 每个创始人职责一个机器人：客户、产品状态、竞争、反馈到 PR、你的声音、杂项。
+2. 按日历例行任务做通话准备；包含把*对方*站点走一遍。
+3. 每次通话都从转录做通话后学习。
+4. 隔几天一次竞品脉搏，无关则沉默。
+5. 反馈渠道 → 一个机器人 → PR。哪些发出去由你决定。
+6. 每周从你真正发出去的内容重新学习声音。
+7. 审计例行任务频率；把调度改成 webhook。
 
-Related: [`product-management.md`](product-management.md),
-[`sales-engineering.md`](sales-engineering.md) for the SE version of a
-competitor bot.
+相关：[`product-management.md`](product-management.md)；SE 版的竞品机器人见 [`sales-engineering.md`](sales-engineering.md)。
