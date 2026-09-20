@@ -1,0 +1,983 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>Grok Bot 指南 · xAI</title>
+<style>
+@font-face { font-family: Inter; src: url("file:///usr/share/fonts/truetype/macos/Inter-Regular.ttf"); font-weight: 400; }
+@font-face { font-family: Inter; src: url("file:///usr/share/fonts/truetype/macos/Inter-Medium.ttf"); font-weight: 500; }
+@font-face { font-family: Inter; src: url("file:///usr/share/fonts/truetype/macos/Inter-SemiBold.ttf"); font-weight: 600; }
+@font-face { font-family: Inter; src: url("file:///usr/share/fonts/truetype/macos/Inter-Bold.ttf"); font-weight: 700; }
+@font-face { font-family: "WenQuanYi Micro Hei"; src: url("file:///usr/share/fonts/truetype/wqy/wqy-microhei.ttc"); }
+@page { size: A4; margin: 0; }
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; background: #fff; }
+body {
+  font-family: Inter, "WenQuanYi Micro Hei", "文泉驿微米黑", sans-serif;
+  color: #111;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+.page {
+  width: 210mm;
+  height: 297mm;
+  padding: 14mm 16mm 16mm;
+  position: relative;
+  overflow: hidden;
+  page-break-after: always;
+  break-after: page;
+}
+.page:last-child { page-break-after: auto; break-after: auto; }
+.cover { padding: 14mm 16mm 0; }
+.cover h1, .cover .tag, .cover .lede { position: relative; z-index: 2; }
+.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  font-weight: 600;
+  color: #9ca3af;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #ececec;
+  margin-bottom: 16px;
+}
+.top .brand { color: #111; letter-spacing: 0.12em; }
+.top .brand i { color: #e53935; font-style: normal; margin-right: 6px; }
+.kicker {
+  color: #e53935;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  margin: 0 0 8px;
+}
+h1 {
+  font-size: 30px;
+  line-height: 1.12;
+  letter-spacing: -0.03em;
+  margin: 0 0 10px;
+  font-weight: 700;
+}
+.lede {
+  font-size: 12.2px;
+  line-height: 1.55;
+  color: #4b5563;
+  margin: 0 0 14px;
+}
+.lede b, .card p b, li b, .row .desc b, .note b, .callout p b { color: #111; font-weight: 700; }
+.foot {
+  position: absolute;
+  left: 16mm; right: 16mm; bottom: 10mm;
+  display: flex; justify-content: space-between;
+  font-size: 10px; color: #9ca3af;
+}
+.grid { display: grid; gap: 10px; }
+.g3 { grid-template-columns: 1fr 1fr 1fr; }
+.g4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
+.g2 { grid-template-columns: 1fr 1fr; }
+.card {
+  background: #f4f4f5;
+  border-radius: 10px;
+  padding: 12px 13px 11px;
+}
+.card h3 { margin: 0 0 6px; font-size: 13px; font-weight: 700; }
+.card p, .card li { margin: 0; font-size: 11px; line-height: 1.5; color: #4b5563; }
+.card ul { margin: 0; padding-left: 16px; }
+.stat { background: #f4f4f5; border-radius: 10px; padding: 12px 12px 10px; }
+.stat .n { font-size: 26px; font-weight: 700; letter-spacing: -0.03em; line-height: 1; margin-bottom: 6px; }
+.stat .l { font-size: 10.5px; line-height: 1.4; color: #4b5563; }
+.callout {
+  background: #fff1f2;
+  border-radius: 10px;
+  padding: 12px 14px 12px 16px;
+  border-left: 4px solid #e53935;
+  margin: 12px 0 0;
+}
+.callout.warn { background: #fff7ed; border-left-color: #ea580c; }
+.callout h3 { margin: 0 0 4px; font-size: 13px; }
+.callout p { margin: 0; font-size: 11.2px; line-height: 1.5; color: #4b5563; }
+.nums { list-style: none; margin: 0; padding: 0; }
+.nums > li {
+  display: grid;
+  grid-template-columns: 22px 1fr;
+  gap: 10px;
+  padding: 8px 0;
+  border-bottom: 1px solid #ececec;
+  font-size: 11.5px;
+  line-height: 1.5;
+  color: #4b5563;
+}
+.nums > li:last-child { border-bottom: 0; }
+.nums .dot {
+  width: 22px; height: 22px; border-radius: 50%;
+  background: #111; color: #fff;
+  font-size: 11px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  margin-top: 1px;
+}
+.quote {
+  border-left: 4px solid #e53935;
+  padding: 2px 0 2px 14px;
+  margin: 12px 0;
+}
+.quote p {
+  margin: 0 0 6px;
+  font-size: 16px;
+  line-height: 1.35;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+.quote .who { font-size: 11px; color: #6b7280; font-weight: 500; }
+.sec {
+  color: #e53935;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  margin: 14px 0 8px;
+}
+.row {
+  display: grid;
+  grid-template-columns: 132px 1fr;
+  gap: 14px;
+  padding: 8px 0;
+  border-bottom: 1px solid #ececec;
+}
+.row .name { font-size: 13px; font-weight: 700; line-height: 1.25; }
+.row .sub { font-size: 10.5px; color: #9ca3af; font-weight: 500; margin-top: 1px; }
+.row .desc { font-size: 11.2px; line-height: 1.45; color: #4b5563; }
+.flow { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin: 0 0 12px; }
+.pill {
+  background: #f4f4f5;
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-size: 11px;
+  font-weight: 600;
+}
+.pill.on { background: #111; color: #fff; }
+.arrow { color: #9ca3af; font-size: 14px; }
+.note { font-size: 10.5px; line-height: 1.5; color: #6b7280; margin-top: 10px; }
+.cover h1 { font-size: 52px; line-height: 1.02; margin: 0 0 8px; }
+.cover .tag { font-size: 22px; color: #111; margin: 0 0 8px; font-weight: 600; }
+.cover .lede.cover-lede { font-size: 16px; color: #111; margin: 0; }
+.people {
+  position: absolute; left: 0; right: 0; bottom: 0;
+  height: 240mm;
+  background: url("assets/cover-people.png") center 4% / cover no-repeat;
+  z-index: 0;
+}
+.cover .foot { z-index: 2; color: #9ca3af; background: none; }
+.toc-item {
+  display: grid;
+  grid-template-columns: 28px 1fr;
+  gap: 14px;
+  padding: 7px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+.toc-item .num { color: #c4c4c4; font-weight: 700; font-size: 13px; padding-top: 1px; }
+.toc-item .t { font-size: 13px; font-weight: 700; }
+.toc-item .d { font-size: 11px; color: #6b7280; margin-top: 1px; }
+.prompt {
+  background: #fafafa;
+  border-radius: 8px;
+  padding: 10px 12px;
+  margin: 0 0 10px;
+  font-size: 11px;
+  line-height: 1.5;
+  color: #374151;
+}
+.prompt .lab {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: #e53935;
+  margin-bottom: 4px;
+}
+.fail {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 18px;
+}
+.fail .item { padding: 8px 0; border-bottom: 1px solid #ececec; }
+.fail .item h3 { margin: 0; font-size: 12.5px; }
+.fail .day { font-size: 10px; color: #9ca3af; font-weight: 600; margin: 2px 0 3px; }
+.fail p { margin: 0; font-size: 10.8px; line-height: 1.45; color: #4b5563; }
+</style>
+</head>
+<body>
+
+<section class="page cover">
+  <h1>Grok Bot 指南</h1>
+  <p class="tag">由 SpaceX 工程师出品</p>
+  <p class="lede cover-lede">72 小时直播，3 天。</p>
+  <div class="people"></div>
+  <div class="foot"><span>01/24</span><span></span></div>
+</section>
+
+<section class="page">
+  <div class="top"><span class="brand"><i>●</i>GROK BOT</span><span>GUIDE · XAI</span></div>
+  <div class="kicker">目录</div>
+  <h1>这份指南里有什么</h1>
+  <div class="toc-item"><div class="num">01</div><div><div class="t">这场实验</div><div class="d">三天直播构建实际产出了什么</div></div></div>
+  <div class="toc-item"><div class="num">02</div><div><div class="t">心智模型</div><div class="d">队友，不是任务——以及这如何改变你的搭建</div></div></div>
+  <div class="toc-item"><div class="num">03</div><div><div class="t">一个机器人实际拿到什么</div><div class="d">自己的电脑、自己的记忆、共享文件系统</div></div></div>
+  <div class="toc-item"><div class="num">04</div><div><div class="t">搭你的第一份角色名册</div><div class="d">一个机器人，一件事——以及机器人膨胀陷阱</div></div></div>
+  <div class="toc-item"><div class="num">05</div><div><div class="t">会建机器人的机器人</div><div class="d">Dr. Eggbot、描述即灵魂，以及修过拟合角色</div></div></div>
+  <div class="toc-item"><div class="num">06</div><div><div class="t">技能与例行任务</div><div class="d">靠演示来教，并把纠偏沉淀下来</div></div></div>
+  <div class="toc-item"><div class="num">07</div><div><div class="t">软件工厂</div><div class="d">Potato Mode、集群，以及完全自动驾驶</div></div></div>
+  <div class="toc-item"><div class="num">08</div><div><div class="t">验证才是整场游戏</div><div class="d">杠杆最高、该最先建的那一件</div></div></div>
+  <div class="toc-item"><div class="num">09</div><div><div class="t">真正赚回成本的提示词模式</div><div class="d">直播里反复出现的七个动作</div></div></div>
+  <div class="toc-item"><div class="num">10</div><div><div class="t">提示词库</div><div class="d">从直播里抽出的提示词</div></div></div>
+  <div class="toc-item"><div class="num">11</div><div><div class="t">规模化编排</div><div class="d">幕僚长、手册、幕僚会议、子机器人军团</div></div></div>
+  <div class="toc-item"><div class="num">12</div><div><div class="t">实际花多少钱</div><div class="d">真实成本，以及钱从哪里漏</div></div></div>
+  <div class="toc-item"><div class="num">13</div><div><div class="t">批准、密钥与影响范围</div><div class="d">Auto Review、保险库、注入，以及服务端权威</div></div></div>
+  <div class="toc-item"><div class="num">14</div><div><div class="t">案例：Thursday Arena</div><div class="d">72 小时从零到上线一款游戏</div></div></div>
+  <div class="toc-item"><div class="num">15</div><div><div class="t">工厂角色名册</div><div class="d">团队里每一个机器人及其职责</div></div></div>
+  <div class="toc-item"><div class="num">16</div><div><div class="t">现场名册</div><div class="d">六种工作上的六套正在跑的配置</div></div></div>
+  <div class="toc-item"><div class="num">17</div><div><div class="t">直播里坏掉的</div><div class="d">现场失败，以及每一条教你什么</div></div></div>
+  <div class="toc-item"><div class="num">18</div><div><div class="t">限制与即将到来的</div><div class="d">产品现在仍会说不的地方</div></div></div>
+  <div class="toc-item"><div class="num">19</div><div><div class="t">复盘</div><div class="d">团队在结尾承认了什么</div></div></div>
+  <div class="toc-item"><div class="num">20</div><div><div class="t">你的第一周</div><div class="d">今天就能开始的清单</div></div></div>
+  <div class="foot"><span>02/24</span><span>x.ai/bot</span></div>
+</section>
+
+<section class="page">
+  <div class="top"><span class="brand"><i>●</i>GROK BOT</span><span>GUIDE · XAI</span></div>
+  <div class="kicker">01 · 这场实验</div>
+  <h1>三天，一家公司，直播进行</h1>
+  <p class="lede">Grok Bot 团队的三个人——<b>Matt Palmer、Roshan</b> 和 <b>Lauren（「Potato」）</b>——坐进旧金山一间演播室，面对一个空的 GitHub 组织、空的 Slack、空的 Notion，以及没有想法。七十二小时后，他们有了一款几千用户的上线产品。这份指南里的一切都来自那三场直播。</p>
+  <div class="grid g3">
+    <div class="card"><h3>第 1 天 — 构思</h3><p>餐厅快闪变成快闪平台，变成艺术展，变成周边快闪。一天四个转向。软件从来不是瓶颈；对齐该做什么才是。</p></div>
+    <div class="card"><h3>第 2 天 — 构建</h3><p>转向游戏工作室。一个一次性 HTML 自走棋原型，代号 <b>Cupcake</b>，现场做出并玩起来——属性 bug、作弊演示全有。</p></div>
+    <div class="card"><h3>第 3 天 — 上线</h3><p>夜里机器人工厂落地 170 个 PR。游戏在上午 10 点以 <b>Thursday Arena</b> 上线。收工时：433 个 PR，约 30,000 次浏览，约 6,000 局，收入 $0。</p></div>
+  </div>
+  <div class="grid g4" style="margin-top:10px">
+    <div class="stat"><div class="n">433</div><div class="l">三天内合并的 pull request</div></div>
+    <div class="stat"><div class="n">~2,000</div><div class="l">上线日登录的玩家</div></div>
+    <div class="stat"><div class="n">~30k</div><div class="l">上线游戏的页面浏览</div></div>
+    <div class="stat"><div class="n">$0</div><div class="l">收入——诚实的那个数字</div></div>
+  </div>
+  <div class="callout">
+    <h3>◎ 为什么一份直播指南值得读</h3>
+    <p>产品文档描述功能做什么。三天未经剪辑的现场构建，让你看见人们在时间压力下<b>实际拿它做什么</b>——哪些模式站得住，哪些太贵，哪些悄悄坏掉。这里几乎每一条都是有人被看见在做的实践，不是有人描述过的功能。</p>
+  </div>
+  <p class="note">关于名字：自动字幕把产品打成「GrokBot」「Rockbot」「Brockbot」，把公司打成「SpaceX AI」。都是同一件事。数字是现场说的，当天就是移动靶。</p>
+  <div class="foot"><span>03/24</span><span>x.ai/bot</span></div>
+</section>
+
+<section class="page">
+  <div class="top"><span class="brand"><i>●</i>GROK BOT</span><span>GUIDE · XAI</span></div>
+  <div class="kicker">02 · 心智模型</div>
+  <h1>队友，不是任务</h1>
+  <p class="lede">产品创作者之一 Roman 在第一场直播开场抛出整件事赖以成立的论点：<b>「我们真的希望 Grok Bot 感觉像在和队友、同事一起工作。」</b>界面刻意做成 iMessage 的形状，而这个形状驱动了本指南里每一条好做法。</p>
+  <div class="sec">产品押上的三个赌注</div>
+  <ol class="nums">
+    <li><span class="dot">1</span><span><b>队友范式，不是任务范式。</b>机器人是你会回去找几个月的具名同事，不是开完就丢的线程。它会积累。</span></li>
+    <li><span class="dot">2</span><span><b>每个机器人有自己的电脑。</b>一台带浏览器的 Linux VM。它能用遗留软件、政府门户、没有 API 的站点——人拿屏幕和鼠标能做的，它都能做。</span></li>
+    <li><span class="dot">3</span><span><b>一切在云端跑。</b>合上笔记本，工作继续。「你度假时它能干活。你睡觉时它能干活。」</span></li>
+  </ol>
+  <div class="grid g2" style="margin-top:12px">
+    <div class="card">
+      <h3>实践上会变什么</h3>
+      <ul>
+        <li><b>你是在雇人，不是在填配置。</b>给机器人划范围，更像写职位描述，而不是填设置页。</li>
+        <li><b>纠偏会复利。</b>告诉机器人它为什么错，是投资，不是打断。</li>
+        <li><b>你回来面对做完的活。</b>Amrita 的原话：「做完的活才是 Grok Bot 最好的部分。」</li>
+        <li><b>打断没问题。</b>任务中途改道是正常的，而且被鼓励。</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>模型 vs. 套件</h3>
+      <p>Roshan 把这条线画得很清楚，决定工作该发生在哪时很要紧：</p>
+      <ul>
+        <li><b>Grok</b> 是模型。</li>
+        <li><b>Grok Bot</b> 是套件——刻意轻量，擅长编排、用工具和判断。</li>
+        <li><b>Cursor 云端智能体</b> 是重型编码套件，真正的工程活由机器人委派给它。</li>
+      </ul>
+      <p style="margin-top:8px"><b>在 Grok Bot 里做原型。通过云端智能体发货。</b></p>
+    </div>
+  </div>
+  <div class="quote">
+    <p>「走到 90% 和端到端、放手做完，体感真的完全不同。真的很神奇。」</p>
+    <div class="who">Roman · Grok Bot 101，第 1 天</div>
+  </div>
+  <div class="foot"><span>04/24</span><span>x.ai/bot</span></div>
+</section>
+
+<section class="page">
+  <div class="top"><span class="brand"><i>●</i>GROK BOT</span><span>GUIDE · XAI</span></div>
+  <div class="kicker">03 · 架构</div>
+  <h1>一个机器人实际拿到什么</h1>
+  <p class="lede">搞清机器人之间<b>共享什么、不共享什么</b>，就能解释直播里大多数让人吃惊的行为——好的和坏的。</p>
+  <div class="grid g2">
+    <div class="card"><h3>自己的电脑</h3><p>每个机器人一台 Linux VM，带浏览器、终端和可安装应用。一个机器人碰不到另一个的屏幕——这份隔离让两个机器人能同时改同一套幻灯片的不同页。登录、2FA、CAPTCHA，或不想交出的事，你可以自己接管屏幕。因为 VM 是 Linux，不兼容 Linux 又没有 MCP 的工具完全不能用。问答里说得很直白。</p></div>
+    <div class="card"><h3>自己的记忆</h3><p>记忆按机器人隔离、长期保存、可编辑。你说一次的偏好会留下来。每个机器人还有自己的上下文上限——这就是按角色拆活的实际原因。你可以让它忘掉某件事，同时也会少耗 token。复制机器人会复制人设，记忆从零开始。</p></div>
+    <div class="card"><h3>共享文件系统</h3><p>机器人共享文件，不共享上下文——「一台 VM，一堆不同实例，就像你有不同桌面。」技能是全局的。教给一个，所有机器人都能用。浏览器登录存在机器上，任务之间还在。</p></div>
+    <div class="card"><h3>两种碰到工具的方式</h3><p><b>连接器 / MCP</b>——「给智能体的 API。」更快、更便宜、更容易加白名单。有就用。<b>Computer use</b>——没有 API 时的通用退路。更慢、更贵。把 MCP URL 丢给机器人，它会自己装连接器。</p></div>
+  </div>
+  <p class="note">三天里出现的平台：macOS、Windows、Linux、iOS、iPadOS、Android。设置里还有本地执行开关，让机器人在你自己的机器上行动，而不是云端 VM——团队自己强烈偏向云端，为了并行，也因为本地应用会抢焦点。</p>
+  <div class="callout warn">
+    <h3>⚠ 共享文件系统不是安全边界</h3>
+    <p>文件和浏览器会话是共享的，记忆不是，所以分开的机器人给你的是注意力隔离，不是访问隔离。若要真正的边界，用登出、连接器范围和账户权限来划——不是再做一个机器人。</p>
+  </div>
+  <div class="foot"><span>05/24</span><span>x.ai/bot</span></div>
+</section>
+
+<section class="page">
+  <div class="top"><span class="brand"><i>●</i>GROK BOT</span><span>GUIDE · XAI</span></div>
+  <div class="kicker">04 · 搭建角色名册</div>
+  <h1>一个机器人，一件事</h1>
+  <p class="lede">这是三天里被重复最多的建议，每位讲者各自独立说到。不是一个通用助手——而是一份窄域专员角色名册，你按名字点他们。</p>
+  <div class="sec">它更好的四个原因</div>
+  <ol class="nums">
+    <li><span class="dot">1</span><span><b>上下文保持收束。</b>每个机器人有自己的上下文上限。一个通才同时抛四个不相干的活，会烧光它然后开始忘事。</span></li>
+    <li><span class="dot">2</span><span><b>你能记住该问谁。</b>Ling Shi 的框定：「我们的脑子也存不下长篇小说——你得知道该点谁的名。」</span></li>
+    <li><span class="dot">3</span><span><b>被派入角色后，模型表现更好。</b>职责窄到反馈有意义，学习环才会收紧。</span></li>
+    <li><span class="dot">4</span><span><b>并行几乎免费。</b>一次派出五个专员，让他们干活，回来再综合——人开会 → 分组 → 再对齐的那套。</span></li>
+  </ol>
+  <div class="grid g2" style="margin-top:10px">
+    <div class="card">
+      <h3>好角色会写明</h3>
+      <ul>
+        <li>一块清楚、窄到能起名的职责</li>
+        <li>可以使用的具体工具和数据源</li>
+        <li>它如何开展工作，而不只是工作是什么</li>
+        <li>发生前需要你批准的事项</li>
+        <li>若这份工作有周期，写明日程</li>
+      </ul>
+      <p style="margin-top:8px">避开「万能助手」。往窄里写：人才侦察、费用管理、Bug 复现。</p>
+    </div>
+    <div class="card">
+      <h3>整理侧边栏</h3>
+      <ul>
+        <li>分区像组织架构：领导层、工程、作战室。</li>
+        <li>标签只是提醒专长，食物名机器人一多就有用。</li>
+        <li>Simon 按职能配色：调研橙色、客户绿色、外拓另一种——一眼线程就知道流水线阶段。</li>
+        <li>钉住你每天真正用的三四个。</li>
+      </ul>
+    </div>
+  </div>
+  <p class="note">起名不是装饰。团队从聊天里众包名字——Tater、Whisk、Bake、Crumble、Dr. Eggbot——而且确实改变了他们谈论工作的方式。有名字的机器人会被委派；「任务 3」会被微观管理。</p>
+  <div class="callout warn">
+    <h3>⚠ 机器人膨胀陷阱</h3>
+    <p>名册最大的 Simon 说得很冲：「我保证有些时候我搞过太多。老实说更乱。你真该问：这件事为什么非得由一个新机器人来做？」Blake 从另一头给了同样的建议：「团队保持精简，你不需要 45 个机器人。」拉起机器人的本能又便宜又好玩，所以才需要一条规则。优先给现有专员加技能或例行任务，而不是新雇一个。</p>
+  </div>
+  <div class="foot"><span>06/24</span><span>x.ai/bot</span></div>
+</section>
+
+<section class="page">
+  <div class="top"><span class="brand"><i>●</i>GROK BOT</span><span>GUIDE · XAI</span></div>
+  <div class="kicker">05 · 元机器人</div>
+  <h1>会建机器人的机器人</h1>
+  <p class="lede">三天里用得最多的机器人不是工程师，也不是研究员。是 <b>Dr. Eggbot</b>——整份工作就是创建、审查和改进其他机器人。直播上几乎每一个新队友，都诞生于打给它的一句话。</p>
+  <div class="grid g2">
+    <div class="card">
+      <h3>元机器人做什么</h3>
+      <ul>
+        <li>从一段白话职位描述创建机器人</li>
+        <li>写它们的描述——这个字段就是系统提示词</li>
+        <li>审计名册：「评审我们所有机器人——瓶颈在哪？」</li>
+        <li>给它们起名，好到两个人分开提示，都得到一个叫「Ping」的机器人</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>描述字段就是灵魂</h3>
+      <p>Description 不是标签。Lauren：「有人叫它灵魂，或系统提示词。」它会实质改变声音、判断，以及机器人如何委派。</p>
+      <ul>
+        <li>写成原则，不要写成事件</li>
+        <li>写明它负责什么、必须交出什么</li>
+        <li>明确点名它的事实来源</li>
+      </ul>
+    </div>
+  </div>
+  <div class="sec">过拟合失败——以及修法</div>
+  <div class="prompt"><div class="lab">DR. EGGBOT 第一次写的描述</div>「关于我们游戏工作室的高层背景。一件事：通过 pstack potato mode 和云端智能体编排工作，再监督并验证，从而对工程结果负责。匹配你的手册并遵守它。」</div>
+  <p class="note" style="margin-top:0">Lauren 的判决：太具体。它把今天的工具链和今天的事故写进永久身份。</p>
+  <div class="prompt"><div class="lab">纠偏</div>「再读一遍 potato mode，提炼出 Cupcake Eng 应遵循的原则，而不是这些过于具体的问题。」</div>
+  <p class="note" style="margin-top:0">这是你写每一项技能和规则时的一般规则，不只是机器人描述。</p>
+  <p class="note">有合适的就从市场模板起步。模板会带上记忆、例行任务和集成，分享时剥掉凭证和聊天记录——团队自己的建议是：有模板就不要从零开始。</p>
+  <div class="callout">
+    <h3>◎ 你开口问，机器人会自己组班子</h3>
+    <p>第 2 天 Amrita 问两个现有机器人：「基于你正在做的工作，哪些机器人能帮你继续把活做好？直接帮我把那些机器人拉起来。」它们产出了三个新专员——Battle Card Blair、Demo Drake 和 AI Radar——各自有书面角色和声明的事实来源。问名册缺什么，是一步真能用的棋。</p>
+  </div>
+  <div class="foot"><span>07/24</span><span>x.ai/bot</span></div>
+</section>
+
+<section class="page">
+  <div class="top"><span class="brand"><i>●</i>GROK BOT</span><span>GUIDE · XAI</span></div>
+  <div class="kicker">06 · 自动化</div>
+  <h1>技能与例行任务</h1>
+  <p class="lede">两块积木。<b>技能</b>抓住怎么做。<b>例行任务</b>决定何时发生。直播里几乎每一条能沉淀的工作流，都按这个顺序建，而且至少亲手做过一遍之前不上。</p>
+  <div class="flow">
+    <span class="pill">先亲手做一遍</span><span class="arrow">→</span>
+    <span class="pill">得到可靠结果</span><span class="arrow">→</span>
+    <span class="pill">存成技能</span><span class="arrow">→</span>
+    <span class="pill on">配上例行任务</span>
+  </div>
+  <div class="grid g2">
+    <div class="card">
+      <h3>技能的三种做法</h3>
+      <ul>
+        <li><b>靠演示。</b>点「teach a task」，把自己做一遍录下来，机器人把录像变成可复用技能。现场用来教幻灯片动画和竞品博客扫描。</li>
+        <li><b>靠纠偏。</b>价值最高的来源——见下。</li>
+        <li><b>靠写下来。</b>过程里有决策逻辑、错误处理或批准闸门时，一次演示不够让机器人推断出来。亲手补上。</li>
+      </ul>
+      <p style="margin-top:8px">技能是<b>全局</b>的：教给一个，所有人都能用。</p>
+    </div>
+    <div class="card">
+      <h3>例行任务需要定义什么</h3>
+      <ul>
+        <li>哪个机器人拥有它</li>
+        <li>日程和时区——或事件 / webhook 触发</li>
+        <li>输入从哪来</li>
+        <li>期望的输出格式</li>
+        <li>批准边界</li>
+        <li>失败时怎么办</li>
+        <li><b>无事可报时怎么办</b>——告诉它空操作时保持安静</li>
+      </ul>
+    </div>
+  </div>
+  <div class="callout">
+    <h3>◎ 沉淀纠偏，不要沉淀事故</h3>
+    <p>Roshan 的规则：「只要看见智能体想错了，多半就是做一条技能来修好它的好时机」——而不是绕开再提示一遍。Ling Shi 的版本更利：再往下沉一层，而不是去修下水道。但另一边有陷阱。规则是针对一次糟糕会话写的时，「智能体往往会把那次会话的全部细节塞进规则——然后技能就不太能用了，因为过拟合。」写原则。删掉事故。</p>
+  </div>
+  <p class="note">例行任务频率是钱悄悄消失的地方——见第 12 节。优先事件触发而不是定时；优先一天一两次，而不是每十五分钟一次。</p>
+  <div class="foot"><span>08/24</span><span>x.ai/bot</span></div>
+</section>
+
+<section class="page">
+  <div class="top"><span class="brand"><i>●</i>GROK BOT</span><span>GUIDE · XAI</span></div>
+  <div class="kicker">07 · 软件工厂</div>
+  <h1>433 个 PR 是怎么合进去的</h1>
+  <p class="lede">「软件工厂」是产出那个头条数字的模式。团队不喜欢这个词——「我其实不太喜欢工厂这个说法」——但还是留下了。剥掉品牌，它就是一个闭环：实现者写一小段改动，验证者跑应用并试图弄坏它，只有这时才合并。</p>
+  <div class="sec">这个闭环</div>
+  <ol class="nums">
+    <li><span class="dot">1</span><span><b>计划被拆成阶段。</b>Lauren 的 Pstack 插件和它的「Potato Mode」技能做这件事：<b>/potato mode</b> 加上「完全自动驾驶这个计划。」</span></li>
+    <li><span class="dot">2</span><span><b>实现者智能体写小 PR。</b>Cursor 云端智能体，每个有范围的改动一个，各自一台机器。</span></li>
+    <li><span class="dot">3</span><span><b>验证者智能体跑应用并模糊测试。</b>「swarm」技能派出一队智能体，真的点进正在运行的产品找损坏。</span></li>
+    <li><span class="dot">4</span><span><b>绿灯自动合并。</b>验证通过才是合并门禁——不是人读 diff。</span></li>
+    <li><span class="dot">5</span><span><b>试玩机器人把整件事端到端玩一遍。</b>「Chrome」盯着 CI 绿灯的 PR，在放行前玩真游戏。</span></li>
+  </ol>
+  <div class="grid g2" style="margin-top:10px">
+    <div class="card">
+      <h3>自动驾驶阶梯</h3>
+      <ul>
+        <li><b>只排查</b>——「先别开 PR，先回来告诉我你觉得发生了什么」</li>
+        <li><b>草稿</b>——开 PR，等人</li>
+        <li><b>自动驾驶</b>——实现并验证，绿灯即合并</li>
+        <li><b>完全自动驾驶</b>——规划、分阶段、实现、验证、合并</li>
+      </ul>
+      <p style="margin-top:8px">一旦上线，Lauren 有意降了一级：「也许别完全自动驾驶——我们敢吗？」</p>
+    </div>
+    <div class="card">
+      <h3>Architect 这一步</h3>
+      <p>Pstack 的「architect」技能把同一个问题并行扔给四个不同模型，再由一轮评判合并或挑出获胜计划。</p>
+      <p style="margin-top:8px">值得为架构决策用，因为不同模型会浮出不同约束。一次性原型明确跳过了——「这个点上我其实不在乎架构。」</p>
+    </div>
+  </div>
+  <div class="callout warn">
+    <h3>⚠ 诚实的限制</h3>
+    <p>Lauren 谈这款游戏：「老实说，我完全没看过代码。我就用了 potato mode 和 Pstack。」做真正 Grok Bot 产品的 Eric 同样清楚：他在真实代码库上不会这样干——他读每一个 PR，并亲手执行反模式规则。工厂的激进程度应按影响范围缩放，而 72 小时的演示游戏大概是影响范围能有多低的下限。</p>
+  </div>
+  <div class="foot"><span>09/24</span><span>x.ai/bot</span></div>
+</section>
+
+<section class="page">
+  <div class="top"><span class="brand"><i>●</i>GROK BOT</span><span>GUIDE · XAI</span></div>
+  <div class="kicker">08 · 验证</div>
+  <h1>验证才是整场游戏</h1>
+  <p class="lede">若要从这三天里只带走一条构建指令，就带这一条。每个用机器人正经发过东西的讲者都说过一个版本；还没建的人则说这是他们的瓶颈。</p>
+  <div class="quote">
+    <p>「验证太重要了。你需要机器人真的去跑代码、截图。这会让你对它真的理解问题有大得多的信心。」</p>
+    <div class="who">Lauren · 第 3 天</div>
+  </div>
+  <div class="sec">验证技能实际包含什么</div>
+  <div class="grid g2">
+    <div class="card">
+      <h3>智能体能驱动的 CLI</h3>
+      <p>不是每次临时新写的脚本——那些浪费 token，也不可复现。Lauren：「你需要的是 CLI、脚本或某种工具，让机器人能可靠、确定地与应用交互。我更希望它就有一套标准工具。」</p>
+    </div>
+    <div class="card">
+      <h3>功能地图</h3>
+      <p>应用功能与流程的机器可读地图，让智能体不用猜就能导航到要测的东西。Thursday Arena 走得更远，做了 <b>/rules</b> 页和 llms.txt 风格端点，让智能体能读游戏自己的规则。</p>
+    </div>
+  </div>
+  <div class="sec">团队执行的三条规则</div>
+  <ol class="nums">
+    <li><span class="dot">1</span><span><b>先复现再修复。</b>「只有它们真能复现这个 bug，我们才能相信智能体理解了问题。」常驻提示词：「写任何代码之前，先跑应用，找到确切的 bug 和表现，然后再动手。」</span></li>
+    <li><span class="dot">2</span><span><b>证据放进 PR。</b>手册里的书面规则：UI 用截图或录像，后端用性能指标。云端智能体能录自己运行的视频并附上。</span></li>
+    <li><span class="dot">3</span><span><b>给技能起名，并按名字调用。</b>他们的是 <b>/verify cupcake</b>，游戏上线后，每一条自动驾驶指令都把它写成不可商量。</span></li>
+  </ol>
+  <div class="callout">
+    <h3>◎ 可推广的检验</h3>
+    <p>Eric 选择自动化什么的启发式：「看你的工作流，问什么循环是可验证的——那就是让机器人放开干的地方。」编码是典型情况，因为测试、构建和正在运行的应用给出机器可读信号。没有这种信号的事，必须先发明信号，自主才安全。</p>
+  </div>
+  <p class="note">没有验证技能，失败模式具体且眼熟：机器人做完，说「好了，现在你跑应用、点一圈，告诉我行不行。」时间就花在那一来一回上。</p>
+  <div class="foot"><span>10/24</span><span>x.ai/bot</span></div>
+</section>
+
+<section class="page">
+  <div class="top"><span class="brand"><i>●</i>GROK BOT</span><span>GUIDE · XAI</span></div>
+  <div class="kicker">09 · 提示词模式</div>
+  <h1>真正赚回成本的七个动作</h1>
+  <p class="lede">这些不是巧妙的提示词把戏。它们是三天里六七个不同讲者各自独立表现出来的那一把习惯。</p>
+  <div class="row"><div><div class="name">先复述一遍</div><div class="sub">几乎人人都用</div></div><div class="desc">长或复杂的指令后面，加上「用你自己的话复述一遍」再让它开始。在误解还免费的时候抓住它。第 2 天被称为「我最喜欢的模式。」</div></div>
+  <div class="row"><div><div class="name">先碎碎念，再结构化</div><div class="sub">语音口述</div></div><div class="desc">对着麦克风意识流说一两分钟，再让机器人综合。想法在说出口时就被接住，不用稍后重打——团队曾在对话中间这样记下增长点子，还是直播。</div></div>
+  <div class="row"><div><div class="name">先蒸馏，再推理</div><div class="sub">用于很长的输入</div></div><div class="desc">很长的口述提示词上，先让机器人蒸馏成关键事实，再基于蒸馏结果推理。Blake 对付东拉西扯输入上幻觉的办法。</div></div>
+  <div class="row"><div><div class="name">先说产出</div><div class="sub">Amrita</div></div><div class="desc">以「我要产出的是这个」开头，让机器人倒着做。说清产物和验收标准，好过描述步骤。</div></div>
+  <div class="row"><div><div class="name">先排查再动手</div><div class="sub">Roshan</div></div><div class="desc">任何生产上的事：「深入查一下，弄清发生了什么。先别开 PR。先回来告诉我你认为正在发生什么。」</div></div>
+  <div class="row"><div><div class="name">打断并轻推</div><div class="sub">Ling Shi</div></div><div class="desc">看机器人跑偏并在运行中改道是正常的，不是失败。每隔几分钟要一次状态，好过静静等——也是抓住决定 <b>sleep 300</b> 的智能体的办法。</div></div>
+  <div class="row"><div><div class="name">语音倾倒</div><div class="sub">Blake，用于入职</div></div><div class="desc">录 10–15 分钟语音备忘：你是谁、工作是什么、什么是坏的、什么该自动化。把转录交给第一个机器人，说「帮我搭一套为我工作的系统。」让它把结构提案回来。</div></div>
+  <div class="callout">
+    <h3>◎ 七条底下的习惯</h3>
+    <p>每一条都是在<b>让机器人先展示它理解了，再花你的钱</b>。这和你对待第一周能干的新同事是同一直觉——而这恰好就是整个产品建立其上的类比。</p>
+  </div>
+  <div class="foot"><span>11/24</span><span>x.ai/bot</span></div>
+</section>
+
+<section class="page">
+  <div class="top"><span class="brand"><i>●</i>GROK BOT</span><span>GUIDE · XAI</span></div>
+  <div class="kicker">10 · 提示词库</div>
+  <h1>提示词，尽量按原样</h1>
+  <p class="lede">从直播里抽出，尽量少整理。形状才是课：产出、约束、事实来源，以及做完时做什么。</p>
+  <div class="prompt"><div class="lab">创建一个幕僚长</div>「你的工作是向 Email Ethan、Slide Sonia 和 Data Dan 要更新，了解他们正在做什么。」<br>紧接着配上例行任务：「每两小时，我要你向团队征求更新，看有没有阻塞项。」</div>
+  <div class="prompt"><div class="lab">一个保持安静的知识库机器人</div>「这个机器人的工作是看我和其他机器人的所有对话，但除非被点名，否则什么都不要做。你应该等消息找上门。我们要有选择地更新 Notion。我们不想把所有信息都倒进去。所以先跟我确认。」<br>Roshan。克制条款才是整段提示词。别处把它说成「把它当成 git log。」</div>
+  <div class="prompt"><div class="lab">一条常驻 P0 策略，写一次而不是每次喊</div>「设一条例行任务，每五分钟检查云端智能体。看它们是否跑偏——比如在跑很长的 sleep，像 sleep 300——或偏离我们的目标，过于保守。在你发现它们跑偏的当时，打断并推一把。」<br>Ling Shi。他的点：反复对智能体说「这个很急」，会让它跳步骤、瞎猜。定义好的策略不会。</div>
+  <div class="prompt"><div class="lab">生产 bug，小心处理</div>「我觉得我们的 ELO 和/或匹配坏了。每次我在 ThursdayArena.com 上玩游戏，都匹配到 AI 玩家而不是另一个玩家的阵容，但排行榜 ELO 却在变。你能深入查一下，弄清发生了什么。用 potato mode。调查用 Cursor 云端智能体。先别开 PR。先回来告诉我你认为正在发生什么。」<br>Roshan。症状、证据、工具，以及写任何东西之前的明确停止。</div>
+  <div class="prompt"><div class="lab">搭一条反馈流水线——带上安全条款</div>「上面的链接是我们接收用户反馈的 Slack 频道。我想搭一套工厂工作流：看反馈、分诊、尝试复现问题，然后在我们的 Notion 数据库里建工单。非常重要的是，如果用 AI 审反馈，你要告诉你的 AI 也要提防提示词注入。……用你自己的话复述一遍。」<br>Lauren。用户提交的文本是不可信输入；在搭建流水线的提示词里就说清楚。</div>
+  <div class="foot"><span>12/24</span><span>x.ai/bot</span></div>
+</section>
+
+<section class="page">
+  <div class="top"><span class="brand"><i>●</i>GROK BOT</span><span>GUIDE · XAI</span></div>
+  <div class="kicker">10 · 提示词库，续</div>
+  <h1>调研、构建与 go-to-market</h1>
+  <div class="prompt"><div class="lab">拉起一个原型专员</div>「我们想在 Cupcake 仓库里为已构建的客户端再做一些前端探索。你能拉起一个机器人，职责是尝试原型化我们如何在保持应用非常轻量的前提下加入更多 3D 动画吗？这个机器人应能使用 Cursor 云端智能体把活干完。我很感兴趣能用 potato mode 在一堆不同的前端原型任务上集群智能体。」<br>Lauren，对 Dr. Eggbot。注意它指定的是约束（「非常轻量」）和执行机制，不是产出。</div>
+  <div class="prompt"><div class="lab">带具名交付物的竞品调研</div>「把旧金山所有顶尖餐饮人拉给我，然后给我五个最好的网站。再给我那些网站上五个最好的快闪页。再给我过去六或十二个月任何大城市里五个最好的快闪餐厅。然后把这些都放进一份文档。」<br>Cody Sanchez。链式的，每一步收窄，结尾是一份具名产物。</div>
+  <div class="prompt"><div class="lab">以立场收尾的市场调研，而不是摘要</div>「研究这个网站，更深入地理解产品是什么、我们在哪个市场里。现在去做竞品分析：识别并深入理解我们的竞争对手，看他们的营销站点，理解他们的定位——然后重要的是，识别我们在战略上、竞争上可以对着他们卡位的缺口和机会。」<br>Josh Kim。最后一句把调研倾倒变成能用的东西。</div>
+  <div class="prompt"><div class="lab">通过具名技能委派给集群</div>「帮我们找到广告位该放的 ICP。你有一个技能——叫 FindMyICP。……把我们已经敲定的目标画像接进 Clay MCP，搜它的公司和人数据库，告诉我们世界上谁符合这个描述——具体是十家公司的名单。」<br>按名字调用技能，显式点名连接器，有界的输出。</div>
+  <div class="prompt"><div class="lab">永久导向记忆</div>「我要你确保，提起我时永远不要用我的姓名全称。你只用我的名。」<br>Amrita。说一次；存进记忆；从此生效。</div>
+  <p class="note">贯穿所有这些的模式：<b>点明事实来源。</b>一个机器人自己的书面角色里出现过「每项主张都锚定在 Sherlock」。当专员能被告知哪位队友说了算，幻觉就有地方去死。</p>
+  <div class="foot"><span>13/24</span><span>x.ai/bot</span></div>
+</section>
+
+<section class="page">
+  <div class="top"><span class="brand"><i>●</i>GROK BOT</span><span>GUIDE · XAI</span></div>
+  <div class="kicker">11 · 编排</div>
+  <h1>管一支团队，不是一个工具</h1>
+  <p class="lede">大约过了五个机器人，每条消息都自己路由就成了瓶颈。越过那一点，四种模式反复出现。</p>
+  <div class="grid g2">
+    <div class="card">
+      <h3>1 · 幕僚长</h3>
+      <ul>
+        <li>你几乎只跟这一个机器人说话；它分发给专员并汇报回来</li>
+        <li>它自己接入新机器人——把上下文和手册发给它们，这样你不用重复</li>
+        <li>Simon 的规则：其他每个机器人都通过它来建，这样它知道各自是干什么的</li>
+        <li>Blake 在一名幕僚长下管 15–20 个专员，没有中间经理</li>
+        <li>不是人人适用——Shub 更喜欢直接跟专家说话，而且会明说</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>2 · 手册广播</h3>
+      <ul>
+        <li>一个机器人拥有团队标准的活手册，通常在 Notion</li>
+        <li>新标准只告诉它一次，由它传播</li>
+        <li>「你只需要把该做什么想一遍……所有工程师都会知道，不用你挨个通知」</li>
+        <li>标准示例：每份 PR，UI 带截图，后端带性能数字</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>3 · 幕僚会议</h3>
+      <ul>
+        <li>把几个机器人拉进同一线程，从不同视角争论一项决策</li>
+        <li>Blake 要求他们永远要不同意——「光附和没有用」</li>
+        <li>幕僚长综合并回报建议</li>
+        <li>警告：群聊急切、爱说话、而且贵。用于决策，不用于例行工作</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>4 · 子机器人军团</h3>
+      <ul>
+        <li>中层机器人把大批量工作委派给一群低上下文工人</li>
+        <li>Simon 的「士兵」通过共享群聊并行调研 100–200 个客户</li>
+        <li>容易放大缩小；产出回流到一个父级做审计</li>
+        <li>和工程集群同一形状——一个编排者，许多一次性工人</li>
+      </ul>
+    </div>
+  </div>
+  <div class="callout">
+    <h3>◎ 还没人解决的诚实问题</h3>
+    <p>有人问管这么多并行智能体是什么感觉，Matthew Berman：「我完成的工作比以往都多。我也比以往都忙。」在十几个正在运行的智能体之间切换上下文，是真实且目前未解决的成本。幕僚长模式是现有最好的答案，而它是缓解，不是根治。</p>
+  </div>
+  <div class="foot"><span>14/24</span><span>x.ai/bot</span></div>
+</section>
+
+<section class="page">
+  <div class="top"><span class="brand"><i>●</i>GROK BOT</span><span>GUIDE · XAI</span></div>
+  <div class="kicker">12 · 成本</div>
+  <h1>实际花多少钱</h1>
+  <p class="lede">计费按用量：你为跟机器人说话和机器人自己的 computer use 付费。这些是直播里报过的真实数字，旁边是人们被看见浪费钱的四个地方。</p>
+  <div class="grid g4">
+    <div class="stat"><div class="n">$20–30</div><div class="l">做出一套完整销售案例幻灯片——大约 4–5 小时人工</div></div>
+    <div class="stat"><div class="n">$1–2</div><div class="l">端到端解决一张中等复杂度支持工单</div></div>
+    <div class="stat"><div class="n">$0.20</div><div class="l">低复杂度工单分桶并批处理后，每张工单</div></div>
+    <div class="stat"><div class="n">~$1,000</div><div class="l">一个机器人找到更便宜的公用事业套餐，一年省下的；人只花了 60 秒注意力</div></div>
+  </div>
+  <div class="sec">四处漏洞</div>
+  <ol class="nums">
+    <li><span class="dot">1</span><span><b>过于频繁的例行任务。</b>遥遥领先的最大驱动。「如果你有三条每 15 分钟跑一次，那就是一天几百条消息。」审计频率；优先事件触发；一天一两次通常就够。</span></li>
+    <li><span class="dot">2</span><span><b>已有 API 却走浏览器自动化。</b>靠 computer use 填网页表单，比原生 API 路径更贵。Shub 的招：看机器人用浏览器做一次，让它检查触发的网络请求，然后从此直接打那些端点。</span></li>
+    <li><span class="dot">3</span><span><b>一直开着的群聊。</b>群聊里的机器人互相抢话，很快就变贵。例行工作优先一对一打标签。</span></li>
+    <li><span class="dot">4</span><span><b>机器人膨胀。</b>每多一个机器人，就是更多例行任务、更多要重建的上下文、更多重叠。精简名册就是更便宜的名册。</span></li>
+  </ol>
+  <div class="grid g2" style="margin-top:10px">
+    <div class="card">
+      <h3>你能扳的杠杆</h3>
+      <ul>
+        <li>调整机器人的<b>详略</b>——说话风格直接改变 token 花费</li>
+        <li>告诉机器人<b>忘掉</b>不再需要的上下文</li>
+        <li>向 Grok Bot 自己要针对你这套配置的优化建议</li>
+        <li>留一个<b>唯一工作是优化其他机器人</b>的例行任务和技能的机器人</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>不是杠杆</h3>
+      <p>Computer use 的算力本身用户调不了。少花的办法是少用：有 MCP 就接 MCP，只有别的路走不通时才伸向浏览器。</p>
+    </div>
+  </div>
+  <div class="foot"><span>15/24</span><span>x.ai/bot</span></div>
+</section>
+
+<section class="page">
+  <div class="top"><span class="brand"><i>●</i>GROK BOT</span><span>GUIDE · XAI</span></div>
+  <div class="kicker">13 · 批准与影响范围</div>
+  <h1>带刹车的自主</h1>
+  <p class="lede">Matthew 的表述是任何人给过的最干净的一句：「信任你的机器人，给它们能动性——同时给护栏，知道事情不会偏太远，因为发出任何东西之前它们总会回到你这里。」</p>
+  <div class="grid g2">
+    <div class="card">
+      <h3>Auto Review 和规则</h3>
+      <ul>
+        <li>内置分类器判断动作有多险，并据此询问</li>
+        <li>你再叠明确规则：「未经先问我，永远不要回邮件」「你可以不经询问就做幻灯片」</li>
+        <li>按动作类型的开关——例如部署到生产始终先问</li>
+        <li>它偏谨慎：一个机器人在建表单前先检查表单是否在收集 PII</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>凭证</h3>
+      <ul>
+        <li>密钥经安全表单进保险库——智能体看不到原始密码</li>
+        <li>活动中途上了 1Password 集成；机器人可以从保险库重新鉴权</li>
+        <li>分享的模板带走记忆、设置、技能和例行任务——不带走凭证或聊天记录</li>
+        <li>完全不想委派的登录，自己接管屏幕</li>
+      </ul>
+    </div>
+  </div>
+  <div class="sec">直播里用硬方式学到的三课</div>
+  <ol class="nums">
+    <li><span class="dot">1</span><span><b>任何竞争性的东西必须以服务端为准。</b>游戏逻辑跑在客户端时，Matt 打开开发者工具，直播改自己的属性。给调试 UI 加功能开关帮不上——决心足够的用户仍能打开。这条代码路径必须不存在于客户端。</span></li>
+    <li><span class="dot">2</span><span><b>用户提交的文本是攻击面。</b>他们的反馈管道带着客户端长度检查、服务端脏话过滤、输入消毒、基于模型的内容护栏、限流——以及给分诊机器人的明确指令：提防提示词注入。</span></li>
+    <li><span class="dot">3</span><span><b>一次自主修复可以把生产打挂。</b>确实发生了：工厂一条糟糕的 SQL 在直播中把线上游戏打挂，而他们正说到克制。几分钟内可恢复——但这就是迁移和部署必须留人闸的论据。</span></li>
+  </ol>
+  <div class="callout">
+    <h3>◎ 新机器人的爬→走→跑阶梯</h3>
+    <p>David 给客户支持的进阶几乎可推广到任何事：先是一个只读和摘要的机器人；然后一个把回复写成内部备注的；只有被信任之后，才发送和行动——影响范围最大的动作仍需批准，比如编辑面向客户的知识库。「从简单开始。让机器人迁就你怎么工作，而不是反过来。」</p>
+  </div>
+  <div class="foot"><span>16/24</span><span>x.ai/bot</span></div>
+</section>
+
+<section class="page">
+  <div class="top"><span class="brand"><i>●</i>GROK BOT</span><span>GUIDE · XAI</span></div>
+  <div class="kicker">14 · 案例</div>
+  <h1>Thursday Arena，72 小时</h1>
+  <p class="lede">一款自走棋，每个角色都是从公开市场拉来的真机器人，给稀有度、生成头像、属性和技能。三个人加一份机器人名册做出，第 3 天上午 10 点从一个空白头像的全新 X 账号上线。</p>
+  <div class="sec">上线日，按数字</div>
+  <div class="grid g4">
+    <div class="stat"><div class="n">170</div><div class="l">直播开始前夜里落地的 PR</div></div>
+    <div class="stat"><div class="n">1,908</div><div class="l">上线第一个小时的对局——当天最好的一小时</div></div>
+    <div class="stat"><div class="n">~6,000</div><div class="l">收工时的公开对局，约 2,000 用户</div></div>
+    <div class="stat"><div class="n">#1</div><div class="l">当天 Google 上该游戏名的排名</div></div>
+  </div>
+  <div class="grid g2" style="margin-top:12px">
+    <div class="card">
+      <h3>怎么建的</h3>
+      <ul>
+        <li>先做原型——一次性原味 HTML/CSS/JS，内存状态，没有数据库，没有鉴权。唯一的问题：这个循环好玩吗？</li>
+        <li>循环站得住之后改写成 React/Next，拆开客户端和服务端</li>
+        <li>Go 后端跑在 Vercel serverless，PlanetScale 数据库，Clerk 做 Sign in with X，Zod 跨网络边界校验</li>
+        <li>卡面来自 Grok Imagine；角色放在代码里而不是精灵图，这样状态可以程序化切换</li>
+        <li>测试被有意早早删掉——「智能体总体上不太会写测试」——代码质量阶段往后放</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>真正要紧的设计决策</h3>
+      <ul>
+        <li>没有 pay-to-win。反复考虑又反复否掉。广告、赞助卡和周边是更偏好的路</li>
+        <li>狠心砍。石头剪刀布机制、复杂属性块、多个战场全砍，留下一个干净循环</li>
+        <li>把数字藏起来。原始 ELO 换成段位；精确属性换成相对强度</li>
+        <li>现场作弊演示之后改成服务端权威</li>
+        <li>一份既给人、也给智能体写的 /rules 页</li>
+      </ul>
+    </div>
+  </div>
+  <p class="note">反馈经三个渠道进同一个 Slack 房间：鉴权后面的应用内表单、语音智能体撑着的电话号码，以及 X 提及。从那个房间出去的分诊、复现和建工单，到下午已经全自动。</p>
+  <div class="callout">
+    <h3>◎ 漏斗实际在说什么</h3>
+    <p>大约 8% 的练习玩家转化成登录账号，流量移动端和桌面端大约对半（约 44% iOS），反馈里最大的一类是移动端布局——71% 是 bug，16% 是表扬。团队对移动端发现的回应是当天下午发出去的响应式改动。分发几乎全部来自直播本身，这是这里每一个数字都带着的星号。</p>
+  </div>
+  <div class="foot"><span>17/24</span><span>x.ai/bot</span></div>
+</section>
+
+<section class="page">
+  <div class="top"><span class="brand"><i>●</i>GROK BOT</span><span>GUIDE · XAI</span></div>
+  <div class="kicker">15 · 角色名册</div>
+  <h1>团队里每一个机器人</h1>
+  <p class="lede">Thursday Arena 背后真实的员工名单。值得当模板读：注意他们里没几个写代码，有多少纯粹是为了检查、路由或接住。</p>
+  <div class="row"><div><div class="name">Dr. Eggbot</div><div class="sub">元 / 机器人工厂</div></div><div class="desc">创建并审计每一个其他机器人。写描述、起名，并回答「我们的瓶颈在哪？」三天里用得最多的机器人。</div></div>
+  <div class="row"><div><div class="name">Steve</div><div class="sub">幕僚长</div></div><div class="desc">编排者。一切经他路由。团队互相嘲笑有多少个「chief of staff」之后，从泛称改了名。</div></div>
+  <div class="row"><div><div class="name">Cupcake Eng</div><div class="sub">工程编排者</div></div><div class="desc">靠跑 Potato Mode 和云端智能体对工程结果负责，再监督并验证结果。</div></div>
+  <div class="row"><div><div class="name">Bake</div><div class="sub">创始工程师</div></div><div class="desc">盯 PR 动态、合并、为具体 bug 拉起云端智能体。那个在演示中途被语音叫去合并 PR 的机器人。</div></div>
+  <div class="row"><div><div class="name">Chrome / Play</div><div class="sub">试玩</div></div><div class="desc">盯 CI 绿灯的 PR，在浏览器里把整局游戏玩完，再让任何东西合并。</div></div>
+  <div class="row"><div><div class="name">Crumble</div><div class="sub">分诊</div></div><div class="desc">和试玩一起复现报告的 bug，只把已确认的问题建进 Notion。</div></div>
+  <div class="row"><div><div class="name">Hashbrown</div><div class="sub">校验</div></div><div class="desc">在允许自动驾驶动手前，检查 Crumble 的分诊是否真的对。检查者的检查者。</div></div>
+  <div class="row"><div><div class="name">Comment Sicko</div><div class="sub">代码卫生</div></div><div class="desc">删除不必要的代码注释。理由是真的：智能体把注释当拐杖去解释权宜之计，而不是修根因，这些会积成无法维护的代码库。</div></div>
+  <div class="row"><div><div class="name">Whisk · Crit</div><div class="sub">游戏设计</div></div><div class="desc">设计师和评论家。Crit 在上线早晨的判决——「游戏太难」——在发货前改了平衡。</div></div>
+  <div class="row"><div><div class="name">Glow · Tone</div><div class="sub">3D 与音频</div></div><div class="desc">前端动画原型，以及经 Strudel 和 Suno 的音乐探索，产出丢进 Notion 给团队听。</div></div>
+  <div class="row"><div><div class="name">Ping</div><div class="sub">Slack 监听</div></div><div class="desc">监听 @提及，并把进度写回 Notion 看板。两个人独立创建了它，前后差几分钟，Dr. Eggbot 给了同一个名字。</div></div>
+  <div class="row"><div><div class="name">数据科学家</div><div class="sub">汇报</div></div><div class="desc">按日程生成仪表盘：注册、功能用量、缺陷报告，上线日每十五分钟一次。</div></div>
+  <div class="row"><div><div class="name">Vincent · Cerebro</div><div class="sub">增长</div></div><div class="desc">增长点子记进按影响排序的 Notion 手册；ICP 调研经具名 FindMyICP 技能进入外拓流水线。</div></div>
+  <p class="note">命名约定，说了也无妨：一切都是土豆或烘焙主题，合并的 PR 内部叫 「MASH。」它从一次和 Dr. Eggbot 的起名会话漏进了他们真正的 Notion 流程用语。傻，但让团队更多地谈论工作。</p>
+  <div class="foot"><span>18/24</span><span>x.ai/bot</span></div>
+</section>
+
+<section class="page">
+  <div class="top"><span class="brand"><i>●</i>GROK BOT</span><span>GUIDE · XAI</span></div>
+  <div class="kicker">16 · 来自现场</div>
+  <h1>六份名册，六种工作</h1>
+  <p class="lede">三天里的工作坊是最能直接照抄的材料。下面是每位讲者实际在跑的。</p>
+  <div class="card" style="margin-bottom:10px">
+    <h3>售后 · Blake · AI 部署经理</h3>
+    <p style="margin-bottom:8px"><b>一个对接点，每个客户一个机器人。</b>「Gus 是我最好的朋友。」Blake 只跟一个机器人说话，它下面管 15–20 个专员，没有中间层。</p>
+    <div class="grid g2">
+      <div>
+        <p><b>团队</b></p>
+        <ul>
+          <li>Gus — 幕僚长，唯一对接点</li>
+          <li>Frankie — 跟进</li>
+          <li>Wally — 声音和语气，按受众</li>
+          <li>Trudy — 内部事实来源</li>
+          <li>每个客户一个机器人，拿着该客户的完整上下文</li>
+        </ul>
+      </div>
+      <div>
+        <p><b>习惯</b></p>
+        <ul>
+          <li>「Harbor 现在怎么样？」返回风险、阻塞、未兑现承诺和下一步——外加一个必须出现的太空笑话</li>
+          <li>每周自我改进扫描：审计本该自动化的活，并把他的修改和机器人草稿做差异，以打磨声音</li>
+          <li>每周最多一条建议——不设上限的建议感觉像垃圾信息</li>
+        </ul>
+      </div>
+    </div>
+    <p style="margin-top:8px">「大概拖住你 Grok Bot 的，是你在想什么才真正可能。」</p>
+  </div>
+  <div class="card">
+    <h3>市场 · Josh Kim · 六个机器人的活动团队</h3>
+    <p style="margin-bottom:8px"><b>最后一个雇来的，把前面几个自动化。</b>市场研究员 → 产品营销 → 网站运营 → 效果营销 → 营销分析师。然后第六个，项目经理，研究全部五个角色和交接，成为端到端跑活动的唯一对接点。</p>
+    <div class="grid g2">
+      <div>
+        <p><b>他怎么划范围</b></p>
+        <ul>
+          <li>「几乎像在写职位描述」——每个机器人泳道收得很紧</li>
+          <li>定位简报走 Google Docs 评论循环，像真评审</li>
+        </ul>
+      </div>
+      <div>
+        <p><b>他的建议</b></p>
+        <ul>
+          <li>早早接上 Slack 和邮件，然后问「你能为我做什么？」</li>
+          <li>「投资你的机器人」——反馈和上下文会复利，跟队友一样</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span>19/24</span><span>x.ai/bot</span></div>
+</section>
+
+<section class="page">
+  <div class="top"><span class="brand"><i>●</i>GROK BOT</span><span>GUIDE · XAI</span></div>
+  <div class="kicker">16 · 来自现场，续</div>
+  <h1>销售、支持、外拓、个人</h1>
+  <div class="card" style="margin-bottom:10px">
+    <h3>销售 · Krista · 客户经理</h3>
+    <p>Grok Bot 作为一层编排，盖在一团乱的技术栈上。Olive（幕僚长）、PG（外拓潜客）、Echo（从 Gong 和 Granola 转录做通话中演示文稿策展），外加客户专家和工程师机器人。Notion 是记录；Grok Bot 跨 Salesforce、Slack 和 Databricks——「没有哪家公司擅长把数据维护在一个地方。」</p>
+    <div class="grid g2" style="margin-top:8px">
+      <div>
+        <p><b>真正拉开差距的</b></p>
+        <ul>
+          <li>用她已发送的 Gmail、Slack 和 X 历史训练机器人，杀掉通用 LLM 腔</li>
+          <li>先接你每天已经在用的栈——最快到达「原来如此」</li>
+          <li>「我顶回去——去替我看那些网络研讨会，然后起草一封邮件。」是做事的搭档，不是递链接的调研助理</li>
+        </ul>
+      </div>
+      <div>
+        <p><b>心智切换</b></p>
+        <p>先接每天已经在用的工具。然后把它当执行搭档，而不是聊天框。</p>
+      </div>
+    </div>
+  </div>
+  <div class="card" style="margin-bottom:10px">
+    <h3>支持 · David · 用户运营工程</h3>
+    <p>四个机器人，后面一张 evals 表。Build（基础设施）、Reply（工单和 Slack）、Alert（流失风险和锁定告警）、Tune（自我改进和知识库更新）。现场跑在工单系统、Stripe、Notion 和 Slack 上：简单重置被处理，SSO 案例以低置信移交正确升级，退款按政策正确拒绝，知识库缺口标给人批准。</p>
+    <div class="grid g2" style="margin-top:8px">
+      <div>
+        <p><b>底下的基础设施</b></p>
+        <ul>
+          <li>一张表放 eval 运行结果，另一张放每次运行的 traces——检查过的文件、推理、耗时</li>
+          <li>每次运行都写 trace，包括空跑</li>
+          <li>evals 对着 PR 分支跑，不只是 main</li>
+        </ul>
+      </div>
+      <div>
+        <p><b>给非技术用户的护栏</b></p>
+        <ul>
+          <li>给他们模板，不是原始配置</li>
+          <li>知识库编辑走带代码负责人的 PR 评审——复用 git 原语当护栏</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <h3>外拓与个人 · Simon · SDR / Karen Cheng · 创作者</h3>
+    <p>光谱的两端。Simon 跑幕僚长、Shakespeare（邮件声音）、一个指挥低上下文「士兵」军团的网页搜索机器人，以及一个客户机器人——每天 50 个新潜客，每天早上优先跟进前五个。他的规则：「你的邮件没有一封应该看起来像模板。」Karen Cheng 跑相反的：十来个故意无聊的单任务机器人——包裹追踪、补货追踪、一个自己在 wifi 上找到打印机并开始打印的早报机器人。</p>
+    <div class="grid g2" style="margin-top:8px">
+      <div><p><b>Simon 的结构</b></p><ul><li>一个平台一个机器人，不是一个任务一个机器人</li><li>按职能配色，一眼就知道流水线阶段</li></ul></div>
+      <div><p><b>Karen 的选题规则</b></p><ul><li>「找出你生活里的一个问题或痛点，然后就去解决它」</li><li>「这不再是 vibe coding。这就是在 vibe。」</li></ul></div>
+    </div>
+  </div>
+  <div class="foot"><span>20/24</span><span>x.ai/bot</span></div>
+</section>
+
+<section class="page">
+  <div class="top"><span class="brand"><i>●</i>GROK BOT</span><span>GUIDE · XAI</span></div>
+  <div class="kicker">17 · 失败日志</div>
+  <h1>直播里坏掉的</h1>
+  <p class="lede">未经剪辑的直播格外诚实。这些失败发生在观众眼前，以及每一条产生的规则。</p>
+  <div class="fail">
+    <div class="item"><h3>智能体让规则过拟合</h3><div class="day">第 2 天</div><p>一次事故之后写的机器人描述，把那次事故永久写死。规则：技能或规则诞生于一次糟糕会话时，剥掉会话，留下原则。</p></div>
+    <div class="item"><h3>闪光效果吞掉了每张卡</h3><div class="day">第 2 天</div><p>标识稀有度的 CSS 闪光被用得太猛，所有卡看起来一样。智能体优化了效果，不是目的。规则：说清用来区分的结果，不要说视觉。</p></div>
+    <div class="item"><h3>真实落地页上的虚构内容</h3><div class="day">第 2 天</div><p>智能体发明了看起来像那么回事的示例机器人，而不是用真实市场，并把内部原型用语漏进面向用户的文案。规则：点明事实来源，并说「真的去查。」</p></div>
+    <div class="item"><h3>所谓 3D 原型并不是 3D</h3><div class="day">第 2 天</div><p>要求 3D 动画，智能体做出了 2.5D——从没人告诉它用 3D 库。规则：任何有广为人知的库的事，点出库名。</p></div>
+    <div class="item"><h3>用开发者工具作弊</h3><div class="day">第 2 天</div><p>客户端游戏逻辑意味着属性可以从浏览器控制台改，还是直播。规则：任何竞争性的东西都以服务端为准；功能开关不是安全措施。</p></div>
+    <div class="item"><h3>机器人无视团队政策</h3><div class="day">第 1 天</div><p>在有意直推 main 的阶段，一个机器人开了 PR。规则：没写下来的规范就不是规范。写到机器人会读的地方。</p></div>
+    <div class="item"><h3>VM 上的会话掉了</h3><div class="day">第 2 天</div><p>Karen Cheng 的自动化坏了，因为机器人的浏览器不断从她本地已登录的服务登出。规则：必须无人值守跑的，优先用连接器而不是浏览器会话。</p></div>
+    <div class="item"><h3>工厂把生产打挂了</h3><div class="day">第 3 天</div><p>一次自主修复的糟糕 SQL 弄坏了线上游戏。规则：迁移和部署留人闸，无论闭环有多好。</p></div>
+    <div class="item"><h3>屏幕上出现了活的 API token</h3><div class="day">第 3 天</div><p>几秒内抓住并吊销，但它发生了。规则：密钥处理里的薄弱环节是人，不是保险库。</p></div>
+    <div class="item"><h3>垃圾信息涌进反馈管道</h3><div class="day">第 3 天</div><p>上线几小时内。20 字符下限、脏话过滤、消毒、基于模型的护栏和限流都是事后补的。规则：审核和表单一起发，不要事后补。</p></div>
+  </div>
+  <div class="foot"><span>21/24</span><span>x.ai/bot</span></div>
+</section>
+
+<section class="page">
+  <div class="top"><span class="brand"><i>●</i>GROK BOT</span><span>GUIDE · XAI</span></div>
+  <div class="kicker">18 · 限制与路线图</div>
+  <h1>它现在仍会说不的地方</h1>
+  <p class="lede">直播里说得很直白，通常在问答。在你围绕还不存在的东西设计工作流之前，值得知道。</p>
+  <div class="grid g2">
+    <div class="card">
+      <h3>今天的硬限制</h3>
+      <ul>
+        <li><b>仅 Linux。</b>既不兼容 Linux、又没有作为 MCP 暴露的工具，完全不能用。问答里干脆的「不行」。</li>
+        <li><b>CAPTCHA 会挡住机器人。</b>没有通用绕过；建议是封掉机器人不该去的站点，而不是躲避检测。</li>
+        <li><b>没有跨账号机器人消息。</b>你的机器人不能跟别人的说话。「非常酷的用例，我们为那个兴奋」——但还不存在。</li>
+        <li><b>VM 上会话会掉。</b>浏览器登录独立于你本地的过期，弄坏无人值守自动化。</li>
+        <li><b>没有从其他智能体栈迁过来的路径</b>，除了导入模板、让它指向已有上下文。</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>当时说正在到来</h3>
+      <ul>
+        <li><b>双向语音模式</b>——第 3 天直播宣布，随后几天推出。演示过打电话给机器人检查并合并 PR。</li>
+        <li><b>多人</b>——人和机器人在共享聊天里。当时只能在 Slack 里 @ 一个机器人。直播里反复被要求。</li>
+        <li><b>多机管理</b>——机器人管几台机器会搞混；正在积极改进。</li>
+        <li><b>按角色入职</b>——新用户被问工作，并拿到匹配的起步模板。</li>
+        <li><b>Computer use 速度</b>——「非常热的话题」，预期随后几周改进。</li>
+      </ul>
+    </div>
+  </div>
+  <p class="note">数字和功能以直播当时所述为准，之后会变。把限制这一节当形状，不当规格：任何承重的东西，构建前先对照当前文档。</p>
+  <div class="callout">
+    <h3>◎ 没人有答案的那一个</h3>
+    <p>确定性。模型不是确定性的，机器人一旦在执行政策，这就成问题。给出的办法是结构性的，不是魔法：让机器人写代码——决策树或函数——然后每次政策决策到来时调用那段代码，而不是每次重新推理。和验证 CLI 同一直觉：答案应该两次一样的地方，用工具替换判断。</p>
+  </div>
+  <div class="foot"><span>22/24</span><span>x.ai/bot</span></div>
+</section>
+
+<section class="page">
+  <div class="top"><span class="brand"><i>●</i>GROK BOT</span><span>GUIDE · XAI</span></div>
+  <div class="kicker">19 · 复盘</div>
+  <h1>他们在结尾承认了什么</h1>
+  <p class="lede">第 3 天最后半小时是七十二小时直播里最有用的部分，因为团队停止演示，开始评估。</p>
+  <div class="quote">
+    <p>「做任何东西最难的部分——即便有无限的 AI 能力——是让人在乎。」</p>
+    <div class="who">Roshan · 收工复盘</div>
+  </div>
+  <div class="sec">五条结论</div>
+  <ol class="nums">
+    <li><span class="dot">1</span><span><b>分发是它能成的唯一原因。</b>采用来自直播，不是产品本身有多打动人。第 14 节每一个数字都带着这个星号。</span></li>
+    <li><span class="dot">2</span><span><b>围绕你已经会的事做生意。</b>天真版本——「我只要提示词模型去赚钱」——失败了。一个专职营收智能体跑了一整天，产出正好 $0。</span></li>
+    <li><span class="dot">3</span><span><b>对齐想法比把它做出来更难。</b>第 1 天产出四个转向和零产品。软件从来不是拖慢他们的东西。</span></li>
+    <li><span class="dot">4</span><span><b>克制现在是一项必需技能。</b>Lauren：「你几乎能做出任何你想要的——百万功能却不好用的产品。你现在必须有纪律。」砍机制才让他们发出去。</span></li>
+    <li><span class="dot">5</span><span><b>发现仍是人的。</b>「你必须作为人走出去，有机地发现所有问题。一旦你搞清怎么解决它们，就可以做成机器人，让它们永远跑下去。」</span></li>
+  </ol>
+  <div class="grid g2" style="margin-top:10px">
+    <div class="card">
+      <h3>机器人真正擅长的</h3>
+      <ul>
+        <li>补知识缺口——团队在他们谁都不懂的领域发了货</li>
+        <li>没人想做的重复验证</li>
+        <li>跨三天项目握住没人能装进脑子的上下文</li>
+        <li>把一句说出口的想法变成已记录、已排序的条目，而不打断对话</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>仍留在人这边的</h3>
+      <ul>
+        <li>决定什么值得做</li>
+        <li>对功能说不</li>
+        <li>注意到游戏还不好玩</li>
+        <li>关系、信任，以及含糊的判断</li>
+      </ul>
+    </div>
+  </div>
+  <p class="note">Roshan 的自检，值得偷走：定期问「我是不是太深地卡在循环里？我怎么能让这更自主？」——并让一个机器人按例行任务来问你。</p>
+  <div class="foot"><span>23/24</span><span>x.ai/bot</span></div>
+</section>
+
+<section class="page">
+  <div class="top"><span class="brand"><i>●</i>GROK BOT</span><span>GUIDE · XAI</span></div>
+  <div class="kicker">20 · 从这里开始</div>
+  <h1>你的第一周</h1>
+  <p class="lede">顺序安排成每一步都让下一步更便宜。Lauren 自己对什么最重要的排序不是你会以为的：「Grok Bot 最重要的甚至不是搭你的机器人。是接上你所有不同的工具和插件。」</p>
+  <ol class="nums">
+    <li><span class="dot">1</span><span><b>先接你每天已经在用的栈。</b>在做任何一个机器人之前。Slack、邮件、日历、你的事项追踪、你的仓库。连接器在速度、成本和可靠性上每次都赢过浏览器自动化。</span></li>
+    <li><span class="dot">2</span><span><b>录 15 分钟语音备忘。</b>你是谁、工作是什么、什么是坏的、什么该自动化。把转录交给第一个机器人，让它提案一套系统。</span></li>
+    <li><span class="dot">3</span><span><b>挑你一天里最烦的那部分。</b>Amrita 给第一批任务的建议，也是 Karen Cheng 找项目的办法。不是最能拿得出手的——是最烦的。</span></li>
+    <li><span class="dot">4</span><span><b>创建一个窄域专员，先只读。</b>读和摘要。然后写成内部备注。然后，一旦你信任它，再行动。在你需要之前设好批准规则。</span></li>
+    <li><span class="dot">5</span><span><b>在机器人看着的情况下，亲手把活做一遍。</b>用「teach a task」。然后亲手补上决策逻辑、错误处理和批准闸门——一次演示推断不出来。</span></li>
+    <li><span class="dot">6</span><span><b>在第二个机器人之前先建验证闭环。</b>哪怕再粗糙。如果机器人能对着真东西检查自己的活，这之后的一切都更快更便宜。</span></li>
+    <li><span class="dot">7</span><span><b>到现在，才加幕僚长。</b>并且之后每一个机器人都通过它来建，这样它知道各自是干什么的。</span></li>
+    <li><span class="dot">8</span><span><b>把纠偏沉淀成原则。</b>每次它想错了，写下一般规则——不是那次事故。这就是让第三个月和第一周不一样的复利。</span></li>
+    <li><span class="dot">9</span><span><b>周五审计你的例行任务。</b>钱花在频率上。任何能改成事件触发的定时，都改掉。</span></li>
+  </ol>
+  <div class="callout">
+    <h3>◎ 以及不要做的那件事</h3>
+    <p>不要因为好玩就拉起一个机器人。它确实好玩，问题就在这里。每个新雇都要耗费上下文、例行任务和注意力，而这些直播里管最大名册的人，对保持精简喊得最响。当你觉得手痒，先问现有专员是不是只需要一项新<b>技能</b>。</p>
+  </div>
+  <div class="quote">
+    <p>「为什么不是今天？」</p>
+    <div class="who">Roshan 永久的 Slack 状态，也是这份指南能拿到的最好收束</div>
+  </div>
+  <div class="foot"><span>24/24</span><span>x.ai/bot</span></div>
+</section>
+
+</body>
+</html>

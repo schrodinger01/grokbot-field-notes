@@ -1,4 +1,4 @@
-[![Grok Bot Guide by SpaceX Engineers](guide/cover.png)](guide/grok-bot-guide-by-spacex-engineers.pdf)
+[![Grok Bot 指南，由 SpaceX 工程师出品](guide/cover.png)](guide/grok-bot-guide-by-spacex-engineers.pdf)
 
 # Grok Bot 实地笔记
 
@@ -13,7 +13,7 @@ xAI Grok Bot 团队的三位工程师，用自家的智能体平台，从空仓�
 | `agents/` | `AGENTS.md` 指向的更长参考：验证、编排、技能与例行任务、提示词。 |
 | `roster/` | 六十九个智能体角色，一个文件一个。职责、不负责什么、事实从哪来、什么需要批准，以及一段可粘贴的描述。 |
 | `playbooks/` | 九场角色工作坊：工程、产品、创始人、销售工程、销售、SDR、支持、售后、市场。每场都有机器人团队、直播里跑过的工作流、提示词、例行任务和数字。 |
-| `guide/` | [*Grok Bot Guide by SpaceX Engineers*](guide/grok-bot-guide-by-spacex-engineers.pdf)，一份 24 页 PDF，把三天写成故事：心智模型、软件工厂、案例、失败日志、成本。PDF 仍为英文原版。 |
+| `guide/` | [*Grok Bot 指南*](guide/grok-bot-guide-by-spacex-engineers.pdf)，一份 24 页中文 PDF，把三天写成故事：心智模型、软件工厂、案例、失败日志、成本。英文原版：[`.en.pdf`](guide/grok-bot-guide-by-spacex-engineers.en.pdf)。 |
 | `reference/` | 两份短文：`ECONOMICS.md`，每一项被引用的成本和指标，并附上它支撑的规则；`PRODUCT.md`，Grok Bot 里会改变你如何设计机器人的部分：记忆、复制与分享时什么会带过去、隔离、权限。 |
 | `notes/` | 按天整理的结构化笔记。产品事实、工作流、提示词、失败、数字、谁是谁。其余内容都从这些笔记长出来。 |
 
@@ -28,7 +28,7 @@ xAI Grok Bot 团队的三位工程师，用自家的智能体平台，从空仓�
 - 你想知道什么会出错：`ANTIPATTERNS.md`。
 - 你想知道花多少钱、token 花在哪：`reference/ECONOMICS.md`。
 - 你在决定什么放进记忆、什么放进描述：`reference/PRODUCT.md`。
-- 你想看完整故事：[PDF 指南](guide/grok-bot-guide-by-spacex-engineers.pdf)（英文）。
+- 你想看完整故事：[PDF 指南](guide/grok-bot-guide-by-spacex-engineers.pdf)。英文原版：[`.en.pdf`](guide/grok-bot-guide-by-spacex-engineers.en.pdf)。
 - 你想核对某项说法：`notes/`。
 
 ## 一段话版
